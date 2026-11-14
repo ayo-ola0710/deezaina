@@ -148,25 +148,8 @@ const Work = () => {
         scrollTrigger: {
           trigger: section,
           start: "top 78%",
+          once: true,
         },
-      });
-
-      // 2. Subtle scroll-driven parallax between staggered columns on desktop
-      cardRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const project = PROJECTS[i];
-        if (!project) return;
-
-        gsap.to(el, {
-          yPercent: project.parallaxSpeed * 100,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        });
       });
     }, section);
 
@@ -176,27 +159,16 @@ const Work = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 border-t border-line font-body overflow-hidden"
+      className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 font-body overflow-hidden "
     >
       {/* ── header row ── */}
-      <div className="flex items-center justify-between mb-[clamp(48px,6vw,88px)]">
-        <div className="flex items-center gap-3">
-          <span className="label text-slate text-[11px] tracking-[0.14em]">
-            § SELECTED WORK
-          </span>
-          <span className="text-line text-xs">/</span>
-          <span className="label text-ink text-[11px] font-semibold">
-            ARCHIVE 2023-2024
-          </span>
-        </div>
-
-        <a
-          href="#contact"
-          className="label text-deep-red text-[11px] tracking-[0.12em] no-underline hover:text-signal-red transition-colors flex items-center gap-1.5"
-        >
-          <span>REQUEST PORTFOLIO DECK</span>
-          <span>↗</span>
-        </a>
+      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-4 md:mb-6">
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          § SELECTED WORK / ARCHIVE 2023-2024
+        </span>
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          02 / 07
+        </span>
       </div>
 
       {/* ── editorial staggered project grid ── */}

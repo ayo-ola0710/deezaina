@@ -57,15 +57,15 @@ const HL = "clamp(64px, 9.8vw, 142px)";
 const Hero = () => {
   /* animation targets */
   const heroRef = useRef(null);
-  const subtitleRef = useRef(null);
+  const kickerRef = useRef(null);
   const line0 = useRef(null); // BE HARD
   const line1 = useRef(null); // TO IGNORE
   const dotRef = useRef(null); // ● (Signal Red, parallax)
   const line2 = useRef(null); // EASY TO
   const line3 = useRef(null); // CHOOSE.
-  const cardRef = useRef(null);
+  const sublineRef = useRef(null); // Subline paragraph + buttons
+  const bottomDeckRef = useRef(null); // Bottom tags + scroll cue
   const monogramRef = useRef(null); // Gigantic "D." watermark
-  const lensRef = useRef(null); // Frosted glass distortion lens
 
   /* ── Entrance & Scroll Animations ── */
   useEffect(() => {
@@ -77,6 +77,10 @@ const Hero = () => {
     ];
 
     gsap.set(revealEls, { y: 88, opacity: 0 });
+    gsap.set([kickerRef.current, sublineRef.current, bottomDeckRef.current], {
+      y: 28,
+      opacity: 0,
+    });
 
     const tl = gsap.timeline({ delay: 0.1 });
 
@@ -90,71 +94,56 @@ const Hero = () => {
         ease: "power4.out",
       },
       0.05,
+    ).to(
+      [kickerRef.current, sublineRef.current, bottomDeckRef.current],
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.85,
+        stagger: 0.1,
+        ease: "power3.out",
+      },
+      "-=0.6",
     );
-
-    // Fade subtitle as user scrolls towards Statement
-    if (subtitleRef.current && heroRef.current) {
-      gsap.to(subtitleRef.current, {
-        opacity: 0,
-        y: -24,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom 70%",
-          scrub: true,
-        },
-      });
-    }
   }, []);
 
-  /* ── Interactive Cursor Parallax ── */
+  /* ── Interactive Cursor Parallax (rAF-throttled, 2 layers) ── */
   useEffect(() => {
-    const onMove = (e) => {
-      const cx = e.clientX / window.innerWidth - 0.5;
-      const cy = e.clientY / window.innerHeight - 0.5;
+    let rafId = null;
+    let pendingCx = 0;
+    let pendingCy = 0;
 
-      /* Monumental D. watermark: deep slow floating parallax */
+    const applyParallax = () => {
+      rafId = null;
+      /* Monumental D. watermark */
       gsap.to(monogramRef.current, {
-        x: cx * 35,
-        y: cy * 25,
+        x: pendingCx * 30,
+        y: pendingCy * 22,
         duration: 1.8,
         ease: "power2.out",
         overwrite: "auto",
       });
-
-      /* Frosted glass distortion lens: responsive optical glide */
-      gsap.to(lensRef.current, {
-        x: cx * 42,
-        y: cy * 24,
-        rotation: cx * 3,
-        duration: 1.1,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
-
-      /* Signal Red dot: snappiest */
+      /* Signal Red dot */
       gsap.to(dotRef.current, {
-        x: cx * 28,
-        y: cy * 18,
+        x: pendingCx * 22,
+        y: pendingCy * 14,
         duration: 1.0,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
-
-      /* Work preview card: deeper float */
-      gsap.to(cardRef.current, {
-        x: cx * 55,
-        y: cy * 40,
-        rotation: 6 + cx * 5,
-        duration: 1.5,
         ease: "power3.out",
         overwrite: "auto",
       });
     };
 
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    const onMove = (e) => {
+      pendingCx = e.clientX / window.innerWidth - 0.5;
+      pendingCy = e.clientY / window.innerHeight - 0.5;
+      if (!rafId) rafId = requestAnimationFrame(applyParallax);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -175,8 +164,8 @@ const Hero = () => {
       {/* ── Crop marks ── */}
       <CropMark style={{ top: 88, left: 24 }} />
       <CropMark style={{ top: 88, right: 24 }} />
-      <CropMark style={{ bottom: 58, left: 24 }} />
-      <CropMark style={{ bottom: 58, right: 24 }} />
+      <CropMark style={{ bottom: 18, left: 24 }} />
+      <CropMark style={{ bottom: 18, right: 24 }} />
 
       {/* ══════════════════════════════════════════════════════
           COLOSSAL "D." MONOGRAM WATERMARK (from reference)
@@ -202,14 +191,14 @@ const Hero = () => {
           letterSpacing: "-0.04em",
         }}
       >
-        <span>D</span>
+        <span class="text-[#ed3f380e]">D</span>
         <span
           style={{
             display: "inline-block",
             fontSize: "0.24em",
             marginLeft: "0.03em",
             lineHeight: 1,
-            color: "rgba(17, 17, 17, 0.07)",
+            color: "#ed3f380e",
           }}
         >
           ●
@@ -219,14 +208,18 @@ const Hero = () => {
       {/* ══════════════════════════════════════════════════════
           MAIN CONTENT ZONE
       ══════════════════════════════════════════════════════ */}
-      <div style={{ position: "relative", zIndex: 3 }}>
-        {/* ── Headline Block ── */}
+      <div className="relative z-10 w-full px-6 md:px-11 lg:px-14 pt-4 pb-8 flex-1 flex flex-col justify-between">
+        {/* Top Kicker */}
         <div
-          style={{
-            padding: "clamp(24px, 4vw, 56px) 44px 0",
-            position: "relative",
-          }}
+          ref={kickerRef}
+          className="flex items-center gap-2.5 mb-8 md:mb-10 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none"
         >
+          <span className="w-2.25 h-2.25 rounded-full bg-signal-red inline-block flex-none" />
+          <span>Independent creative studio / Strategy before design</span>
+        </div>
+
+        {/* ── Headline Block ── */}
+        <div className="relative">
           {/* Line 0: BE HARD */}
           <div className="clip-reveal">
             <h1
@@ -276,8 +269,8 @@ const Hero = () => {
           {/* Line 2 & 3: EASY TO CHOOSE : offset right */}
           <div
             style={{
-              marginLeft: "clamp(80px, 32%, 460px)",
-              marginTop: "clamp(6px, 1vw, 14px)",
+              marginLeft: "clamp(60px, 28%, 420px)",
+              marginTop: "clamp(4px, 0.8vw, 12px)",
             }}
           >
             <div className="clip-reveal">
@@ -299,6 +292,54 @@ const Hero = () => {
               </h1>
             </div>
           </div>
+        </div>
+
+        {/* ── Subline: Narrative paragraph + Action buttons ── */}
+        <div
+          ref={sublineRef}
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mt-12 md:mt-16"
+        >
+          <p className="text-ink/85 text-[clamp(15px,1.4vw,20px)] leading-[1.55] max-w-145 m-0 font-normal">
+            We find what's standing between your business and the people it
+            needs to reach. Then we solve it through strategy, brand identity,
+            creative media and digital experiences.
+          </p>
+
+          <div className="flex items-center gap-3 flex-wrap shrink-0">
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-between gap-6 px-6 md:px-7 py-4 bg-ink text-paper border border-ink text-[11px] font-extrabold uppercase tracking-[0.08em] hover:bg-signal-red hover:border-signal-red hover:text-ink transition-all duration-200 no-underline shadow-sm"
+            >
+              <span>FIND YOUR NEXT MOVE</span>
+              <span className="text-xs">↗</span>
+            </a>
+
+            <a
+              href="#work"
+              className="inline-flex items-center justify-between gap-6 px-6 md:px-7 py-4 bg-transparent text-ink border border-ink text-[11px] font-extrabold uppercase tracking-[0.08em] hover:bg-ink hover:text-paper transition-all duration-200 no-underline"
+            >
+              <span>EXPLORE THE WORK</span>
+              <span className="text-xs">↗</span>
+            </a>
+          </div>
+        </div>
+
+        {/* ── Bottom Deck: Discipline labels & Scroll cue ── */}
+        <div
+          ref={bottomDeckRef}
+          className="flex items-center justify-between pt-12 md:pt-16 pb-2 text-[10px] md:text-[11px] font-bold tracking-[0.14em] text-ink/70"
+        >
+          <span className="label">
+            STRATEGY &nbsp; / &nbsp; IDENTITY & MEDIA &nbsp; / &nbsp; WEB
+          </span>
+
+          <a
+            href="#services"
+            className="label hover:text-ink transition-colors flex items-center gap-1.5 no-underline"
+          >
+            <span>SCROLL TO DISCOVER</span>
+            <span>↓</span>
+          </a>
         </div>
       </div>
     </section>

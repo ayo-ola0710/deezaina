@@ -95,12 +95,17 @@ const About = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 border-t border-line font-body"
+      className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 font-body"
     >
       {/* ── annotation ── */}
-      <span className="label text-slate text-[11px] block mb-[clamp(48px,6vw,80px)]">
-        § THE STUDIO
-      </span>
+      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-8 md:mb-11">
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          § THE STUDIO / SMALL BY DESIGN
+        </span>
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          06 / 07
+        </span>
+      </div>
 
       {/* ── 2-col layout ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[clamp(48px,6vw,96px)] items-start">
@@ -126,38 +131,42 @@ const About = () => {
           </div>
         </div>
 
-        {/* right: bio + stats */}
+        {/* right: bio */}
         <div ref={bioRef} className="pt-1.5">
           <p className="text-ink text-base md:text-lg leading-relaxed font-normal m-0 mb-5">
-            Deezaina Studios is an independent brand studio founded in Nigeria.
-            We work with founders, businesses, and organizations who want brands
-            that are both beautiful and strategically sound.
+            Deezaina is an independent, strategy-led creative practice. We
+            connect research, identity, media and digital thinking so the work
+            feels joined up, not handed between disconnected vendors.
           </p>
-          <p className="text-slate text-btn leading-relaxed font-normal m-0 mb-12">
-            We believe the best brand work comes from genuine understanding of
-            people, markets, and what makes a business truly worth choosing.
-            Small by design. Deeply collaborative. Relentlessly intentional.
+          <p className="text-slate text-base md:text-lg leading-relaxed font-normal m-0 mb-6">
+            Our value isn't how many deliverables we can add to a list. It's how
+            well each decision answers the original problem.
           </p>
-
-          {/* stats grid with fast counters */}
-          <div
-            ref={statsContainerRef}
-            className="grid grid-cols-2 gap-x-10 gap-y-8 border-t border-line pt-10"
+          <a
+            className="inline-flex items-center gap-2 text-signal-red hover:text-ink font-semibold tracking-wide transition-colors uppercase text-sm no-underline"
+            href="#contact"
           >
-            {STATS.map(({ suffix, label }, i) => (
-              <div key={label} className="stat-box">
-                <div className="display text-ink text-[clamp(32px,4vw,56px)] leading-none tracking-tight">
-                  <span ref={(el) => (counterRefs.current[i] = el)}>
-                    0{suffix}
-                  </span>
-                </div>
-                <div className="label text-slate text-[11px] mt-1.5">
-                  {label}
-                </div>
-              </div>
-            ))}
-          </div>
+            <span>Start a dialogue</span>
+            <span>↗</span>
+          </a>
         </div>
+      </div>
+
+      {/* ── Full-Width Stats Deck (Spans full page width) ── */}
+      <div
+        ref={statsContainerRef}
+        className="w-full mt-16 md:mt-24 pt-10 text-center border-t border-line grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"
+      >
+        {STATS.map(({ suffix, label }, i) => (
+          <div key={label} className="stat-box">
+            <div className="display text-ink text-[clamp(36px,4.5vw,64px)] leading-none tracking-tight">
+              <span ref={(el) => (counterRefs.current[i] = el)}>0{suffix}</span>
+            </div>
+            <div className="label text-slate text-[11px] mt-2 uppercase tracking-[0.08em]">
+              {label}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

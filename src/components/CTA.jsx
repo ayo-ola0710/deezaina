@@ -60,34 +60,44 @@ const CTA = () => {
       <CtaCropMark className="bottom-6 right-6" />
 
       {/* ── annotation ── */}
-      <span className="label text-ink/55 block mb-[clamp(40px,5vw,64px)] text-[11px]">
-        § START A PROJECT
-      </span>
+      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-8 md:mb-11">
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          § START SOMETHING / THE NEXT MOVE
+        </span>
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          07 / 07
+        </span>
+      </div>
 
       {/* ── headline ── */}
       <div ref={headlineRef} className="max-w-[90%] mb-[clamp(48px,6vw,80px)]">
-        <h2 className="display text-ink text-[clamp(44px,8vw,115px)] leading-[0.92] m-0">
-          Let's make something hard to ignore.
+        <h2 className="display text-white text-[clamp(44px,8vw,110px)] leading-[0.92] m-0">
+          Good work starts with the right question.
         </h2>
       </div>
+      <p className="text-[17px] max-w-150 tracking-tight leading-normal -mt-10 mb-12 text-white/90">
+        Tell us what's changing, what's not working or what you want to build.
+        The first step should leave you clearer than when you arrived.
+      </p>
 
       {/* ── CTA row ── */}
       <div ref={ctaRowRef} className="flex items-center gap-8 flex-wrap">
         {/* primary button: Ink fill, Paper text */}
         <a
           href="mailto:hello@deezaina.com"
-          className="inline-flex items-center gap-2.5 bg-ink text-paper px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:opacity-85 transition-opacity"
+          className="inline-flex items-center gap-2.5 bg-ink text-paper px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-white hover:text-ink transition-opacity"
         >
-          Book a Discovery Call
-          <span className="text-base">→</span>
+          Find my starting point
+          <span className="text-base">↗</span>
         </a>
 
         {/* secondary: email link */}
         <a
           href="mailto:hello@deezaina.com"
-          className="text-ink text-btn font-medium no-underline font-body border-b border-ink/35 pb-0.5 hover:border-ink transition-colors"
+          className="inline-flex items-center gap-2.5 bg-white text-ink px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-ink hover:text-white transition-opacity"
         >
-          hello@deezaina.com
+          Book a Discovery Call
+          <span className="text-base">↗</span>
         </a>
       </div>
 
@@ -96,7 +106,7 @@ const CTA = () => {
         aria-hidden="true"
         className="absolute -bottom-5 -right-2.5 pointer-events-none select-none overflow-hidden"
       >
-        <span className="display text-[clamp(80px,14vw,200px)] leading-[0.85] text-ink/8 whitespace-nowrap block">
+        <span className="display text-[clamp(80px,14vw,200px)] leading-[0.85] text-white/40  whitespace-nowrap block">
           DEE
         </span>
       </div>

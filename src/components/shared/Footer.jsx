@@ -23,8 +23,8 @@ const NAV_LINKS = [
 const LEGAL_LINKS = [
   { label: "Terms of Service", href: "#" },
   { label: "Privacy Policy", href: "#" },
+  { label: "Pricing options", href: "#" },
   { label: "Cookie Preferences", href: "#" },
-  { label: "Studio Licenses", href: "#" },
 ];
 
 /* ─── Social icons configuration ─── */
@@ -133,13 +133,12 @@ const Footer = () => {
         {/* Col 1: Studio identity + Contact email + Social Icons */}
         <div className="footer-col space-y-6">
           <div>
-            <span className="label text-white/35 text-[11px] tracking-[0.14em] block mb-4">
-              DEEZAINA STUDIOS
+            <span className="bg-white inline-block rounded-sm px-2.5 py-1 mb-3">
+              <img src="/logo.png" alt="" className="w-25 h-9" />
             </span>
             <p className="text-white/70 text-sm leading-relaxed max-w-70 font-normal">
-              Independent brand strategy, identity and web studio.
-              <br />
-              Lagos, Nigeria · Working Worldwide.
+              Strategy-led identity, media and digital experiences. Work that
+              starts with a question and earns its place.
             </p>
           </div>
 
@@ -259,10 +258,10 @@ const Footer = () => {
               const arrow = e.currentTarget.querySelector(".footer-btn-arrow");
               if (arrow) gsap.to(arrow, { x: 0, duration: 0.2 });
             }}
-            className="inline-flex items-center justify-center gap-2.5 mt-10 px-7 py-3.5 bg-paper text-ink text-[13px] font-semibold tracking-[0.06em] no-underline uppercase rounded-full self-start hover:bg-signal-red hover:text-ink transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-2.5 mt-10 px-7 py-3.5 bg-paper text-ink text-[13px] font-semibold tracking-[0.06em] no-underline uppercase  self-start hover:bg-signal-red hover:text-ink transition-colors shadow-sm"
           >
             <span>Start a project</span>
-            <span className="footer-btn-arrow text-sm inline-block">→</span>
+            <span className="footer-btn-arrow text-sm inline-block">↗</span>
           </a>
         </div>
       </div>
@@ -273,34 +272,36 @@ const Footer = () => {
       {/* ══════════════════════════════════════
           MONUMENTAL WORDMARK (Scroll Parallax)
       ══════════════════════════════════════ */}
-      <div className="px-6 md:px-11 mt-10 leading-none overflow-hidden">
+      <div className="w-full overflow-hidden leading-none select-none pointer-events-none mt-8 md:mt-12 text-center">
         <span
           ref={wordmarkRef}
-          className="display text-[clamp(64px,12.5vw,185px)] leading-[0.88] text-white block tracking-tight select-none pointer-events-none will-change-transform opacity-0"
+          className="text-[clamp(64px,20.8vw,360px)] font-[1000] leading-[0.8] text-white block -tracking-widest select-none pointer-events-none will-change-transform opacity-0 whitespace-nowrap w-full text-center"
+          style={{ fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif' }}
+          aria-hidden="true"
         >
           DEEZAINA
         </span>
       </div>
 
       {/* ══════════════════════════════════════
-          BOTTOM BAR: Legal & Lagos Credit
+          BOTTOM BAR: Legal 
       ══════════════════════════════════════ */}
       <div className="h-px bg-white/12 mt-6" />
       <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-6 md:px-11 gap-3">
         <span className="label text-[10px] text-white/30 tracking-widest">
-          © MMXXIV DEEZAINA STUDIOS. ALL RIGHTS RESERVED.
+          © <span>2026</span> DEEZAINA STUDIOS. ALL RIGHTS RESERVED.
         </span>
 
         {/* Registration Mark + Studio Credit */}
         <div className="flex items-center gap-5">
+          <span className="label text-[10px] text-white/30 tracking-widest">
+            <span>INTERACTIVE DESIGN CONCEPT</span>
+          </span>
           <span
             aria-hidden="true"
             className="text-white/15 text-sm font-body leading-none"
           >
             ⊕
-          </span>
-          <span className="label text-[10px] text-white/30 tracking-widest">
-            MADE WITH INTENT IN LAGOS
           </span>
         </div>
       </div>

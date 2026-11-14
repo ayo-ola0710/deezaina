@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
+import Diagnosis from "../components/Diagnosis";
 import {
   RiMailLine,
   RiTimeLine,
@@ -88,8 +89,44 @@ const Contact = () => {
     setErrorMsg("");
     setSubmitted(true);
     // Smooth scroll to top of form
-    window.scrollTo({ top: 180, behavior: "smooth" });
+    const formEl = document.getElementById("story-builder");
+    if (formEl) {
+      formEl.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 180, behavior: "smooth" });
+    }
   };
+
+  const handleApplyRec = (rec) => {
+    if (rec && rec.serviceName) {
+      setForm((prev) => {
+        const nextServices = prev.services.includes(rec.serviceName)
+          ? prev.services
+          : [...prev.services, rec.serviceName];
+        return {
+          ...prev,
+          services: nextServices,
+          story: prev.story
+            ? prev.story
+            : `[Diagnosed Starting Point: ${rec.name} (${rec.price})]. `,
+        };
+      });
+    }
+    const target = document.getElementById("story-builder");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Scroll to hash on page load if present
+  useEffect(() => {
+    if (window.location.hash) {
+      const el = document.querySelector(window.location.hash);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
+      }
+    }
+  }, []);
 
   // Entrance animations
   useEffect(() => {
@@ -121,9 +158,9 @@ const Contact = () => {
     >
       <Navbar />
 
-      <main className="pt-28 md:pt-36 pb-20 px-6 md:px-14 max-w-350 mx-auto">
+      <main className="pt-28 md:pt-36">
         {/* ── Top Header Deck ── */}
-        <div ref={headlineRef} className="border-b border-line pb-12 mb-12">
+        <div ref={headlineRef} className="px-6 md:px-14 max-w-350 mx-auto pb-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
               <span className="label text-slate text-[11px] tracking-[0.14em]">
@@ -151,16 +188,50 @@ const Contact = () => {
           </h1>
 
           <p className="text-slate text-sm md:text-base leading-relaxed max-w-180 mt-6 font-normal">
-            We don't believe in sterile, 20-field contact funnels. Tell us your
-            ambition as a living narrative: who you are, what you are building,
-            and why the world needs to pay attention.
+            We don't believe in sterile, 20-field contact funnels. Diagnose
+            before design with our 3-question intake below, or dispatch your
+            ambition directly as a living narrative.
           </p>
+
+          <div className="flex items-center gap-3 pt-6 flex-wrap">
+            <a
+              href="#diagnosis"
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-ink text-paper text-xs font-bold uppercase tracking-wider hover:bg-signal-red hover:text-ink transition-colors no-underline shadow-xs"
+            >
+              <span>01 / Take The Diagnosis (3 Questions)</span>
+              <span>↓</span>
+            </a>
+            <a
+              href="#story-builder"
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-transparent border border-ink text-ink text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors no-underline"
+            >
+              <span>02 / Strategic Brief Form</span>
+              <span>↓</span>
+            </a>
+          </div>
         </div>
 
-        {/* ── Main 2-Column Content ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: The Interactive Story Builder (7 cols) */}
-          <div ref={formRef} className="lg:col-span-8">
+        {/* ── Section 1: The Diagnosis (Dark full-bleed section) ── */}
+        <Diagnosis onApplyRecommendation={handleApplyRec} />
+
+        {/* ── Section 2: Strategic Story Builder & Studio Dossier ── */}
+        <section
+          id="story-builder"
+          className="py-16 md:py-24 px-6 md:px-14 max-w-350 mx-auto"
+        >
+          {/* Section Eyeline */}
+          <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-10 md:mb-14">
+            <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+              § THE BRIEF / STRATEGIC NARRATIVE
+            </span>
+            <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+              INTAKE FORM
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left Column: The Interactive Story Builder (7 cols) */}
+            <div ref={formRef} className="lg:col-span-8">
             {submitted ? (
               /* Success State */
               <div className="bg-white/80 border border-line rounded-xs p-8 md:p-14 space-y-6 shadow-sm">
@@ -436,6 +507,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
+        </section>
       </main>
 
       <Footer />

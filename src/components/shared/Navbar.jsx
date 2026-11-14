@@ -108,10 +108,10 @@ const NavLink = ({ name, href, isCta = false }) => {
           });
         }}
         onMouseMove={handleMouseMove}
-        className="nav-item-enter inline-flex items-center gap-2 px-4 py-1.5 bg-ink text-paper rounded-full text-xs label font-semibold tracking-wider hover:bg-signal-red hover:text-ink transition-colors duration-200 shadow-sm"
+        className="nav-item-enter inline-flex items-center gap-2 px-4 py-2 bg-ink text-paper  text-xs label font-semibold tracking-wider hover:bg-signal-red hover:text-ink transition-colors duration-200 shadow-sm"
       >
         <span>{name}</span>
-        <span className="text-[10px]">→</span>
+        <span className="text-label">↗</span>
       </a>
     );
   }
@@ -337,10 +337,7 @@ const Navbar = () => {
             ref={brandIconRef}
             className="font-display font-extrabold text-signal-red text-base tracking-tight leading-none inline-block transition-transform"
           >
-            <img src="/icon.png" alt="" className="w-6 h-6" />
-          </span>
-          <span className="label text-ink font-bold text-[13px] tracking-[0.14em]">
-            DEEZAINA
+            <img src="/logo.png" alt="" className="w-25 h-9" />
           </span>
         </a>
 

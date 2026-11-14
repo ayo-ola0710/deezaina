@@ -1,8 +1,98 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const TABS = [
+  { id: "identity", label: "Brand identity" },
+  { id: "strategy", label: "Strategy" },
+  { id: "web", label: "Web" },
+  { id: "media", label: "Creative media" },
+];
+
+const OFFERINGS = {
+  identity: [
+    {
+      name: "Identity Essentials",
+      price: "₦500,000",
+      description:
+        "A recognisable foundation: logo system, colour and typography, essential usage guidance and agreed exports.",
+    },
+    {
+      name: "Identity System",
+      price: "₦950,000",
+      description:
+        "A broader visual language, applications and guidelines for a business appearing across more touchpoints.",
+    },
+    {
+      name: "Strategy-Led Identity",
+      price: "From ₦1,600,000",
+      description:
+        "Strategic positioning and a comprehensive identity system for a changing or expanding business.",
+    },
+  ],
+  strategy: [
+    {
+      name: "Brand Clarity Session",
+      price: "₦75,000",
+      description:
+        "Focused 75-minute advisory session and concise written direction memo.",
+    },
+    {
+      name: "Strategy Sprint",
+      price: "From ₦400,000",
+      description:
+        "Positioning, audience, message and usable strategic recommendations.",
+    },
+    {
+      name: "Brand Strategy System",
+      price: "From ₦900,000",
+      description:
+        "A more complete foundation for teams needing aligned strategy and communication.",
+    },
+  ],
+  web: [
+    {
+      name: "Bespoke Landing Page",
+      price: "From ₦350,000",
+      description:
+        "A custom conversion-focused page for a defined offer, campaign or audience.",
+    },
+    {
+      name: "Business Website",
+      price: "From ₦750,000",
+      description:
+        "A responsive business website with clear content structure and lead pathway.",
+    },
+    {
+      name: "Digital Experience",
+      price: "From ₦1,800,000",
+      description:
+        "A more ambitious tailored experience with defined functionality and integrations.",
+    },
+  ],
+  media: [
+    {
+      name: "Campaign Creative",
+      price: "From ₦300,000",
+      description:
+        "Campaign creative concept and defined multi-format assets for an agreed brief.",
+    },
+    {
+      name: "Media Desk",
+      price: "₦550,000/month",
+      description:
+        "Ongoing content design and planning for one channel; onboarding fee applies.",
+    },
+    {
+      name: "Brand Partner",
+      price: "₦950,000/month",
+      description:
+        "Broader brand and campaign support across up to two channels; onboarding applies.",
+    },
+  ],
+};
 
 const SERVICES = [
   {
@@ -58,6 +148,8 @@ const SERVICES = [
 const Services = () => {
   const sectionRef = useRef(null);
   const rowsRef = useRef([]);
+  const [activeTab, setActiveTab] = useState("identity");
+  const [selectedScope, setSelectedScope] = useState("");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -87,20 +179,20 @@ const Services = () => {
           );
         }
 
-        // 2. Parallax drift on the big number as user scrolls past
+        // 2. Big number entrance (once only, no scrub)
         if (num) {
           gsap.fromTo(
             num,
             { y: 35, opacity: 0 },
             {
-              y: -15,
+              y: 0,
               opacity: 1,
-              ease: "power2.out",
+              duration: 0.9,
+              ease: "power3.out",
               scrollTrigger: {
                 trigger: row,
                 start: "top 88%",
-                end: "bottom 30%",
-                scrub: 1.2,
+                once: true,
               },
             },
           );
@@ -147,28 +239,16 @@ const Services = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-paper py-[clamp(80px,12vh,150px)] px-6 md:px-14 border-t border-line font-body relative overflow-hidden"
+      className="bg-paper py-[clamp(80px,12vh,150px)] px-6 md:px-14 font-body relative overflow-hidden"
     >
       {/* ── Section header ── */}
-      <div className="flex items-center justify-between gap-4 mb-[clamp(48px,8vh,80px)]">
-        <div className="flex items-center gap-3">
-          <span className="label text-slate text-[11px] tracking-[0.14em]">
-            § WHAT WE DO
-          </span>
-          <span className="text-line text-xs">/</span>
-          <span className="label text-ink text-[11px] font-semibold">
-            CAPABILITIES & DELIVERABLES
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:block w-24 h-px bg-line" />
-          <a
-            href="mailto:hello@deezaina.com"
-            className="label text-deep-red text-[11px] no-underline hover:underline font-semibold"
-          >
-            REQUEST A PROPOSAL ↗
-          </a>
-        </div>
+      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-4 md:mb-6">
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          § WHAT WE DO / THREE CONNECTED DISCIPLINES
+        </span>
+        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
+          03 / 07
+        </span>
       </div>
 
       {/* ── Stacked Editorial Service Rows ── */}
@@ -251,17 +331,104 @@ const Services = () => {
         ))}
       </div>
 
-      {/* ── Section footer note ── */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-10 mt-6 border-t border-line">
-        <div className="flex items-center gap-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-signal-red animate-pulse" />
-          <span className="label text-slate text-[11px]">
-            ACCEPTING SELECT COMMISSIONS FOR Q1 / Q2
-          </span>
-        </div>
-        <span className="label text-slate text-[11px]">
-          END-TO-END ENGAGEMENTS · 6 TO 12 WEEKS
+      {/* ── Interactive Service Pricing Picker ── */}
+      <div
+        id="picker"
+        className="mt-16 md:mt-24 p-6 md:p-11 bg-paper border border-line"
+      >
+        <span className="label text-slate text-[11px] tracking-[0.14em] block">
+          EXPLORE A SERVICE / EXAMPLE PRICING INTERACTION
         </span>
+        <h3 className="font-display font-bold text-ink text-[clamp(26px,3vw,44px)] leading-tight tracking-tight mt-4 mb-0">
+          Know what you need? See your options.
+        </h3>
+
+        {/* Tab List */}
+        <div
+          role="tablist"
+          aria-label="Choose a service to view pricing"
+          className="flex flex-wrap gap-2 pt-6 pb-2"
+        >
+          {TABS.map((tab) => {
+            const isSelected = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-selected={isSelected}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setSelectedScope("");
+                }}
+                className={`px-5 py-3 border text-xs font-bold uppercase tracking-[0.06em] transition-all duration-200 cursor-pointer ${
+                  isSelected
+                    ? "bg-ink text-paper border-ink"
+                    : "bg-transparent text-ink border-ink hover:bg-ink/5"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Price Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-6">
+          {OFFERINGS[activeTab].map((item) => (
+            <article
+              key={item.name}
+              className="bg-white border border-line p-6 md:p-7 flex flex-col justify-between transition-all duration-200 hover:border-ink/40 shadow-xs"
+            >
+              <div>
+                <span className="label text-slate text-[10px] tracking-[0.12em] block">
+                  {activeTab === "identity"
+                    ? "BRAND IDENTITY"
+                    : "SCOPED SERVICE"}
+                </span>
+                <h4 className="font-display font-bold text-ink text-xl md:text-lead leading-snug tracking-tight my-3">
+                  {item.name}
+                </h4>
+                <div className="font-display font-extrabold text-ink text-[clamp(22px,2.4vw,34px)] leading-tight tracking-tight mb-3">
+                  {item.price}
+                </div>
+                <p className="text-slate text-xs md:text-[13px] leading-relaxed m-0 min-h-14 font-normal">
+                  {item.description}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedScope(
+                    `SELECTED FOR ENQUIRY: ${item.name.toUpperCase()} / ${item.price} · CLICK "REQUEST A PROPOSAL" ABOVE OR REACH OUT TO CONTINUE.`,
+                  );
+                }}
+                className="w-full mt-6 py-3 px-4 bg-ink text-paper hover:bg-signal-red hover:text-ink transition-colors font-bold text-[11px] tracking-wider uppercase text-left flex items-center justify-between cursor-pointer"
+              >
+                <span>Add to my brief</span>
+                <span>↗</span>
+              </button>
+            </article>
+          ))}
+        </div>
+
+        {/* Selected Scope Status */}
+        {selectedScope && (
+          <div
+            role="status"
+            className="mt-5 p-3.5 bg-ink text-paper text-xs font-semibold tracking-wide flex items-center justify-between gap-3 animate-fade-in"
+          >
+            <span>{selectedScope}</span>
+            <button
+              onClick={() => setSelectedScope("")}
+              className="text-paper/60 hover:text-paper text-sm cursor-pointer ml-2"
+              aria-label="Clear selection"
+            >
+              ✕
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
