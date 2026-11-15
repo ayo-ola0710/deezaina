@@ -272,10 +272,10 @@ const Footer = () => {
       {/* ══════════════════════════════════════
           MONUMENTAL WORDMARK (Scroll Parallax)
       ══════════════════════════════════════ */}
-      <div className="w-full overflow-hidden leading-none select-none pointer-events-none mt-8 md:mt-12 text-center">
+      <div className="w-full overflow-hidden leading-none select-none pointer-events-none mt-2 md:mt-12 text-center px-2 sm:px-4 py-3">
         <span
           ref={wordmarkRef}
-          className="text-[clamp(64px,20.8vw,360px)] font-[1000] leading-[0.8] text-white block -tracking-widest select-none pointer-events-none will-change-transform opacity-0 whitespace-nowrap w-full text-center"
+          className="text-[clamp(40px,16.8vw,80px)] md:text-[clamp(90px,18.5vw,340px)] font-[1000] leading-[0.8] text-white block -tracking-widest select-none pointer-events-none will-change-transform opacity-0 whitespace-nowrap w-full text-center"
           style={{ fontFamily: 'Inter, "Helvetica Neue", Arial, sans-serif' }}
           aria-hidden="true"
         >

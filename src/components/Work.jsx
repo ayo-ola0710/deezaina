@@ -159,7 +159,7 @@ const Work = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 font-body overflow-hidden "
+      className="bg-paper py-[clamp(56px,8vw,140px)] px-5 sm:px-8 md:px-11 font-body overflow-hidden"
     >
       {/* ── header row ── */}
       <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-4 md:mb-6">

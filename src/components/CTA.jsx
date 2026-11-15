@@ -81,7 +81,10 @@ const CTA = () => {
       </p>
 
       {/* ── CTA row ── */}
-      <div ref={ctaRowRef} className="flex items-center gap-8 flex-wrap">
+      <div
+        ref={ctaRowRef}
+        className="flex items-center gap-3 md:gap-8 flex-wrap"
+      >
         {/* primary button: Ink fill, Paper text */}
         <a
           href="mailto:hello@deezaina.com"
@@ -104,7 +107,7 @@ const CTA = () => {
       {/* ── ghost large type watermark ── */}
       <div
         aria-hidden="true"
-        className="absolute -bottom-5 -right-2.5 pointer-events-none select-none overflow-hidden"
+        className="absolute -bottom-2 md:-bottom-5 -right-2.5 pointer-events-none select-none overflow-hidden"
       >
         <span className="display text-[clamp(80px,14vw,200px)] leading-[0.85] text-white/40  whitespace-nowrap block">
           DEE

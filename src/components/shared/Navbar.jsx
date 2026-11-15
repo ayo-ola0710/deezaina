@@ -403,7 +403,7 @@ const Navbar = () => {
           {/* Decorative bottom detail */}
           <div className="mt-10 pt-6 border-t border-line">
             <p className="label text-slate text-[11px] tracking-widest">
-              LAGOS, NIGERIA · WORKING WORLDWIDE
+              NIGERIA · WORKING WORLDWIDE
             </p>
           </div>
         </div>

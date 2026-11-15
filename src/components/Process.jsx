@@ -33,7 +33,7 @@ const STEPS = [
 
 /* ───────────────────────────────────────────────
    High-Performance 3D Canvas Renderer for Sculpted "D"
-   Optimized: 16 slices, capped DPR, IntersectionObserver (pauses off-screen)
+   Desktop only: 16 slices, capped DPR, IntersectionObserver (pauses off-screen)
 ─────────────────────────────────────────────── */
 const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
   const canvasRef = useRef(null);
@@ -287,8 +287,9 @@ const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
 };
 
 /* ───────────────────────────────────────────────
-   Process Section Component with Pinned Scroll
-   Smooth 4-stage progression: 01 Discover → 02 Define → 03 Design → 04 Deliver
+   Process Section Component
+   Desktop (>= 1024px): Pinned 4-stage progression with 3D Sculpted "D"
+   Mobile (< 1024px): Zero 3D animation; 4 steps arranged sequentially down the page
 ─────────────────────────────────────────────── */
 const Process = () => {
   const containerRef = useRef(null);
@@ -296,7 +297,7 @@ const Process = () => {
   const [activeStage, setActiveStage] = useState(0);
   const activeStageRef = useRef(0);
 
-  // 3D rotation shared reference (scrubbed smoothly via ScrollTrigger)
+  // 3D rotation shared reference (scrubbed smoothly via ScrollTrigger on desktop)
   const rotationRef = useRef({ y: -0.4, x: 0.12, floatY: 0 });
   const targetMouse = useRef({ x: 0, y: 0 });
 
@@ -305,7 +306,7 @@ const Process = () => {
     const container = containerRef.current;
     if (!track || !container) return;
 
-    // Lightweight mouse tilt (passive, zero GSAP overhead)
+    // Lightweight mouse tilt for desktop
     const handleMouseMove = (e) => {
       const rect = track.getBoundingClientRect();
       targetMouse.current.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
@@ -315,35 +316,36 @@ const Process = () => {
     track.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     const ctx = gsap.context(() => {
-      // Pin track while scrolling through the 4 process stages
-      ScrollTrigger.create({
-        trigger: container,
-        start: "top top",
-        end: "+=200%",
-        pin: track,
-        pinSpacing: true,
-        scrub: 0.5,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const p = self.progress;
+      const mm = gsap.matchMedia();
 
-          // Continuous 3D rotation of the letter D as user scrolls
-          rotationRef.current.y = -0.4 + p * Math.PI * 2.2;
-          rotationRef.current.x = 0.12 + Math.sin(p * Math.PI * 3) * 0.18;
-          rotationRef.current.floatY = Math.sin(p * Math.PI * 4) * 20;
+      // Desktop only: Pin track while scrolling through 4 stages and rotate 3D "D"
+      mm.add("(min-width: 1024px)", () => {
+        ScrollTrigger.create({
+          trigger: container,
+          start: "top top",
+          end: "+=200%",
+          pin: track,
+          pinSpacing: true,
+          scrub: 0.5,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const p = self.progress;
 
-          // Determine current active stage evenly (0, 1, 2, or 3)
-          let current = 0;
-          if (p >= 0.75) current = 3;
-          else if (p >= 0.5) current = 2;
-          else if (p >= 0.25) current = 1;
+            rotationRef.current.y = -0.4 + p * Math.PI * 2.2;
+            rotationRef.current.x = 0.12 + Math.sin(p * Math.PI * 3) * 0.18;
+            rotationRef.current.floatY = Math.sin(p * Math.PI * 4) * 20;
 
-          // Only trigger React state change when the stage actually changes
-          if (current !== activeStageRef.current) {
-            activeStageRef.current = current;
-            setActiveStage(current);
-          }
-        },
+            let current = 0;
+            if (p >= 0.75) current = 3;
+            else if (p >= 0.5) current = 2;
+            else if (p >= 0.25) current = 1;
+
+            if (current !== activeStageRef.current) {
+              activeStageRef.current = current;
+              setActiveStage(current);
+            }
+          },
+        });
       });
     }, container);
 
@@ -358,10 +360,10 @@ const Process = () => {
       ref={containerRef}
       className="bg-paper font-body relative"
     >
-      {/* ── Outer Pinned Track ── */}
+      {/* ── Outer Track: Natural document flow on mobile, pinned viewport on desktop ── */}
       <div
         ref={trackRef}
-        className="h-screen w-full flex flex-col justify-between px-6 md:px-12 py-4 md:py-6 relative overflow-hidden"
+        className="w-full flex flex-col justify-between px-6 md:px-12 py-10 lg:py-6 lg:h-screen relative overflow-visible lg:overflow-hidden"
       >
         {/* ── Top Header Bar ── */}
         <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink">
@@ -379,25 +381,22 @@ const Process = () => {
           <span className="text-signal-red">Not the palette.</span>
         </h2>
 
-        {/* ── Middle Arena: 3D "D" in Center with 4 Clean Unboxed Content Blocks ── */}
-        <div className="relative flex-1 w-full my-auto flex items-center justify-center">
-          {/* ════════════════════════════════════════
-              CENTERPIECE: 3D "D" CANVAS (Larger, Sculpted Letter)
-          ════════════════════════════════════════ */}
+        {/* ══════════════════════════════════════════════════════
+            DESKTOP ARENA (>= 1024px): 3D "D" in Center with 4 Quadrant Blocks
+        ══════════════════════════════════════════════════════ */}
+        <div className="hidden lg:flex relative flex-1 w-full my-auto items-center justify-center">
+          {/* CENTERPIECE: 3D "D" CANVAS */}
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
             <div className="w-70 h-70 sm:w-85 sm:h-85 md:w-105 md:h-105 lg:w-120 lg:h-120">
               <Canvas3DLetter rotationRef={rotationRef} targetMouse={targetMouse} />
             </div>
           </div>
 
-          {/* ════════════════════════════════════════
-              SURROUNDING STAGE CONTENT (Desktop 4-Quadrant)
-          ════════════════════════════════════════ */}
-          <div className="hidden lg:grid grid-cols-2 grid-rows-2 w-full h-full max-w-6xl mx-auto z-20 py-2 pointer-events-auto">
+          {/* SURROUNDING STAGE CONTENT (Desktop 4-Quadrant) */}
+          <div className="grid grid-cols-2 grid-rows-2 w-full h-full max-w-6xl mx-auto z-20 py-2 pointer-events-auto">
             {STEPS.map((step, idx) => {
               const isActive = activeStage === idx;
 
-              // Quadrant alignments around the 3D center
               const alignment =
                 idx === 0
                   ? "justify-self-start self-start text-left"
@@ -452,29 +451,39 @@ const Process = () => {
               );
             })}
           </div>
+        </div>
 
-          {/* ════════════════════════════════════════
-              MOBILE / TABLET ACTIVE CONTENT (< 1024px)
-          ════════════════════════════════════════ */}
-          <div className="lg:hidden z-20 w-full max-w-md p-3 text-left">
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <span className="font-display font-extrabold text-xl text-signal-red">
-                {STEPS[activeStage].num}
-              </span>
-              <span className="w-2 h-px bg-line" />
-              <span className="label text-deep-red text-[10px] font-bold tracking-wider">
-                {STEPS[activeStage].tagline}
-              </span>
+        {/* ══════════════════════════════════════════════════════
+            MOBILE VIEW (< 1024px): All 4 Steps Arranged One After Another (Zero 3D)
+        ══════════════════════════════════════════════════════ */}
+        <div className="lg:hidden w-full space-y-7 mt-4 pb-4">
+          {STEPS.map((step) => (
+            <div
+              key={step.num}
+              className="border-t border-line/60 pt-4"
+            >
+              {/* Stage Number & Tagline */}
+              <div className="flex items-center gap-2.5 mb-1.5">
+                <span className="font-display font-extrabold text-xl leading-none text-signal-red">
+                  {step.num}
+                </span>
+                <span className="w-2 h-px bg-line" />
+                <span className="label text-deep-red text-[10px] font-bold tracking-[0.14em]">
+                  {step.tagline}
+                </span>
+              </div>
+
+              {/* Stage Title */}
+              <h3 className="display text-ink text-2xl leading-none mt-2 mb-2">
+                {step.name}
+              </h3>
+
+              {/* Content / Description */}
+              <p className="text-slate text-[13.5px] leading-relaxed m-0 font-normal">
+                {step.desc}
+              </p>
             </div>
-            {/* Stage Title */}
-            <h3 className="display text-ink text-3xl mt-2.5 mb-3">
-              {STEPS[activeStage].name}
-            </h3>
-            {/* Content / Description */}
-            <p className="text-slate text-xs sm:text-sm leading-relaxed m-0">
-              {STEPS[activeStage].desc}
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </section>
