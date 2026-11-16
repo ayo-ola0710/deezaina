@@ -126,6 +126,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
           opacity: 1,
           duration: 0.9,
           ease: "power3.out",
+          clearProps: "transform",
           scrollTrigger: {
             trigger: leftColRef.current,
             start: "top 82%",
@@ -141,6 +142,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
           duration: 0.9,
           ease: "power3.out",
           delay: 0.1,
+          clearProps: "transform",
           scrollTrigger: {
             trigger: panelRef.current,
             start: "top 82%",
@@ -179,10 +181,9 @@ const Diagnosis = ({ onApplyRecommendation }) => {
   const recommendation = isEnd ? getRecommendation(choices) : null;
 
   return (
-    <section
-      id="diagnosis"
+    <div
       ref={sectionRef}
-      className="bg-ink text-paper py-[clamp(72px,9vw,140px)] px-6 md:px-14 font-body overflow-hidden"
+      className="bg-ink text-paper py-[clamp(72px,9vw,140px)] px-6 md:px-14 font-body"
     >
       <div className="max-w-350 mx-auto">
         {/* ── Top Eyeline Annotation ── */}
@@ -196,26 +197,21 @@ const Diagnosis = ({ onApplyRecommendation }) => {
         </div>
 
         {/* ── 2-Column Grid: Intro & Interactive Panel ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          {/* Left Column: Heading & Note */}
-          <div ref={leftColRef} className="lg:col-span-5">
-            <h2 className="font-display font-extrabold text-[clamp(42px,5.8vw,92px)] leading-[0.92] tracking-tight uppercase m-0 text-paper">
-              What's
-              <br />
-              getting
-              <br />
-              in your <span className="text-signal-red">way?</span>
-            </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start relative">
+          {/* Left Column: Heading & Note (Sticky on Desktop) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
+            <div ref={leftColRef} className="space-y-6">
+              <h2 className="font-display font-extrabold text-[clamp(42px,5.8vw,92px)] leading-[0.92] tracking-tight uppercase m-0 text-paper">
+                What's
+                <br />
+                getting
+                <br />
+                in your <span className="text-signal-red">way?</span>
+              </h2>
 
-            <p className="text-paper/75 text-base md:text-lg leading-relaxed max-w-105 font-normal mt-6 md:mt-8 m-0">
-              You may not need a rebrand, a website or more content. Tell us
-              what's not working. We'll help you find a sensible starting point.
-            </p>
-
-            <div className="mt-10 md:mt-16 pt-6 border-t border-white/10 max-w-105">
-              <p className="text-paper/45 text-[11px] font-semibold tracking-wider uppercase leading-relaxed m-0">
-                THREE QUESTIONS · NO EMAIL REQUIRED FOR A RECOMMENDATION · NO
-                CLAIM OF AUTOMATED BUSINESS CERTAINTY
+              <p className="text-paper/75 text-base md:text-lg leading-relaxed max-w-105 font-normal mt-6 md:mt-8 m-0">
+                You may not need a rebrand, a website or more content. Tell us
+                what's not working. We'll help you find a sensible starting point.
               </p>
             </div>
           </div>
@@ -223,7 +219,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
           {/* Right Column: Interactive Diagnostic Panel */}
           <div ref={panelRef} className="lg:col-span-7">
             <div
-              className="bg-[#1c1c1c] border border-white/15 p-6 md:p-10 lg:p-12 min-h-[460px] flex flex-col justify-between shadow-2xl transition-all"
+              className="bg-[#1c1c1c] border border-white/15 p-6 md:p-10 lg:p-12 min-h-[560px] flex flex-col justify-between shadow-2xl transition-all"
               aria-live="polite"
             >
               <div>
@@ -298,7 +294,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                           className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-all duration-200 cursor-pointer shadow-sm"
                         >
                           <span>Apply this direction to brief</span>
-                          <span>↓</span>
+                          <span>↑</span>
                         </button>
                       ) : (
                         <a
@@ -309,6 +305,15 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                           <span>↗</span>
                         </a>
                       )}
+
+                      {/* Book a Call Action */}
+                      <a
+                        href={`mailto:hello@deezaina.com?subject=Discovery%20Call%20Request%3A%20${encodeURIComponent(recommendation.name)}&body=Hello%20Deezaina%20team%2C%0A%0AI%20completed%20the%20studio%20diagnosis%20and%20was%20recommended%20${encodeURIComponent(recommendation.name)}.%20I%20would%20like%20to%20schedule%20a%20discovery%20call.`}
+                        className="inline-flex items-center justify-between gap-3 px-6 py-3.5 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline cursor-pointer shadow-sm"
+                      >
+                        <span>Book a call</span>
+                        <span>↗</span>
+                      </a>
 
                       <button
                         type="button"
@@ -345,9 +350,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                     onClick={handleNext}
                     className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink disabled:opacity-35 disabled:hover:bg-signal-red disabled:hover:text-ink disabled:cursor-not-allowed transition-all duration-200 cursor-pointer shadow-sm"
                   >
-                    <span>
-                      {step === 2 ? "See my direction" : "Next"}
-                    </span>
+                    <span>{step === 2 ? "See my direction" : "Next"}</span>
                     <span>↗</span>
                   </button>
                 </div>
@@ -356,7 +359,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

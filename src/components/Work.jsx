@@ -51,8 +51,9 @@ const PROJECTS = [
 /* Project thumbnail with editorial composition & hover interaction */
 const ProjectThumb = ({ project }) => {
   return (
-    <div
-      className="cursor-pointer group flex flex-col"
+    <a
+      href="/works"
+      className="cursor-pointer group flex flex-col no-underline text-inherit block"
       data-cursor="view"
       data-cursor-label="EXPLORE CASE"
     >
@@ -125,7 +126,7 @@ const ProjectThumb = ({ project }) => {
           {project.year}
         </span>
       </div>
-    </div>
+    </a>
   );
 };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { gsap } from "gsap";
 import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
@@ -8,31 +9,190 @@ import {
   RiTimeLine,
   RiCheckLine,
   RiArrowRightLine,
+  RiSparklingLine,
+  RiSendPlaneLine,
 } from "react-icons/ri";
 
-const SERVICES_OPTIONS = [
-  "Brand Strategy",
-  "Visual Identity",
-  "Web & Interaction Design",
-  "Complete Brand Platform",
-  "Design Systems",
-  "Packaging & Print",
+const LANDING_SERVICES = [
+  { id: "strategy", label: "Brand Strategy" },
+  { id: "identity", label: "Brand Identity" },
+  { id: "web", label: "Web & Digital" },
+  { id: "media", label: "Creative Media & Content" },
+  { id: "launch", label: "Connected Launch Package" },
+  { id: "desk", label: "The Brand Desk (Ongoing Partner)" },
+  { id: "flagship", label: "Flagship Brand Partnership" },
+  { id: "wedding", label: "Wedding & Event Digital" },
 ];
 
 const TIMELINES = [
-  "Immediately",
   "In 2 to 4 Weeks",
+  "Immediately",
   "Next Quarter",
   "Flexible / Exploring",
 ];
 
-const BUDGETS = ["$10k - $20k", "$20k - $40k", "$40k - $75k", "$75k+"];
+const BUDGETS = [
+  "₦500,000   - ₦1,000,000",
+  "₦1,000,000 - ₦3,500,000",
+  "₦3,500,000 - ₦8,000,000",
+  "₦8,000,000 - ₦20,000,000+",
+  "Monthly Brand Desk (₦550k+/mo)",
+];
+
+/* Corner registration crosshair mark */
+const LetterCropMark = ({ className = "" }) => (
+  <div
+    aria-hidden="true"
+    className={`absolute w-3.5 h-3.5 pointer-events-none opacity-40 select-none ${className}`}
+  >
+    <div className="absolute top-1/2 left-0 right-0 h-px bg-ink -translate-y-1/2" />
+    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-ink -translate-x-1/2" />
+  </div>
+);
+
+/* Custom Popover Dropdown Pill */
+const CustomPillSelect = ({
+  value,
+  onChange,
+  options,
+  isOpen,
+  onToggle,
+  onClose,
+  label,
+}) => {
+  return (
+    <span className="relative inline-block align-baseline mx-1 my-0.5">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={label}
+        className="inline-flex items-center gap-1.5 px-3 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
+      >
+        <span>{value}</span>
+        <span className="text-[10px] text-signal-red font-bold">▾</span>
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={onClose} />
+          <div className="absolute left-0 top-full mt-1.5 z-50 bg-white border-2 border-ink rounded-xs shadow-2xl py-1 min-w-56 animate-fade-in">
+            {options.map((opt) => (
+              <button
+                type="button"
+                key={opt}
+                onClick={() => {
+                  onChange(opt);
+                  onClose();
+                }}
+                className={`w-full text-left px-3.5 py-2 text-xs font-body font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-between ${
+                  value === opt
+                    ? "bg-signal-red text-ink font-extrabold"
+                    : "text-ink hover:bg-ink hover:text-paper"
+                }`}
+              >
+                <span>{opt}</span>
+                {value === opt && <span>✓</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </span>
+  );
+};
+
+/* Multi-Select Checkbox Dropdown Pill */
+const ServicesCheckboxDropdown = ({
+  selected,
+  onToggle,
+  options,
+  isOpen,
+  onToggleOpen,
+  onClose,
+}) => {
+  let displayLabel = "Select Services";
+  if (selected.length === 1) {
+    displayLabel = selected[0];
+  } else if (selected.length === 2) {
+    displayLabel = `${selected[0]}, ${selected[1]}`;
+  } else if (selected.length > 2) {
+    displayLabel = `${selected.length} Services Selected`;
+  }
+
+  return (
+    <span className="relative inline-block align-baseline mx-1 my-0.5">
+      <button
+        type="button"
+        onClick={onToggleOpen}
+        aria-label="Select partnership services"
+        className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
+      >
+        <span className="truncate max-w-56 sm:max-w-80">{displayLabel}</span>
+        <span className="text-[10px] text-signal-red font-bold">▾</span>
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={onClose} />
+          <div className="absolute left-0 top-full mt-1.5 z-50 bg-white border-2 border-ink rounded-xs shadow-2xl py-2 min-w-72 sm:min-w-85 max-h-95 overflow-y-auto animate-fade-in">
+            <div className="px-3.5 pb-2 mb-1 border-b border-line flex items-center justify-between">
+              <span className="label text-[10px] text-slate font-bold tracking-wider uppercase">
+                LANDING DISCIPLINES ({selected.length} SELECTED)
+              </span>
+              <button
+                type="button"
+                onClick={onClose}
+                className="text-xs text-slate hover:text-ink font-bold cursor-pointer px-1 py-0.5"
+                aria-label="Close menu"
+              >
+                ✕
+              </button>
+            </div>
+            {options.map((opt) => {
+              const isChecked = selected.includes(opt.label);
+              return (
+                <div
+                  key={opt.id}
+                  onClick={() => onToggle(opt.label)}
+                  className={`px-3.5 py-2.5 transition-colors cursor-pointer flex items-center justify-between gap-3 ${
+                    isChecked
+                      ? "bg-signal-red/10 hover:bg-signal-red/15"
+                      : "hover:bg-paper"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className={`w-4 h-4 rounded-xs border flex items-center justify-center transition-colors shrink-0 ${
+                        isChecked
+                          ? "bg-signal-red border-signal-red text-ink font-bold text-xs"
+                          : "border-ink/40 bg-white"
+                      }`}
+                    >
+                      {isChecked ? "✓" : ""}
+                    </div>
+                    <span className="text-xs font-body font-bold text-ink uppercase tracking-wide">
+                      {opt.label}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </span>
+  );
+};
 
 const Contact = () => {
   const containerRef = useRef(null);
   const headlineRef = useRef(null);
   const formRef = useRef(null);
   const sidebarRef = useRef(null);
+
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [timelineOpen, setTimelineOpen] = useState(false);
+  const [budgetOpen, setBudgetOpen] = useState(false);
 
   // Lagos local time live ticker
   const [lagosTime, setLagosTime] = useState("");
@@ -53,15 +213,34 @@ const Contact = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Form state
-  const [form, setForm] = useState({
-    name: "",
-    company: "",
-    email: "",
-    services: ["Brand Strategy", "Visual Identity"],
-    timeline: "In 2 to 4 Weeks",
-    budget: "$20k - $40k",
-    story: "",
+  // Form state initialized with optional query params (?service=...)
+  const [form, setForm] = useState(() => {
+    let initialServices = ["Brand Strategy", "Brand Identity"];
+    let initialStory = "";
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const serviceParam = params.get("service");
+      if (serviceParam) {
+        const matched =
+          LANDING_SERVICES.find(
+            (s) =>
+              s.label.toLowerCase() === serviceParam.toLowerCase() ||
+              s.label.toLowerCase().includes(serviceParam.toLowerCase()) ||
+              serviceParam.toLowerCase().includes(s.label.toLowerCase()),
+          )?.label || serviceParam;
+        initialServices = [matched];
+        initialStory = `[Selected Service Inquiry: ${serviceParam}]. `;
+      }
+    }
+    return {
+      name: "",
+      company: "",
+      email: "",
+      services: initialServices,
+      timeline: "In 2 to 4 Weeks",
+      budget: "₦1,000,000 - ₦3,500,000",
+      story: initialStory,
+    };
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -78,6 +257,17 @@ const Contact = () => {
     });
   };
 
+  const location = useLocation();
+
+  // Robust smooth scroll to section with navbar offset (using scrollIntoView with scroll-margin-top)
+  const scrollToSection = (targetId, behavior = "smooth") => {
+    const cleanId = targetId.replace("#", "");
+    const el = document.getElementById(cleanId);
+    if (!el) return;
+
+    el.scrollIntoView({ behavior, block: "start" });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim()) {
@@ -88,13 +278,7 @@ const Contact = () => {
     }
     setErrorMsg("");
     setSubmitted(true);
-    // Smooth scroll to top of form
-    const formEl = document.getElementById("story-builder");
-    if (formEl) {
-      formEl.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 180, behavior: "smooth" });
-    }
+    setTimeout(() => scrollToSection("story-builder"), 60);
   };
 
   const handleApplyRec = (rec) => {
@@ -108,25 +292,54 @@ const Contact = () => {
           services: nextServices,
           story: prev.story
             ? prev.story
-            : `[Diagnosed Starting Point: ${rec.name} (${rec.price})]. `,
+            : `[Diagnosed Starting Point: ${rec.name}]. `,
         };
       });
     }
-    const target = document.getElementById("story-builder");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollToSection("story-builder");
   };
 
-  // Scroll to hash on page load if present
+  // Scroll to hash or service target on mount / route update
   useEffect(() => {
-    if (window.location.hash) {
-      const el = document.querySelector(window.location.hash);
+    const params = new URLSearchParams(window.location.search);
+    const serviceParam = params.get("service");
+    const hash = location.hash || window.location.hash;
+
+    const targetId = serviceParam ? "story-builder" : hash;
+    if (!targetId) return;
+
+    let attempts = 0;
+    const maxAttempts = 6;
+
+    const performScroll = () => {
+      attempts++;
+      const cleanId = targetId.replace("#", "");
+      const el = document.getElementById(cleanId);
+
       if (el) {
-        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 200);
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        // Double check after animation to make sure smooth scroll was not aborted
+        if (attempts === 1) {
+          setTimeout(() => {
+            const rect = el.getBoundingClientRect();
+            // Expected top position is around 90px-140px due to scroll-mt-28 (112px)
+            // If it's still > 250px or < -50px, smooth scroll was interrupted; retry
+            if (rect.top > 250 || rect.top < -50) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 450);
+        }
+      } else if (attempts < maxAttempts) {
+        setTimeout(performScroll, 80);
       }
-    }
-  }, []);
+    };
+
+    // Initial slight delay so DOM is mounted
+    const initialTimer = setTimeout(performScroll, 60);
+
+    return () => clearTimeout(initialTimer);
+  }, [location.pathname, location.hash, location.search]);
 
   // Entrance animations
   useEffect(() => {
@@ -151,6 +364,8 @@ const Contact = () => {
     return () => ctx.revert();
   }, []);
 
+  const isReady = Boolean(form.name.trim() && form.email.trim());
+
   return (
     <div
       ref={containerRef}
@@ -160,7 +375,10 @@ const Contact = () => {
 
       <main className="pt-28 md:pt-36">
         {/* ── Top Header Deck ── */}
-        <div ref={headlineRef} className="px-6 md:px-14 max-w-350 mx-auto pb-12">
+        <div
+          ref={headlineRef}
+          className="px-6 md:px-14 max-w-350 mx-auto pb-10"
+        >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
               <span className="label text-slate text-[11px] tracking-[0.14em]">
@@ -181,103 +399,195 @@ const Contact = () => {
             </div>
           </div>
 
-          <h1 className="font-display font-extrabold text-ink text-[clamp(42px,6vw,92px)] leading-[0.92] tracking-tight uppercase m-0 max-w-260">
+          <h1 className="font-display font-extrabold text-ink text-[clamp(40px,6vw,92px)] leading-[0.92] tracking-tight uppercase m-0 max-w-260">
             TELL US YOUR STORY. <br />
             <span className="text-deep-red">LET'S MAKE IT ENDURE.</span>
             <span className="text-signal-red ml-2 inline-block">●</span>
           </h1>
 
           <p className="text-slate text-sm md:text-base leading-relaxed max-w-180 mt-6 font-normal">
-            We don't believe in sterile, 20-field contact funnels. Diagnose
-            before design with our 3-question intake below, or dispatch your
-            ambition directly as a living narrative.
+            No sterile, 20-field funnels. Complete your strategic ambition in a
+            single living letterhead below with zero scrolling fatigue, or run
+            our 3-question diagnosis if you need guidance on scope.
           </p>
 
           <div className="flex items-center gap-3 pt-6 flex-wrap">
-            <a
-              href="#diagnosis"
-              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-ink text-paper text-xs font-bold uppercase tracking-wider hover:bg-signal-red hover:text-ink transition-colors no-underline shadow-xs"
+            <button
+              type="button"
+              onClick={() => scrollToSection("story-builder")}
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-ink text-paper text-xs font-bold uppercase tracking-wider hover:bg-signal-red hover:text-ink transition-colors cursor-pointer shadow-xs"
             >
-              <span>01 / Take The Diagnosis (3 Questions)</span>
+              <span>01 / Unified Strategic Brief</span>
               <span>↓</span>
-            </a>
-            <a
-              href="#story-builder"
-              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-transparent border border-ink text-ink text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors no-underline"
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("diagnosis")}
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-transparent border border-ink text-ink text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors cursor-pointer"
             >
-              <span>02 / Strategic Brief Form</span>
+              <span>02 / 3-Question Diagnosis</span>
               <span>↓</span>
-            </a>
+            </button>
           </div>
         </div>
 
-        {/* ── Section 1: The Diagnosis (Dark full-bleed section) ── */}
-        <Diagnosis onApplyRecommendation={handleApplyRec} />
-
-        {/* ── Section 2: Strategic Story Builder & Studio Dossier ── */}
+        {/* ── Section 1: The Unified Story Builder Canvas & Studio Dossier ── */}
         <section
           id="story-builder"
-          className="py-16 md:py-24 px-6 md:px-14 max-w-350 mx-auto"
+          className="pb-20 md:pb-28 px-6 md:px-14 max-w-350 mx-auto scroll-mt-24 lg:scroll-mt-28"
         >
           {/* Section Eyeline */}
-          <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-10 md:mb-14">
+          <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-8 md:mb-10">
             <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
-              § THE BRIEF / STRATEGIC NARRATIVE
+              § 01 / 02 · LIVING STRATEGIC NARRATIVE
             </span>
             <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
-              INTAKE FORM
+              DIRECT INTAKE
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Left Column: The Interactive Story Builder (7 cols) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            {/* Left Column: The Unified Mad-Libs Letterhead (8 cols) */}
             <div ref={formRef} className="lg:col-span-8">
-            {submitted ? (
-              /* Success State */
-              <div className="bg-white/80 border border-line rounded-xs p-8 md:p-14 space-y-6 shadow-sm">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-signal-red/10 text-signal-red text-xs font-bold rounded-full">
-                  <RiCheckLine className="w-4 h-4" />
-                  <span>STORY RECEIVED</span>
+              {submitted ? (
+                /* Success State Receipt */
+                <div className="bg-white border-2 border-ink rounded-xs p-8 md:p-14 space-y-6 shadow-md relative overflow-hidden">
+                  <LetterCropMark className="top-3 left-3" />
+                  <LetterCropMark className="top-3 right-3" />
+                  <LetterCropMark className="bottom-3 left-3" />
+                  <LetterCropMark className="bottom-3 right-3" />
+
+                  <div className="flex items-center justify-between pb-4 border-b border-line">
+                    <span className="label text-slate text-[10px] tracking-widest">
+                      TRANSMISSION RECEIPT // DZ-LOGGED
+                    </span>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-signal-red/10 text-signal-red text-xs font-bold rounded-full">
+                      <RiCheckLine className="w-4 h-4" />
+                      <span>AMBITION LOGGED</span>
+                    </div>
+                  </div>
+
+                  <h2 className="font-display font-extrabold text-[clamp(28px,3.5vw,48px)] leading-[1.05] tracking-tight uppercase m-0 text-ink">
+                    THANK YOU, {form.name.trim() || "FOUNDER"}. <br />
+                    YOUR BRIEF IS RECEIVED.
+                  </h2>
+
+                  <p className="text-slate text-base leading-relaxed font-normal">
+                    We have logged your strategic narrative for{" "}
+                    <strong className="text-ink font-semibold">
+                      {form.company.trim() || "your brand"}
+                    </strong>
+                    . Ayo and our senior leads review every dispatch thoroughly.
+                    Expect a considered response at{" "}
+                    <strong className="text-ink font-semibold">
+                      {form.email}
+                    </strong>{" "}
+                    within 24 to 48 hours.
+                  </p>
+
+                  {/* Transmission Summary Box */}
+                  <div className="p-5 bg-paper rounded-xs border border-line space-y-2 text-xs font-body">
+                    <div className="flex justify-between py-1 border-b border-line/60">
+                      <span className="label text-slate text-[10px]">
+                        INQUIRER:
+                      </span>
+                      <span className="font-semibold text-ink">
+                        {form.name} ({form.email})
+                      </span>
+                    </div>
+                    {form.company && (
+                      <div className="flex justify-between py-1 border-b border-line/60">
+                        <span className="label text-slate text-[10px]">
+                          BRAND / ENTITY:
+                        </span>
+                        <span className="font-semibold text-ink">
+                          {form.company}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between py-1 border-b border-line/60">
+                      <span className="label text-slate text-[10px]">
+                        SERVICES:
+                      </span>
+                      <span className="font-semibold text-ink">
+                        {form.services.join(", ")}
+                      </span>
+                    </div>
+                    <div className="flex justify-between py-1 border-b border-line/60">
+                      <span className="label text-slate text-[10px]">
+                        TIMELINE:
+                      </span>
+                      <span className="font-semibold text-ink">
+                        {form.timeline}
+                      </span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="label text-slate text-[10px]">
+                        BUDGET:
+                      </span>
+                      <span className="font-semibold text-ink">
+                        {form.budget}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-line flex items-center justify-between">
+                    <span className="label text-slate text-[11px] tracking-wider">
+                      DEEZAINA STUDIOS · WORKING WORLDWIDE
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setSubmitted(false)}
+                      className="label text-deep-red text-xs font-semibold hover:underline cursor-pointer"
+                    >
+                      EDIT THIS BRIEF ↺
+                    </button>
+                  </div>
                 </div>
+              ) : (
+                /* Unified Mad-Libs Letter Form (All in 1 Card!) */
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white border-2 border-ink rounded-xs p-6 sm:p-10 md:p-12 shadow-md relative overflow-hidden space-y-8"
+                >
+                  {/* Crop marks for tactile Swiss aesthetic */}
+                  <LetterCropMark className="top-3 left-3" />
+                  <LetterCropMark className="top-3 right-3" />
+                  <LetterCropMark className="bottom-3 left-3" />
+                  <LetterCropMark className="bottom-3 right-3" />
 
-                <h2 className="font-display font-extrabold text-[clamp(28px,3.5vw,48px)] leading-[1.05] tracking-tight uppercase m-0 text-ink">
-                  THANK YOU, {form.name.trim() || "FOUNDER"}. <br />
-                  YOUR AMBITION IS LOGGED.
-                </h2>
+                  {/* Letterhead Top Status Strip */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-line">
+                    <div className="flex items-center gap-2">
+                      <span className="label text-slate text-[10px] tracking-[0.14em]">
+                        SPEC: DZ-BRIEF-2026 // MMXXV
+                      </span>
+                    </div>
 
-                <p className="text-slate text-base leading-relaxed font-normal">
-                  We have received your strategic narrative for{" "}
-                  <strong className="text-ink font-semibold">
-                    {form.company.trim() || "your brand"}
-                  </strong>
-                  . Ayo and our design leads review every brief thoroughly.
-                  Expect a considered response at{" "}
-                  <strong className="text-ink font-semibold">
-                    {form.email}
-                  </strong>{" "}
-                  within 24 to 48 hours.
-                </p>
+                    <div className="flex items-center gap-4">
+                      {isReady ? (
+                        <span className="inline-flex items-center gap-1.5 label text-ink text-[10px] font-bold tracking-wider uppercase">
+                          <span className="w-2 h-2 rounded-full bg-signal-red animate-pulse" />
+                          READY FOR DISPATCH
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 label text-slate text-[10px] font-semibold tracking-wider uppercase">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate/40" />
+                          DRAFT IN PROGRESS
+                        </span>
+                      )}
+                      <span className="text-line text-xs hidden sm:inline">
+                        |
+                      </span>
+                      <span className="label text-slate text-[10px] tracking-wider hidden sm:inline">
+                        1-PAGE CANVAS
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="pt-4 border-t border-line flex items-center justify-between">
-                  <span className="label text-slate text-[11px] tracking-wider">
-                    DEEZAINA STUDIOS · WORKING WORLDWIDE
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="label text-deep-red text-xs font-semibold hover:underline cursor-pointer"
-                  >
-                    EDIT THIS BRIEF ↗
-                  </button>
-                </div>
-              </div>
-            ) : (
-              /* Story Form */
-              <form onSubmit={handleSubmit} className="space-y-10">
-                {/* 1. Natural Language Story Sentence */}
-                <div className="bg-white/60 border border-line rounded-xs p-6 md:p-10 transition-colors focus-within:border-ink/40 focus-within:bg-white shadow-xs">
-                  <p className="font-display text-[clamp(20px,2.2vw,30px)] leading-[1.65] text-ink font-bold m-0">
-                    <span>Hello Deezaina Studios, my name is </span>
+                  {/* 1. Single Continuous Mad-Libs Story Prose */}
+                  <div className="font-display font-medium text-[clamp(18px,1.9vw,24px)] leading-[2.3] text-ink tracking-tight">
+                    <span>Hello Deezaina, my name is </span>
                     <input
                       type="text"
                       required
@@ -285,20 +595,20 @@ const Contact = () => {
                       onChange={(e) =>
                         setForm({ ...form, name: e.target.value })
                       }
-                      placeholder="your full name"
+                      placeholder="[ your name ]"
                       aria-label="Your full name"
-                      className="border-b-2 border-ink/20 focus:border-signal-red bg-transparent text-ink font-extrabold focus:outline-none px-2 py-0.5 inline-block min-w-45 max-w-65 placeholder:text-slate/40 placeholder:font-normal placeholder:italic transition-colors"
+                      className="border-b-2 border-ink/40 focus:border-signal-red bg-transparent text-ink font-bold focus:outline-none px-2 py-0.5 inline-block w-44 sm:w-60 placeholder:text-slate/40 placeholder:font-normal placeholder:italic focus:bg-signal-red/5 transition-colors align-baseline mx-0.5"
                     />
-                    <span> and I represent </span>
+                    <span> from </span>
                     <input
                       type="text"
                       value={form.company}
                       onChange={(e) =>
                         setForm({ ...form, company: e.target.value })
                       }
-                      placeholder="company or brand"
+                      placeholder="[ company or brand ]"
                       aria-label="Company or brand name"
-                      className="border-b-2 border-ink/20 focus:border-signal-red bg-transparent text-ink font-extrabold focus:outline-none px-2 py-0.5 inline-block min-w-45 max-w-65 placeholder:text-slate/40 placeholder:font-normal placeholder:italic transition-colors"
+                      className="border-b-2 border-ink/40 focus:border-signal-red bg-transparent text-ink font-bold focus:outline-none px-2 py-0.5 inline-block w-48 sm:w-64 placeholder:text-slate/40 placeholder:font-normal placeholder:italic focus:bg-signal-red/5 transition-colors align-baseline mx-0.5"
                     />
                     <span>. You can reach me at </span>
                     <input
@@ -308,205 +618,148 @@ const Contact = () => {
                       onChange={(e) =>
                         setForm({ ...form, email: e.target.value })
                       }
-                      placeholder="your email address"
+                      placeholder="[ your email address ]"
                       aria-label="Your email address"
-                      className="border-b-2 border-ink/20 focus:border-signal-red bg-transparent text-ink font-extrabold focus:outline-none px-2 py-0.5 inline-block min-w-55 max-w-85 placeholder:text-slate/40 placeholder:font-normal placeholder:italic transition-colors"
+                      className="border-b-2 border-ink/40 focus:border-signal-red bg-transparent text-ink font-bold focus:outline-none px-2 py-0.5 inline-block w-56 sm:w-76 placeholder:text-slate/40 placeholder:font-normal placeholder:italic focus:bg-signal-red/5 transition-colors align-baseline mx-0.5"
                     />
-                    <span> to begin our engagement.</span>
-                  </p>
-                </div>
+                    <span>. We need partnership in </span>
+                    <ServicesCheckboxDropdown
+                      selected={form.services}
+                      onToggle={toggleService}
+                      options={LANDING_SERVICES}
+                      isOpen={servicesOpen}
+                      onToggleOpen={() => {
+                        setServicesOpen(!servicesOpen);
+                        setTimelineOpen(false);
+                        setBudgetOpen(false);
+                      }}
+                      onClose={() => setServicesOpen(false)}
+                    />
+                    <span>, aiming to kick off </span>
+                    <CustomPillSelect
+                      value={form.timeline}
+                      onChange={(val) => setForm({ ...form, timeline: val })}
+                      options={TIMELINES}
+                      isOpen={timelineOpen}
+                      onToggle={() => {
+                        setTimelineOpen(!timelineOpen);
+                        setServicesOpen(false);
+                        setBudgetOpen(false);
+                      }}
+                      onClose={() => setTimelineOpen(false)}
+                      label="Kickoff timeline"
+                    />
+                    <span> with an investment of </span>
+                    <CustomPillSelect
+                      value={form.budget}
+                      onChange={(val) => setForm({ ...form, budget: val })}
+                      options={BUDGETS}
+                      isOpen={budgetOpen}
+                      onToggle={() => {
+                        setBudgetOpen(!budgetOpen);
+                        setServicesOpen(false);
+                        setTimelineOpen(false);
+                      }}
+                      onClose={() => setBudgetOpen(false)}
+                      label="Investment budget"
+                    />
+                    <span>.</span>
 
-                {/* 2. Services Selection Chips */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="label text-slate text-[11px] font-semibold tracking-wider">
-                      01 : WE NEED PARTNERSHIP IN (SELECT ALL THAT APPLY):
-                    </span>
-                    <span className="label text-slate text-[10px]">
-                      {form.services.length} SELECTED
-                    </span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2.5">
-                    {SERVICES_OPTIONS.map((svc) => {
-                      const isSelected = form.services.includes(svc);
-                      return (
-                        <button
-                          type="button"
-                          key={svc}
-                          onClick={() => toggleService(svc)}
-                          className={`px-4 py-2.5 rounded-xs border text-[11px] font-body tracking-[0.06em] font-semibold uppercase select-none transition-all duration-200 cursor-pointer ${
-                            isSelected
-                              ? "bg-signal-red border-signal-red text-ink shadow-sm scale-[1.02]"
-                              : "bg-white/80 border-line text-ink hover:border-ink hover:bg-white"
-                          }`}
-                        >
-                          {isSelected ? "✓ " : "+ "}
-                          {svc}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 3. Timeline & Budget Matrix */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
-                  {/* Timeline Selection */}
-                  <div className="space-y-3">
-                    <span className="label text-slate text-[11px] font-semibold tracking-wider block">
-                      02 : TARGET KICKOFF TIMELINE:
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {TIMELINES.map((t) => {
-                        const isSelected = form.timeline === t;
-                        return (
-                          <button
-                            type="button"
-                            key={t}
-                            onClick={() => setForm({ ...form, timeline: t })}
-                            className={`px-3.5 py-2 rounded-xs border text-[11px] font-body tracking-wider uppercase font-semibold transition-all duration-200 cursor-pointer ${
-                              isSelected
-                                ? "bg-ink border-ink text-paper shadow-sm"
-                                : "bg-white/70 border-line text-slate hover:text-ink hover:border-ink/60"
-                            }`}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
+                    {/* Integrated brief note */}
+                    <div className="mt-8 pt-6 border-t border-line/70">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="label text-slate text-[11px] font-bold tracking-widest uppercase">
+                          HERE IS WHAT WE WANT TO SOLVE:
+                        </span>
+                        <span className="label text-slate text-[10px] tracking-wider">
+                          IN YOUR OWN WORDS
+                        </span>
+                      </div>
+                      <textarea
+                        rows={3}
+                        value={form.story}
+                        onChange={(e) =>
+                          setForm({ ...form, story: e.target.value })
+                        }
+                        placeholder="What does your business do, who are you trying to reach, and what commercial or creative gap must we conquer?..."
+                        className="w-full bg-paper/60 border border-line focus:border-ink focus:bg-white text-ink text-sm md:text-base font-body p-4 rounded-xs focus:outline-none transition-colors placeholder:text-slate/40 placeholder:italic resize-y leading-relaxed block"
+                      />
                     </div>
                   </div>
 
-                  {/* Budget Selection */}
-                  <div className="space-y-3">
-                    <span className="label text-slate text-[11px] font-semibold tracking-wider block">
-                      03 : ESTIMATED INVESTMENT BRACKET:
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {BUDGETS.map((b) => {
-                        const isSelected = form.budget === b;
-                        return (
-                          <button
-                            type="button"
-                            key={b}
-                            onClick={() => setForm({ ...form, budget: b })}
-                            className={`px-3.5 py-2 rounded-xs border text-[11px] font-body tracking-wider uppercase font-semibold transition-all duration-200 cursor-pointer ${
-                              isSelected
-                                ? "bg-ink border-ink text-paper shadow-sm"
-                                : "bg-white/70 border-line text-slate hover:text-ink hover:border-ink/60"
-                            }`}
-                          >
-                            {b}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
+                  {errorMsg && (
+                    <p className="text-signal-red text-xs font-semibold m-0">
+                      ⚠ {errorMsg}
+                    </p>
+                  )}
 
-                {/* 4. The Narrative Heart */}
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-center justify-between">
-                    <span className="label text-slate text-[11px] font-semibold tracking-wider">
-                      04 : THE HEART OF YOUR VISION:
-                    </span>
-                    <span className="label text-slate text-[10px]">
-                      IN YOUR OWN WORDS
-                    </span>
+                  {/* Immediate Action Deck (Zero Scrolling!) */}
+                  <div className="pt-6 border-t-2 border-ink flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-3 px-8 py-4 bg-ink text-paper rounded-full font-body text-xs font-bold tracking-[0.14em] uppercase hover:bg-signal-red hover:text-ink transition-all duration-300 shadow-md cursor-pointer hover:scale-[1.02] group"
+                    >
+                      <RiSendPlaneLine className="w-4 h-4 text-signal-red group-hover:text-ink transition-colors" />
+                      <span>DISPATCH STRATEGIC BRIEF</span>
+                      <RiArrowRightLine className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                    </button>
                   </div>
-                  <p className="text-slate text-xs font-normal m-0 leading-relaxed">
-                    What does your business do, who are your dream customers,
-                    and what commercial or creative gap must we conquer?
+                </form>
+              )}
+            </div>
+
+            {/* Right Column: Studio Dossier & Direct Access (4 cols) */}
+            <div ref={sidebarRef} className="lg:col-span-4 space-y-6">
+              {/* Direct Studio Channels */}
+              <div className="bg-white border border-line rounded-xs p-6 md:p-8 space-y-6 shadow-xs">
+                <span className="label text-slate text-[10px] tracking-[0.16em] block">
+                  DIRECT STUDIO CHANNELS
+                </span>
+
+                <div className="space-y-4">
+                  <div>
+                    <span className="label text-slate text-[10px] block mb-1">
+                      PRIMARY ELECTRONIC MAIL
+                    </span>
+                    <a
+                      href="mailto:hello@deezaina.com"
+                      className="text-signal-red font-display text-base font-bold tracking-tight hover:underline flex items-center gap-1.5"
+                    >
+                      <RiMailLine className="w-4 h-4" />
+                      <span>hello@deezaina.com ↗</span>
+                    </a>
+                  </div>
+                  <p className="text-slate text-xs leading-relaxed font-normal m-0 pt-2 border-t border-line/60">
+                    Prefer direct email? Send your pitch deck, RFP, or a brief
+                    greeting directly to our inbox.
                   </p>
-                  <textarea
-                    rows={5}
-                    value={form.story}
-                    onChange={(e) =>
-                      setForm({ ...form, story: e.target.value })
-                    }
-                    placeholder="We're currently scaling our brand across West Africa and Europe. Our existing visual identity feels generic and doesn't match the quality of our product. We need a definitive visual system and flagship web presence that makes us impossible to ignore..."
-                    className="w-full bg-white/70 border border-line focus:border-ink focus:bg-white text-ink text-sm md:text-base font-body p-5 rounded-xs focus:outline-none transition-colors placeholder:text-slate/40 placeholder:italic resize-y leading-relaxed"
-                  />
-                </div>
-
-                {errorMsg && (
-                  <p className="text-signal-red text-xs font-semibold m-0">
-                    ⚠ {errorMsg}
-                  </p>
-                )}
-
-                {/* Submit Action */}
-                <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-ink text-paper rounded-full font-body text-xs font-bold tracking-[0.14em] uppercase hover:bg-signal-red hover:text-ink transition-all duration-300 shadow-sm cursor-pointer hover:scale-[1.02] group"
-                  >
-                    <span>DISPATCH STRATEGIC BRIEF</span>
-                    <RiArrowRightLine className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
-
-                  <div className="flex items-center gap-2 text-slate text-[11px] label">
-                    <span className="w-2 h-2 rounded-full bg-signal-red animate-pulse" />
-                    <span>CAPACITY: 3 COMMISSIONS / QUARTER</span>
-                  </div>
-                </div>
-              </form>
-            )}
-          </div>
-
-          {/* Right Column: Studio Dossier & Direct Access (4 cols) */}
-          <div ref={sidebarRef} className="lg:col-span-4 space-y-8">
-            {/* Direct Studio Channels */}
-            <div className="bg-white/60 border border-line rounded-xs p-6 md:p-8 space-y-6">
-              <span className="label text-slate text-[10px] tracking-[0.16em] block">
-                DIRECT INQUIRY CHANNELS
-              </span>
-
-              <div className="space-y-4">
-                <div>
-                  <span className="label text-slate text-[10px] block mb-1">
-                    PRIMARY ELECTRONIC MAIL
-                  </span>
-                  <a
-                    href="mailto:hello@deezaina.com"
-                    className="text-signal-red font-display text-base font-bold tracking-tight hover:underline flex items-center gap-1.5"
-                  >
-                    <RiMailLine className="w-4 h-4" />
-                    <span>hello@deezaina.com ↗</span>
-                  </a>
                 </div>
               </div>
-            </div>
 
-            {/* Studio Capacity & Philosophy Callout */}
-            <div className="border border-line rounded-xs p-6 md:p-8 bg-paper space-y-4">
-              <span className="label text-slate text-[10px] tracking-[0.16em] block">
-                STUDIO POLICY & SELECTIVITY
-              </span>
-              <p className="text-ink text-xs leading-relaxed font-normal m-0">
-                We purposefully operate with a compact, senior-led team. We do
-                not pass clients down to junior layers or run high-volume ticket
-                mills.
-              </p>
-              <p className="text-slate text-xs leading-relaxed font-normal m-0">
-                Every client works directly with our principal strategists and
-                designers from initial discovery to production deployment.
-              </p>
-            </div>
-
-            {/* Expected SLA Box */}
-            <div className="p-6 border-l-2 border-signal-red bg-signal-red/5 rounded-xs space-y-2">
-              <span className="label text-deep-red text-[10px] font-bold tracking-wider block">
-                RESPONSE GUARANTEE
-              </span>
-              <p className="text-ink text-xs leading-relaxed m-0 font-medium">
-                Every brief receives a thorough review. We will respond with
-                honest feasibility, estimated schedule, and initial alignment
-                questions within 48 hours.
-              </p>
+              {/* Expected SLA Box */}
+              <div className="p-6 border-l-2 border-signal-red bg-signal-red/5 rounded-xs space-y-2">
+                <div className="flex items-center gap-2">
+                  <RiSparklingLine className="text-signal-red w-4 h-4" />
+                  <span className="label text-deep-red text-[10px] font-bold tracking-wider">
+                    RESPONSE COMMITMENT
+                  </span>
+                </div>
+                <p className="text-ink text-xs leading-relaxed m-0 font-medium">
+                  Every brief receives thorough senior review. We respond with
+                  candid feasibility, estimated schedule, and initial alignment
+                  notes within 48 hours.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* ── Section 2: Strategy Diagnosis (Positioned below for clients seeking guidance) ── */}
+        <section
+          id="diagnosis"
+          className="bg-ink text-paper relative border-b border-white/80 scroll-mt-24 lg:scroll-mt-28"
+        >
+          <Diagnosis onApplyRecommendation={handleApplyRec} />
         </section>
       </main>
 

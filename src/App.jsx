@@ -13,9 +13,10 @@ import { Routes, Route } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
-  /* After all sections mount, recalculate scroll positions.
+  /* After all sections mount, recalculate scroll positions on Home.
      Required when a pinned section (Process) sits above others. */
   useEffect(() => {
+    if (window.location.pathname !== "/") return;
     const id = window.setTimeout(() => {
       ScrollTrigger.refresh();
     }, 350);

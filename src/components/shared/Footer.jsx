@@ -239,7 +239,7 @@ const Footer = () => {
           {/* Start a project: interactive pill button with GSAP physics */}
           <a
             ref={ctaBtnRef}
-            href="mailto:hello@deezaina.com"
+            href="/contact"
             onMouseEnter={(e) => {
               gsap.to(e.currentTarget, {
                 scale: 1.05,

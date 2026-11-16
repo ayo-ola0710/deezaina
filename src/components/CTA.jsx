@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -86,22 +87,22 @@ const CTA = () => {
         className="flex items-center gap-3 md:gap-8 flex-wrap"
       >
         {/* primary button: Ink fill, Paper text */}
-        <a
-          href="mailto:hello@deezaina.com"
+        <Link
+          to="/contact#diagnosis"
           className="inline-flex items-center gap-2.5 bg-ink text-paper px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-white hover:text-ink transition-opacity"
         >
           Find my starting point
           <span className="text-base">↗</span>
-        </a>
+        </Link>
 
-        {/* secondary: email link */}
-        <a
-          href="mailto:hello@deezaina.com"
+        {/* secondary: brief intake link */}
+        <Link
+          to="/contact#story-builder"
           className="inline-flex items-center gap-2.5 bg-white text-ink px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-ink hover:text-white transition-opacity"
         >
           Book a Discovery Call
           <span className="text-base">↗</span>
-        </a>
+        </Link>
       </div>
 
       {/* ── ghost large type watermark ── */}

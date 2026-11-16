@@ -1,19 +1,40 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useLocation, Link } from "react-router-dom";
 import { gsap } from "gsap";
 
 const links = [
   { name: "ABOUT", href: "/about" },
   { name: "WORKS", href: "/works" },
-  { name: "FEEDS", href: "/feed " },
+  { name: "FEEDS", href: "/feed" },
   { name: "CONTACT", href: "/contact" },
 ];
 
 /* ── Kinetic Magnetic Nav Link with Vertical Rolling Text ── */
-const NavLink = ({ name, href, isCta = false }) => {
+const NavLink = ({ name, href, isActive = false, isCta = false }) => {
   const containerRef = useRef(null);
   const textPrimaryRef = useRef(null);
   const textSecondaryRef = useRef(null);
   const dotRef = useRef(null);
+
+  // Sync dot scale/opacity with isActive state
+  useEffect(() => {
+    if (!dotRef.current) return;
+    if (isActive) {
+      gsap.to(dotRef.current, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(dotRef.current, {
+        scale: 0,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in",
+      });
+    }
+  }, [isActive]);
 
   const handleMouseEnter = () => {
     if (textPrimaryRef.current && textSecondaryRef.current) {
@@ -29,7 +50,7 @@ const NavLink = ({ name, href, isCta = false }) => {
       });
     }
 
-    if (dotRef.current) {
+    if (dotRef.current && !isActive) {
       gsap.to(dotRef.current, {
         scale: 1,
         opacity: 1,
@@ -53,7 +74,7 @@ const NavLink = ({ name, href, isCta = false }) => {
       });
     }
 
-    if (dotRef.current) {
+    if (dotRef.current && !isActive) {
       gsap.to(dotRef.current, {
         scale: 0,
         opacity: 0,
@@ -88,9 +109,9 @@ const NavLink = ({ name, href, isCta = false }) => {
 
   if (isCta) {
     return (
-      <a
+      <Link
         ref={containerRef}
-        href={href}
+        to={href}
         onMouseEnter={() => {
           gsap.to(containerRef.current, {
             scale: 1.05,
@@ -108,50 +129,61 @@ const NavLink = ({ name, href, isCta = false }) => {
           });
         }}
         onMouseMove={handleMouseMove}
-        className="nav-item-enter inline-flex items-center gap-2 px-4 py-2 bg-ink text-paper  text-xs label font-semibold tracking-wider hover:bg-signal-red hover:text-ink transition-colors duration-200 shadow-sm"
+        className={`nav-item-enter inline-flex items-center gap-2 px-4 py-2 text-xs label font-semibold tracking-wider transition-all duration-200 shadow-sm border ${
+          isActive
+            ? "bg-signal-red text-ink border-signal-red font-bold ring-2 ring-signal-red/30"
+            : "bg-ink text-paper border-ink hover:bg-signal-red hover:text-ink hover:border-signal-red"
+        }`}
       >
         <span>{name}</span>
         <span className="text-label">↗</span>
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a
+    <Link
       ref={containerRef}
-      href={href}
+      to={href}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      className="nav-item-enter relative flex items-center gap-1.5 py-1 px-2 select-none"
+      className="nav-item-enter relative flex items-center gap-1.5 py-1 px-2 select-none no-underline"
     >
-      {/* Pop-in registration dot */}
+      {/* Pop-in registration dot (permanently active when on current page) */}
       <span
         ref={dotRef}
         aria-hidden="true"
-        className="w-1.5 h-1.5 rounded-full bg-signal-red opacity-0 scale-0"
+        className={`w-1.5 h-1.5 rounded-full bg-signal-red ${
+          isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
+        }`}
       />
 
       {/* Dual-layer rolling text container */}
       <div className="relative overflow-hidden h-3.75 leading-none">
         <span
           ref={textPrimaryRef}
-          className="block label text-ink text-xs font-semibold select-none"
+          className={`block label text-xs select-none transition-colors ${
+            isActive ? "text-signal-red font-bold" : "text-ink font-semibold"
+          }`}
         >
           {name}
         </span>
         <span
           ref={textSecondaryRef}
-          className="absolute top-0 left-0 block label text-deep-red text-xs font-semibold translate-y-full select-none"
+          className={`absolute top-0 left-0 block label text-xs select-none translate-y-full transition-colors ${
+            isActive ? "text-ink font-bold" : "text-deep-red font-semibold"
+          }`}
         >
           {name}
         </span>
       </div>
-    </a>
+    </Link>
   );
 };
 
 const Navbar = () => {
+  const location = useLocation();
   const navRef = useRef(null);
   const brandRef = useRef(null);
   const brandIconRef = useRef(null);
@@ -160,6 +192,54 @@ const Navbar = () => {
   const bar2Ref = useRef(null);
   const bar3Ref = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
+
+  // Scroll spy when user is on the Home page ('/')
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    const sectionIds = ["work", "about"];
+    const sectionEls = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sectionEls.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        } else if (window.scrollY < 400) {
+          setActiveSection(null);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -40% 0px",
+        threshold: 0.1,
+      }
+    );
+
+    sectionEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
+  const isLinkActive = useCallback(
+    (href) => {
+      // 1. Direct route match
+      if (location.pathname === href) return true;
+      if (href === "/feed" && location.pathname.startsWith("/feed")) return true;
+
+      // 2. Section spy on Home page
+      if (location.pathname === "/") {
+        if (href === "/about" && activeSection === "about") return true;
+        if (href === "/works" && activeSection === "work") return true;
+      }
+
+      return false;
+    },
+    [location.pathname, activeSection]
+  );
 
   /* ── Mobile menu open/close ── */
   const toggleMenu = useCallback(() => {
@@ -305,12 +385,12 @@ const Navbar = () => {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4.5 backdrop-blur-md bg-paper/95 border-b border-line transition-colors"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-8 py-3.5 sm:py-4.5 backdrop-blur-md bg-paper/95 border-b border-line transition-colors"
       >
         {/* Brand */}
-        <a
+        <Link
           ref={brandRef}
-          href="/"
+          to="/"
           onMouseEnter={() => {
             if (brandIconRef.current) {
               gsap.to(brandIconRef.current, {
@@ -337,9 +417,9 @@ const Navbar = () => {
             ref={brandIconRef}
             className="font-display font-extrabold text-signal-red text-base tracking-tight leading-none inline-block transition-transform"
           >
-            <img src="/logo.png" alt="" className="w-25 h-9" />
+            <img src="/logo.png" alt="Deezaina Studios" className="w-25 h-9" />
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Nav links */}
         <ul className="hidden md:flex items-center gap-6 md:gap-8 list-none m-0 p-0">
@@ -348,6 +428,7 @@ const Navbar = () => {
               <NavLink
                 name={link.name}
                 href={link.href}
+                isActive={isLinkActive(link.href)}
                 isCta={i === links.length - 1}
               />
             </li>
@@ -382,26 +463,41 @@ const Navbar = () => {
           ref={mobileMenuRef}
           className="md:hidden fixed top-0 left-0 right-0 z-40 bg-paper/98 backdrop-blur-xl pt-20 pb-10 px-8 border-b border-line shadow-lg"
         >
-          <ul className="list-none m-0 p-0 flex flex-col gap-5">
-            {links.map((link, i) => (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  onClick={toggleMenu}
-                  className={`mobile-nav-link block label text-lead font-bold tracking-[0.06em] no-underline transition-colors ${
-                    i === links.length - 1
-                      ? "text-signal-red"
-                      : "text-ink hover:text-signal-red"
-                  }`}
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
+          <ul className="list-none m-0 p-0 flex flex-col gap-4">
+            {links.map((link) => {
+              const active = isLinkActive(link.href);
+              return (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    onClick={toggleMenu}
+                    className={`mobile-nav-link flex items-center justify-between py-2 label text-lead font-bold tracking-[0.06em] no-underline transition-colors ${
+                      active
+                        ? "text-signal-red"
+                        : "text-ink hover:text-signal-red"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2.5">
+                      {active && (
+                        <span className="w-2 h-2 rounded-full bg-signal-red inline-block flex-none" />
+                      )}
+                      <span>{link.name}</span>
+                    </span>
+                    {active ? (
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-signal-red">
+                        CURRENT
+                      </span>
+                    ) : (
+                      <span className="text-slate text-sm">↗</span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Decorative bottom detail */}
-          <div className="mt-10 pt-6 border-t border-line">
+          <div className="mt-8 pt-6 border-t border-line">
             <p className="label text-slate text-[11px] tracking-widest">
               NIGERIA · WORKING WORLDWIDE
             </p>

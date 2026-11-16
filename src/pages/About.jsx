@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "../components/shared/Navbar";
@@ -376,20 +377,20 @@ const About = () => {
             </div>
 
             <div className="flex items-center gap-4 shrink-0 flex-wrap">
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-ink text-paper text-xs font-bold tracking-[0.1em] uppercase hover:bg-white hover:text-ink transition-colors no-underline shadow-sm"
               >
                 <span>Dispatch your brief</span>
                 <span>↗</span>
-              </a>
-              <a
-                href="/contact#diagnosis"
+              </Link>
+              <Link
+                to="/contact#diagnosis"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-ink text-ink text-xs font-bold tracking-[0.1em] uppercase hover:bg-ink hover:text-paper transition-colors no-underline"
               >
                 <span>Take the diagnosis</span>
                 <span>↓</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>

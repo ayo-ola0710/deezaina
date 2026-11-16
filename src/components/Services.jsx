@@ -149,7 +149,7 @@ const Services = () => {
   const sectionRef = useRef(null);
   const rowsRef = useRef([]);
   const [activeTab, setActiveTab] = useState("identity");
-  const [selectedScope, setSelectedScope] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -359,7 +359,7 @@ const Services = () => {
                 aria-selected={isSelected}
                 onClick={() => {
                   setActiveTab(tab.id);
-                  setSelectedScope("");
+                  setSelectedItem(null);
                 }}
                 className={`px-5 py-3 border text-xs font-bold uppercase tracking-[0.06em] transition-all duration-200 cursor-pointer ${
                   isSelected
@@ -400,9 +400,7 @@ const Services = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedScope(
-                    `SELECTED FOR ENQUIRY: ${item.name.toUpperCase()} / ${item.price} · CLICK "REQUEST A PROPOSAL" ABOVE OR REACH OUT TO CONTINUE.`,
-                  );
+                  setSelectedItem(item);
                 }}
                 className="w-full mt-6 py-3 px-4 bg-ink text-paper hover:bg-signal-red hover:text-ink transition-colors font-bold text-[11px] tracking-wider uppercase text-left flex items-center justify-between cursor-pointer"
               >
@@ -414,19 +412,32 @@ const Services = () => {
         </div>
 
         {/* Selected Scope Status */}
-        {selectedScope && (
+        {selectedItem && (
           <div
             role="status"
-            className="mt-5 p-3.5 bg-ink text-paper text-xs font-semibold tracking-wide flex items-center justify-between gap-3 animate-fade-in"
+            className="mt-5 p-4 bg-ink text-paper text-xs font-semibold tracking-wide flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fade-in"
           >
-            <span>{selectedScope}</span>
-            <button
-              onClick={() => setSelectedScope("")}
-              className="text-paper/60 hover:text-paper text-sm cursor-pointer ml-2"
-              aria-label="Clear selection"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-signal-red animate-pulse" />
+              <span>
+                SELECTED: <strong>{selectedItem.name.toUpperCase()}</strong> ({selectedItem.price})
+              </span>
+            </div>
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+              <a
+                href={`/contact?service=${encodeURIComponent(selectedItem.name)}`}
+                className="px-4 py-2 bg-signal-red text-ink font-bold text-[11px] tracking-wider uppercase hover:bg-white transition-colors no-underline shadow-xs"
+              >
+                Proceed to brief ↗
+              </a>
+              <button
+                onClick={() => setSelectedItem(null)}
+                className="text-paper/60 hover:text-paper text-sm cursor-pointer px-2 py-1"
+                aria-label="Clear selection"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         )}
       </div>

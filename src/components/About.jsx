@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -142,13 +143,13 @@ const About = () => {
             Our value isn't how many deliverables we can add to a list. It's how
             well each decision answers the original problem.
           </p>
-          <a
+          <Link
             className="inline-flex items-center gap-2 text-signal-red hover:text-ink font-semibold tracking-wide transition-colors uppercase text-sm no-underline"
-            href="#contact"
+            to="/contact"
           >
             <span>Start a dialogue</span>
             <span>↗</span>
-          </a>
+          </Link>
         </div>
       </div>
 
