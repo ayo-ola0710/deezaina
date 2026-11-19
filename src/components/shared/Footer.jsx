@@ -14,8 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const NAV_LINKS = [
   { name: "ABOUT", href: "/about" },
-  { name: "WORKS", href: "/works" },
-  { name: "FEEDS", href: "/feed " },
+  // { name: "WORKS", href: "/works" },
+  // { name: "FEEDS", href: "/feed " },
   { name: "CONTACT", href: "/contact" },
 ];
 

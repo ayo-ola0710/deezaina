@@ -13,23 +13,13 @@ const Home = () => {
   return (
     <div className="bg-paper text-ink font-body">
       <Navbar />
-      <section id="home">
-        <Hero />
-      </section>
+      <Hero />
       <Statement />
-      <section id="work">
-        <Work />
-      </section>
-      <section id="services">
-        <Services />
-      </section>
+      {/* <Work /> */}
+      <Services />
       <Solutions />
-      <section id="process">
-        <Process />
-      </section>
-      <section id="about">
-        <About />
-      </section>
+      <Process />
+      <About />
       <CTA />
       <Footer />
     </div>

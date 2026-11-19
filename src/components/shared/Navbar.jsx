@@ -4,9 +4,10 @@ import { gsap } from "gsap";
 
 const links = [
   { name: "ABOUT", href: "/about" },
-  { name: "WORKS", href: "/works" },
-  { name: "FEEDS", href: "/feed" },
+  // { name: "WORKS", href: "/works" },
+  // { name: "FEEDS", href: "/feed" },
   { name: "CONTACT", href: "/contact" },
+  { name: "BOOK A CALL", href: "https://calendly.com/deezainaa/30min" },
 ];
 
 /* ── Kinetic Magnetic Nav Link with Vertical Rolling Text ── */
@@ -107,11 +108,17 @@ const NavLink = ({ name, href, isActive = false, isCta = false }) => {
     });
   };
 
+  const isExternal = href?.startsWith("http");
+  const Tag = isExternal ? "a" : Link;
+  const linkProps = isExternal
+    ? { href, target: "_blank", rel: "noopener noreferrer" }
+    : { to: href };
+
   if (isCta) {
     return (
-      <Link
+      <Tag
         ref={containerRef}
-        to={href}
+        {...linkProps}
         onMouseEnter={() => {
           gsap.to(containerRef.current, {
             scale: 1.05,
@@ -137,14 +144,14 @@ const NavLink = ({ name, href, isActive = false, isCta = false }) => {
       >
         <span>{name}</span>
         <span className="text-label">↗</span>
-      </Link>
+      </Tag>
     );
   }
 
   return (
-    <Link
+    <Tag
       ref={containerRef}
-      to={href}
+      {...linkProps}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
@@ -178,7 +185,7 @@ const NavLink = ({ name, href, isActive = false, isCta = false }) => {
           {name}
         </span>
       </div>
-    </Link>
+    </Tag>
   );
 };
 
@@ -207,12 +214,15 @@ const Navbar = () => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          setActiveSection(visible[0].target.id);
-        } else if (window.scrollY < 400) {
-          setActiveSection(null);
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          } else {
+            setActiveSection((prev) =>
+              prev === entry.target.id ? null : prev
+            );
+          }
+        });
       },
       {
         rootMargin: "-20% 0px -40% 0px",
@@ -226,6 +236,8 @@ const Navbar = () => {
 
   const isLinkActive = useCallback(
     (href) => {
+      if (!href || href.startsWith("http")) return false;
+
       // 1. Direct route match
       if (location.pathname === href) return true;
       if (href === "/feed" && location.pathname.startsWith("/feed")) return true;
@@ -466,10 +478,16 @@ const Navbar = () => {
           <ul className="list-none m-0 p-0 flex flex-col gap-4">
             {links.map((link) => {
               const active = isLinkActive(link.href);
+              const isExternal = link.href?.startsWith("http");
+              const Tag = isExternal ? "a" : Link;
+              const linkProps = isExternal
+                ? { href: link.href, target: "_blank", rel: "noopener noreferrer" }
+                : { to: link.href };
+
               return (
                 <li key={link.name}>
-                  <Link
-                    to={link.href}
+                  <Tag
+                    {...linkProps}
                     onClick={toggleMenu}
                     className={`mobile-nav-link flex items-center justify-between py-2 label text-lead font-bold tracking-[0.06em] no-underline transition-colors ${
                       active
@@ -490,7 +508,7 @@ const Navbar = () => {
                     ) : (
                       <span className="text-slate text-sm">↗</span>
                     )}
-                  </Link>
+                  </Tag>
                 </li>
               );
             })}

@@ -308,7 +308,9 @@ const Diagnosis = ({ onApplyRecommendation }) => {
 
                       {/* Book a Call Action */}
                       <a
-                        href={`mailto:hello@deezaina.com?subject=Discovery%20Call%20Request%3A%20${encodeURIComponent(recommendation.name)}&body=Hello%20Deezaina%20team%2C%0A%0AI%20completed%20the%20studio%20diagnosis%20and%20was%20recommended%20${encodeURIComponent(recommendation.name)}.%20I%20would%20like%20to%20schedule%20a%20discovery%20call.`}
+                        href="https://calendly.com/deezainaa/30min"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center justify-between gap-3 px-6 py-3.5 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline cursor-pointer shadow-sm"
                       >
                         <span>Book a call</span>
