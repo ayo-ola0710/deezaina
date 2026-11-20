@@ -31,13 +31,45 @@ const TIMELINES = [
   "Flexible / Exploring",
 ];
 
-const BUDGETS = [
-  "₦500,000   - ₦1,000,000",
-  "₦1,000,000 - ₦3,500,000",
-  "₦3,500,000 - ₦8,000,000",
-  "₦8,000,000 - ₦20,000,000+",
-  "Monthly Brand Desk (₦550k+/mo)",
+const BUDGET_TIERS = [
+  {
+    id: 0,
+    ngn: "₦500,000 - ₦1,000,000",
+    usd: "$350 - $700",
+    subNgn: "≈ $350 - $700",
+    subUsd: "≈ ₦500k - ₦1m",
+  },
+  {
+    id: 1,
+    ngn: "₦1,000,000 - ₦3,500,000",
+    usd: "$700 - $2,500",
+    subNgn: "≈ $700 - $2,500",
+    subUsd: "≈ ₦1m - ₦3.5m",
+  },
+  {
+    id: 2,
+    ngn: "₦3,500,000 - ₦8,000,000",
+    usd: "$2,500 - $5,500",
+    subNgn: "≈ $2,500 - $5,500",
+    subUsd: "≈ ₦3.5m - ₦8m",
+  },
+  {
+    id: 3,
+    ngn: "₦8,000,000 - ₦20,000,000+",
+    usd: "$5,500 - $14,000+",
+    subNgn: "≈ $5,500 - $14,000+",
+    subUsd: "≈ ₦8m - ₦20m+",
+  },
+  {
+    id: 4,
+    ngn: "Monthly Brand Desk (₦550k+/mo)",
+    usd: "Monthly Brand Desk ($400+/mo)",
+    subNgn: "≈ $400+/mo",
+    subUsd: "≈ ₦550k+/mo",
+  },
 ];
+
+const BUDGETS = BUDGET_TIERS.map((t) => t.ngn);
 
 /* Corner registration crosshair mark */
 const LetterCropMark = ({ className = "" }) => (
@@ -59,6 +91,7 @@ const CustomPillSelect = ({
   onToggle,
   onClose,
   label,
+  header,
 }) => {
   return (
     <span className="relative inline-block align-baseline mx-1 my-0.5">
@@ -69,31 +102,53 @@ const CustomPillSelect = ({
         className="inline-flex items-center gap-1.5 px-3 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
       >
         <span>{value}</span>
-        <span className="text-[10px] text-signal-red font-bold">▾</span>
+        <span className="text-[20px] text-signal-red font-bold">▾</span>
       </button>
 
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={onClose} />
-          <div className="absolute left-0 top-full mt-1.5 z-50 bg-white border-2 border-ink rounded-xs shadow-2xl py-1 min-w-56 animate-fade-in">
-            {options.map((opt) => (
-              <button
-                type="button"
-                key={opt}
-                onClick={() => {
-                  onChange(opt);
-                  onClose();
-                }}
-                className={`w-full text-left px-3.5 py-2 text-xs font-body font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-between ${
-                  value === opt
-                    ? "bg-signal-red text-ink font-extrabold"
-                    : "text-ink hover:bg-ink hover:text-paper"
-                }`}
-              >
-                <span>{opt}</span>
-                {value === opt && <span>✓</span>}
-              </button>
-            ))}
+          <div className="absolute left-0 top-full mt-1.5 z-50 bg-white border-2 border-ink rounded-xs shadow-2xl py-1 min-w-64 sm:min-w-72 max-w-[90vw] animate-fade-in">
+            {header}
+            <div className="py-1">
+              {options.map((opt) => {
+                const optLabel = typeof opt === "string" ? opt : opt.label;
+                const optSub = typeof opt === "object" ? opt.sub : null;
+                const isSelected = value === optLabel;
+
+                return (
+                  <button
+                    type="button"
+                    key={optLabel}
+                    onClick={() => {
+                      onChange(optLabel);
+                      onClose();
+                    }}
+                    className={`w-full text-left px-3.5 py-2 text-xs font-body font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-between gap-3 ${
+                      isSelected
+                        ? "bg-signal-red text-ink font-extrabold"
+                        : "text-ink hover:bg-ink hover:text-paper group"
+                    }`}
+                  >
+                    <div className="flex flex-col">
+                      <span>{optLabel}</span>
+                      {optSub && (
+                        <span
+                          className={`text-[10px] font-medium tracking-normal normal-case pt-0.5 ${
+                            isSelected
+                              ? "text-ink/85"
+                              : "text-slate group-hover:text-paper/75"
+                          }`}
+                        >
+                          {optSub}
+                        </span>
+                      )}
+                    </div>
+                    {isSelected && <span className="font-bold text-sm shrink-0">✓</span>}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </>
       )}
@@ -128,7 +183,7 @@ const ServicesCheckboxDropdown = ({
         className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
       >
         <span className="truncate max-w-56 sm:max-w-80">{displayLabel}</span>
-        <span className="text-[10px] text-signal-red font-bold">▾</span>
+        <span className="text-[20px] text-signal-red font-bold">▾</span>
       </button>
 
       {isOpen && (
@@ -193,6 +248,32 @@ const Contact = () => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [timelineOpen, setTimelineOpen] = useState(false);
   const [budgetOpen, setBudgetOpen] = useState(false);
+  const [currency, setCurrency] = useState("NGN"); // "NGN" | "USD"
+
+  const handleCurrencyChange = (newCurr) => {
+    if (newCurr === currency) return;
+    setCurrency(newCurr);
+    setForm((prev) => {
+      const tierIndex = BUDGET_TIERS.findIndex(
+        (t) => t.ngn === prev.budget || t.usd === prev.budget
+      );
+      if (tierIndex !== -1) {
+        return {
+          ...prev,
+          budget:
+            newCurr === "USD"
+              ? BUDGET_TIERS[tierIndex].usd
+              : BUDGET_TIERS[tierIndex].ngn,
+        };
+      }
+      return prev;
+    });
+  };
+
+  const budgetOptions = BUDGET_TIERS.map((t) => ({
+    label: currency === "USD" ? t.usd : t.ngn,
+    sub: currency === "USD" ? t.subUsd : t.subNgn,
+  }));
 
   // Lagos local time live ticker
   const [lagosTime, setLagosTime] = useState("");
@@ -653,7 +734,7 @@ const Contact = () => {
                     <CustomPillSelect
                       value={form.budget}
                       onChange={(val) => setForm({ ...form, budget: val })}
-                      options={BUDGETS}
+                      options={budgetOptions}
                       isOpen={budgetOpen}
                       onToggle={() => {
                         setBudgetOpen(!budgetOpen);
@@ -662,7 +743,71 @@ const Contact = () => {
                       }}
                       onClose={() => setBudgetOpen(false)}
                       label="Investment budget"
+                      header={
+                        <div className="flex items-center justify-between px-3.5 py-2 border-b border-line bg-ink/3">
+                          <span className="label text-slate text-[10px] font-bold uppercase tracking-widest">
+                            Currency
+                          </span>
+                          <div className="inline-flex items-center p-0.5 rounded-full border border-line bg-white shadow-2xs">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCurrencyChange("NGN");
+                              }}
+                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider transition-all cursor-pointer ${
+                                currency === "NGN"
+                                  ? "bg-ink text-paper shadow-2xs"
+                                  : "text-ink/60 hover:text-ink"
+                              }`}
+                            >
+                              ₦ NGN
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCurrencyChange("USD");
+                              }}
+                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider transition-all cursor-pointer ${
+                                currency === "USD"
+                                  ? "bg-ink text-paper shadow-2xs"
+                                  : "text-ink/60 hover:text-ink"
+                              }`}
+                            >
+                              $ USD
+                            </button>
+                          </div>
+                        </div>
+                      }
                     />
+                    {/* Inline Currency Switcher Toggle */}
+                    <span className="inline-flex items-center p-0.5 bg-paper border border-ink/40 rounded-full align-baseline mx-1 shadow-2xs select-none">
+                      <button
+                        type="button"
+                        onClick={() => handleCurrencyChange("NGN")}
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                          currency === "NGN"
+                            ? "bg-ink text-paper shadow-2xs"
+                            : "text-ink/60 hover:text-ink"
+                        }`}
+                        title="Display budget in Nigerian Naira (₦)"
+                      >
+                        ₦ NGN
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCurrencyChange("USD")}
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                          currency === "USD"
+                            ? "bg-ink text-paper shadow-2xs"
+                            : "text-ink/60 hover:text-ink"
+                        }`}
+                        title="Display budget in US Dollars ($)"
+                      >
+                        $ USD
+                      </button>
+                    </span>
                     <span>.</span>
 
                     {/* Integrated brief note */}

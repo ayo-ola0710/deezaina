@@ -96,6 +96,7 @@ const About = () => {
   return (
     <section
       ref={sectionRef}
+      id="about"
       className="bg-paper py-[clamp(72px,10vw,140px)] px-6 md:px-11 font-body"
     >
       {/* ── annotation ── */}

@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Works from "./pages/Works";
+import CaseStudy from "./pages/CaseStudy";
 import Feed from "./pages/Feed";
 import { CursorProvider } from "./context/CursorContext";
 import Cursor from "./components/shared/Cursor";
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/works" element={<Works />} />
+        <Route path="/works/:slug" element={<CaseStudy />} />
         <Route path="/feed" element={<Feed />} />
       </Routes>
     </CursorProvider>

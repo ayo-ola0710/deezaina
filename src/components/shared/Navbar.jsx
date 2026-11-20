@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 
 const links = [
   { name: "ABOUT", href: "/about" },
-  // { name: "WORKS", href: "/works" },
+  { name: "WORKS", href: "/works" },
   // { name: "FEEDS", href: "/feed" },
   { name: "CONTACT", href: "/contact" },
   { name: "BOOK A CALL", href: "https://calendly.com/deezainaa/30min" },
