@@ -325,8 +325,8 @@ const Contact = () => {
     sub: currency === "USD" ? t.subUsd : t.subNgn,
   }));
 
-  // Lagos local time live ticker
-  const [lagosTime, setLagosTime] = useState("");
+  // Nigeria WAT local time live ticker
+  const [nigeriaTime, setNigeriaTime] = useState("");
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -337,7 +337,7 @@ const Contact = () => {
         second: "2-digit",
         hour12: false,
       };
-      setLagosTime(new Intl.DateTimeFormat([], options).format(now));
+      setNigeriaTime(new Intl.DateTimeFormat([], options).format(now));
     };
     updateTime();
     const timer = setInterval(updateTime, 1000);
@@ -561,9 +561,9 @@ const Contact = () => {
 
             <div className="flex items-center gap-2 label text-slate text-[11px]">
               <RiTimeLine className="text-signal-red w-3.5 h-3.5" />
-              <span>LAGOS WAT (UTC+1):</span>
+              <span>NIGERIA WAT (UTC+1):</span>
               <span className="text-ink font-semibold">
-                {lagosTime || "12:00:00"}
+                {nigeriaTime || "12:00:00"}
               </span>
             </div>
           </div>
@@ -646,7 +646,7 @@ const Contact = () => {
                     <strong className="text-ink font-semibold">
                       {form.company.trim() || "your brand"}
                     </strong>
-                    . Ayo and our senior leads review every dispatch thoroughly.
+                    . Divine and our senior leads review every dispatch thoroughly.
                     Expect a considered response at{" "}
                     <strong className="text-ink font-semibold">
                       {form.email}

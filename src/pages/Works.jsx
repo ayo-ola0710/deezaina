@@ -187,6 +187,30 @@ const ALL_PROJECTS = [
     caseLabel: "Curated Studio Review Set (Google Drive)",
     colorAccent: "#C85215",
   },
+  {
+    id: "09",
+    slug: "kraftigo",
+    client: "Kraftigo",
+    category: "Industrial",
+    service: "Brand Identity & Equipment System",
+    year: "2024",
+    tags: ["Industrial", "Engineering", "Safety Equipment"],
+    summary:
+      "A resilient industrial brand identity and equipment marking system engineered for high visibility across job sites, machinery, and apparel.",
+    deliverables: [
+      "Industrial Wordmark & Construction Symbol",
+      "Safety Orange & Royal Blue Palette",
+      "Field Safety Hardhat Branding",
+      "Crew Uniform & Workwear Apparel",
+      "Architectural Outdoor Signage",
+      "Executive Business Stationery",
+    ],
+    heroImage: "/projects/kraftigo/hero.webp",
+    altImage: "/projects/kraftigo/card.webp",
+    caseUrl: "https://drive.google.com/drive/folders/1G8pwlYG3Q8OnaQm8FCWYASBueMtBVfoX",
+    caseLabel: "Curated Studio Review Set (Google Drive)",
+    colorAccent: "#050517",
+  },
 ];
 
 const CATEGORIES = [
@@ -198,6 +222,7 @@ const CATEGORIES = [
   "PACKAGING",
   "RETAIL",
   "CONSUMER GOODS",
+  "INDUSTRIAL",
 ];
 
 const Works = () => {
@@ -270,7 +295,7 @@ const Works = () => {
               <span>§ SELECTED WORK / EDITORIAL ARCHIVE</span>
             </span>
             <span className="text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-slate select-none">
-              8 DOCUMENTED COMMISSIONS · STUDIO & BEHANCE ARCHIVE
+              {ALL_PROJECTS.length} DOCUMENTED COMMISSIONS · STUDIO & BEHANCE ARCHIVE
             </span>
           </div>
 

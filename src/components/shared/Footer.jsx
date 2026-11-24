@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const NAV_LINKS = [
   { name: "ABOUT", href: "/about" },
   { name: "WORKS", href: "/works" },
+  { name: "JOURNAL", href: "/journal" },
   { name: "CONTACT", href: "/contact" },
 ];
 
@@ -22,7 +23,7 @@ const NAV_LINKS = [
 const LEGAL_LINKS = [
   { label: "Terms of Service", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy" },
-  { label: "Pricing Options", href: "/#picker" },
+  { label: "Cookie Notice", href: "/privacy#cookies" },
 ];
 
 /* ─── Social icons configuration ─── */

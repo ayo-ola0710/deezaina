@@ -51,8 +51,12 @@ const EXPECTED_ROUTES = [
   { path: "about/index.html", title: "About", url: "https://www.deezaina.pro/about" },
   { path: "works/index.html", title: "Selected Works", url: "https://www.deezaina.pro/works" },
   { path: "contact/index.html", title: "Start a Dialogue", url: "https://www.deezaina.pro/contact" },
-  { path: "privacy/index.html", title: "Privacy Policy", url: "https://www.deezaina.pro/privacy" },
-  { path: "terms/index.html", title: "Terms of Engagement", url: "https://www.deezaina.pro/terms" },
+  { path: "privacy/index.html", title: "Privacy", url: "https://www.deezaina.pro/privacy" },
+  { path: "terms/index.html", title: "Terms", url: "https://www.deezaina.pro/terms" },
+  { path: "journal/index.html", title: "Journal", url: "https://www.deezaina.pro/journal" },
+  { path: "journal/brand-strategy-before-logo-design/index.html", title: "Brand Strategy in Nigeria", url: "https://www.deezaina.pro/journal/brand-strategy-before-logo-design" },
+  { path: "journal/brand-identity-design-nigeria/index.html", title: "Brand Identity Design in Nigeria", url: "https://www.deezaina.pro/journal/brand-identity-design-nigeria" },
+  { path: "journal/website-design-nigeria-enquiries/index.html", title: "Website Design in Nigeria", url: "https://www.deezaina.pro/journal/website-design-nigeria-enquiries" },
   { path: "works/iconfig-technology/index.html", title: "iConfig Technology", url: "https://www.deezaina.pro/works/iconfig-technology" },
   { path: "works/velcro-finance/index.html", title: "Velcro Finance", url: "https://www.deezaina.pro/works/velcro-finance" },
   { path: "works/margin-plus/index.html", title: "Margin Plus", url: "https://www.deezaina.pro/works/margin-plus" },
@@ -61,6 +65,7 @@ const EXPECTED_ROUTES = [
   { path: "works/smg-plug/index.html", title: "SMG Plug", url: "https://www.deezaina.pro/works/smg-plug" },
   { path: "works/daily-tummies/index.html", title: "Daily Tummies", url: "https://www.deezaina.pro/works/daily-tummies" },
   { path: "works/suzyque/index.html", title: "Suzyque", url: "https://www.deezaina.pro/works/suzyque" },
+  { path: "works/kraftigo/index.html", title: "Kraftigo", url: "https://www.deezaina.pro/works/kraftigo" },
   { path: "404.html", title: "Page Not Found", url: "https://www.deezaina.pro/404" },
 ];
 

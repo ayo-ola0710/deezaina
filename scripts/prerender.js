@@ -10,7 +10,7 @@ const ROUTES = [
     url: "/",
     title: "Deezaina Studios · Strategy-Led Brand Identity & Digital Design",
     description:
-      "Independent brand identity and digital design studio founded by Ayo-Ola in Lagos, Nigeria. We diagnose commercial bottlenecks before designing visual systems and editorial web platforms that endure.",
+      "Independent brand identity and digital design studio founded by Divine Owoyemi in Nigeria. We diagnose commercial bottlenecks before designing visual systems and editorial web platforms that endure.",
     canonical: "https://www.deezaina.pro/",
     ogImage: "https://www.deezaina.pro/back.jpeg",
     ogType: "website",
@@ -22,14 +22,13 @@ const ROUTES = [
       logo: "https://www.deezaina.pro/logo.png",
       image: "https://www.deezaina.pro/back.jpeg",
       description:
-        "Independent brand identity and digital design studio founded by Ayo-Ola in Lagos, Nigeria.",
+        "Independent brand identity and digital design studio founded by Divine Owoyemi in Nigeria.",
       founder: {
         "@type": "Person",
-        name: "Ayo-Ola",
+        name: "Divine Owoyemi",
       },
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Lagos",
         addressCountry: "NG",
       },
       sameAs: ["https://www.behance.net/deezainaa"],
@@ -39,7 +38,7 @@ const ROUTES = [
     url: "/about",
     title: "About · Deezaina Studios | Strategy, Identity, Web & Creative Media",
     description:
-      "Deezaina Studios is an independent creative practice founded by Ayo-Ola. We help ambitious founders diagnose commercial gaps before executing enduring brand identities, digital platforms, and media campaigns.",
+      "Deezaina Studios is an independent creative practice founded by Divine Owoyemi. We help ambitious founders diagnose commercial gaps before executing enduring brand identities, digital platforms, and media campaigns.",
     canonical: "https://www.deezaina.pro/about",
     ogImage: "https://www.deezaina.pro/back.jpeg",
     ogType: "website",
@@ -49,7 +48,7 @@ const ROUTES = [
       name: "About Deezaina Studios",
       url: "https://www.deezaina.pro/about",
       description:
-        "Deezaina Studios is an independent strategy-led branding and design studio founded by Ayo-Ola in Lagos, Nigeria.",
+        "Deezaina Studios is an independent strategy-led branding and design studio founded by Divine Owoyemi in Nigeria.",
     },
   },
   {
@@ -88,21 +87,98 @@ const ROUTES = [
   },
   {
     url: "/privacy",
-    title: "Privacy Policy · Deezaina Studios",
+    title: "Privacy Notice & Cookie Policy · Deezaina Studios",
     description:
-      "Review how Deezaina Studios handles client briefs, strategic project information, and electronic communications with strict confidentiality and zero tracking cookies.",
+      "Public-facing notice for enquiries, website visits, and studio communications at Deezaina Studios under the Nigeria Data Protection Act 2023.",
     canonical: "https://www.deezaina.pro/privacy",
     ogImage: "https://www.deezaina.pro/back.jpeg",
     ogType: "website",
   },
   {
     url: "/terms",
-    title: "Terms of Engagement · Deezaina Studios",
+    title: "Website Terms of Use · Deezaina Studios",
     description:
-      "Review the commercial terms, intellectual property assignment upon settlement, milestone deliveries, and engagement guidelines for Deezaina Studios.",
+      "Rules for visitors using the Deezaina Studios website (deezaina.pro) and general terms of commercial engagement.",
     canonical: "https://www.deezaina.pro/terms",
     ogImage: "https://www.deezaina.pro/back.jpeg",
     ogType: "website",
+  },
+  {
+    url: "/journal",
+    title: "Journal & Editorial Insights · Deezaina Studios",
+    description:
+      "Practical perspectives on brand strategy, visual identity systems, and high-conversion web design for founders and business leaders building in Nigeria and beyond.",
+    canonical: "https://www.deezaina.pro/journal",
+    ogImage: "https://www.deezaina.pro/blog-1-strategy.webp",
+    ogType: "website",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Deezaina Studios Journal",
+      url: "https://www.deezaina.pro/journal",
+      description:
+        "Editorial essays on brand strategy, visual identity design, and business website architecture in Nigeria.",
+    },
+  },
+  {
+    url: "/journal/brand-strategy-before-logo-design",
+    title: "Brand Strategy in Nigeria Before You Design a Logo · Deezaina Studios",
+    description:
+      "Learn why brand strategy should come before logo design. A practical guide for Nigerian founders on positioning, audience, differentiation and identity.",
+    canonical: "https://www.deezaina.pro/journal/brand-strategy-before-logo-design",
+    ogImage: "https://www.deezaina.pro/blog-1-strategy.webp",
+    ogType: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: "Why brand strategy should come before logo design",
+      alternativeHeadline: "Brand Strategy in Nigeria Before You Design a Logo",
+      author: { "@type": "Person", name: "Divine Owoyemi" },
+      publisher: { "@type": "Organization", name: "Deezaina Studios" },
+      image: "https://www.deezaina.pro/blog-1-strategy.webp",
+      url: "https://www.deezaina.pro/journal/brand-strategy-before-logo-design",
+      datePublished: "2026-11-22",
+    },
+  },
+  {
+    url: "/journal/brand-identity-design-nigeria",
+    title: "Brand Identity Design in Nigeria What Businesses Need · Deezaina Studios",
+    description:
+      "A clear guide to brand identity design in Nigeria: logo systems, colour, typography, guidelines and touchpoints that help customers recognise your business.",
+    canonical: "https://www.deezaina.pro/journal/brand-identity-design-nigeria",
+    ogImage: "https://www.deezaina.pro/blog-2-identity.webp",
+    ogType: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: "What brand identity design includes beyond a logo",
+      alternativeHeadline: "Brand Identity Design in Nigeria What Businesses Need",
+      author: { "@type": "Person", name: "Divine Owoyemi" },
+      publisher: { "@type": "Organization", name: "Deezaina Studios" },
+      image: "https://www.deezaina.pro/blog-2-identity.webp",
+      url: "https://www.deezaina.pro/journal/brand-identity-design-nigeria",
+      datePublished: "2026-11-22",
+    },
+  },
+  {
+    url: "/journal/website-design-nigeria-enquiries",
+    title: "Website Design in Nigeria That Turns Visits into Enquiries · Deezaina Studios",
+    description:
+      "Planning a business website in Nigeria? Learn how clear positioning, useful page structure, trust signals and focused calls to action can support enquiries.",
+    canonical: "https://www.deezaina.pro/journal/website-design-nigeria-enquiries",
+    ogImage: "https://www.deezaina.pro/blog-3-web.webp",
+    ogType: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: "How to plan a business website that makes the next step clear",
+      alternativeHeadline: "Website Design in Nigeria That Turns Visits into Enquiries",
+      author: { "@type": "Person", name: "Divine Owoyemi" },
+      publisher: { "@type": "Organization", name: "Deezaina Studios" },
+      image: "https://www.deezaina.pro/blog-3-web.webp",
+      url: "https://www.deezaina.pro/journal/website-design-nigeria-enquiries",
+      datePublished: "2026-11-22",
+    },
   },
   {
     url: "/works/iconfig-technology",
@@ -253,6 +329,25 @@ const ROUTES = [
       creator: { "@type": "Organization", name: "Deezaina Studios" },
       image: "https://www.deezaina.pro/projects/suzyque/hero.jpg",
       url: "https://www.deezaina.pro/works/suzyque",
+      datePublished: "2024",
+    },
+  },
+  {
+    url: "/works/kraftigo",
+    title: "Kraftigo Case Study · Deezaina Studios",
+    description:
+      "Industrial brand identity and equipment system for Kraftigo: job-site safety hardhats, crew apparel, outdoor signage, and equipment markings.",
+    canonical: "https://www.deezaina.pro/works/kraftigo",
+    ogImage: "https://www.deezaina.pro/projects/kraftigo/hero.webp",
+    ogType: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: "Kraftigo Industrial Brand Identity & Equipment System",
+      headline: "Resilient industrial branding built for high visibility in the field.",
+      creator: { "@type": "Organization", name: "Deezaina Studios" },
+      image: "https://www.deezaina.pro/projects/kraftigo/hero.webp",
+      url: "https://www.deezaina.pro/works/kraftigo",
       datePublished: "2024",
     },
   },

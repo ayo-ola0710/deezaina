@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* Featured 4-project editorial bento selection from the studio review library */
+/* Featured 3-column editorial project selection */
 const PROJECTS = [
   {
     id: "01",
@@ -18,8 +18,8 @@ const PROJECTS = [
     tags: ["Technology", "Identity"],
     bgClass: "bg-[#0B1528]",
     image: "/projects/iconfig/hero.webp",
-    gridClass: "col-span-12 lg:col-span-7",
-    imageHeight: "h-64 sm:h-80 lg:h-96",
+    aspectClass: "aspect-[4/3] sm:aspect-[16/11]",
+    offsetClass: "md:mt-0",
   },
   {
     id: "02",
@@ -27,46 +27,32 @@ const PROJECTS = [
     client: "Velcro Finance",
     project: "Fintech App & Visual System",
     description:
-      "A compact, flexible symbol & visual language designed for small-scale app icons, debit cards and physical brand assets.",
+      "A compact, flexible symbol & visual language designed for small-scale app icons, avatars and digital brand touchpoints.",
     year: "2024",
     tags: ["Fintech", "Product"],
     bgClass: "bg-[#141414]",
     image: "/projects/velcro/hero.webp",
-    gridClass: "col-span-12 lg:col-span-5",
-    imageHeight: "h-64 sm:h-80 lg:h-96",
+    aspectClass: "aspect-[4/3] sm:aspect-[16/11]",
+    offsetClass: "md:mt-16 lg:mt-24",
   },
   {
     id: "03",
-    slug: "shuga-entertainment",
-    client: "Shuga Entertainment",
-    project: "Ticketing & Event Identity",
+    slug: "kraftigo",
+    client: "Kraftigo",
+    project: "Brand Identity & Equipment System",
     description:
-      "High-contrast black, gold and white visual identity designed for modern ticketing interfaces and live event collateral.",
+      "A resilient industrial brand identity and equipment marking system engineered for high visibility across job sites and machinery.",
     year: "2024",
-    tags: ["Entertainment", "Ticketing"],
-    bgClass: "bg-[#1A1813]",
-    image: "/projects/shuga/hero.webp",
-    gridClass: "col-span-12 lg:col-span-5",
-    imageHeight: "h-64 sm:h-80 lg:h-96",
-  },
-  {
-    id: "04",
-    slug: "margin-plus",
-    client: "Margin Plus",
-    project: "Multi-Touchpoint Identity",
-    description:
-      "A comprehensive graphic system translating fluidly from digital app interfaces to retail banners, signage and campaigns.",
-    year: "2024",
-    tags: ["Agrotech", "Digital Product"],
-    bgClass: "bg-[#0C1F16]",
-    image: "/projects/margin-plus/hero.webp",
-    gridClass: "col-span-12 lg:col-span-7",
-    imageHeight: "h-64 sm:h-80 lg:h-96",
+    tags: ["Industrial", "Engineering"],
+    bgClass: "bg-[#050517]",
+    image: "/projects/kraftigo/logo.webp",
+    aspectClass: "aspect-[4/3] sm:aspect-[16/11]",
+    offsetClass: "md:mt-8 lg:mt-12",
   },
 ];
 
-/* Bento Project Card with editorial composition & hover interaction */
-const BentoProjectCard = ({ project }) => {
+/* 3-Column Project Card with editorial composition & hover interaction */
+const ProjectCard = ({ project }) => {
   return (
     <Link
       to={`/works/${project.slug}`}
@@ -76,22 +62,26 @@ const BentoProjectCard = ({ project }) => {
     >
       {/* image area */}
       <div
-        className={`w-full ${project.imageHeight} relative overflow-hidden rounded-xs ${project.bgClass} transition-transform duration-500 ease-out group-hover:scale-[1.01] shadow-xs border border-line/50`}
+        className={`w-full ${project.aspectClass} relative overflow-hidden rounded-xs ${project.bgClass} transition-transform duration-500 ease-out group-hover:scale-[1.015] border border-line/50 shadow-xs`}
       >
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={project.client}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            loading={project.id === "01" || project.id === "02" ? "eager" : "lazy"}
-            fetchPriority={project.id === "01" || project.id === "02" ? "high" : "auto"}
-          />
-        ) : null}
+        <img
+          src={project.image}
+          alt={project.client}
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          loading="lazy"
+        />
 
         {/* Category tag badge top-left */}
         <div className="absolute top-3.5 left-3.5 pointer-events-none select-none z-10">
           <span className="label text-paper/90 bg-ink/60 backdrop-blur-xs px-2 py-0.5 rounded-xs text-[9px] font-semibold tracking-wider uppercase border border-white/10">
             {project.tags[0]}
+          </span>
+        </div>
+
+        {/* Index watermark top-right */}
+        <div className="absolute top-3.5 right-3.5 pointer-events-none select-none z-10">
+          <span className="label text-paper/80 bg-ink/60 backdrop-blur-xs px-2 py-0.5 rounded-xs text-[10px] font-bold tracking-widest border border-white/10">
+            № {project.id}
           </span>
         </div>
 
@@ -109,10 +99,10 @@ const BentoProjectCard = ({ project }) => {
       </div>
 
       {/* metadata & title deck */}
-      <div className="flex flex-col justify-between mt-4 flex-1">
+      <div className="flex flex-col justify-between mt-5 flex-1">
         <div>
           {/* tags & year row */}
-          <div className="flex items-center justify-between gap-2 mb-1.5">
+          <div className="flex items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <span className="label text-signal-red font-bold text-[10px]">
                 {project.id}
@@ -136,7 +126,7 @@ const BentoProjectCard = ({ project }) => {
           </div>
 
           {/* client name */}
-          <h4 className="font-display font-bold text-[clamp(20px,2vw,26px)] text-ink m-0 mb-1 tracking-tight leading-tight group-hover:text-deep-red transition-colors">
+          <h4 className="font-display font-bold text-[clamp(20px,2.2vw,28px)] text-ink m-0 mb-1 tracking-tight leading-tight group-hover:text-deep-red transition-colors">
             {project.client}
           </h4>
           <p className="text-slate text-[13px] leading-relaxed m-0 font-normal line-clamp-2">
@@ -157,12 +147,12 @@ const Work = () => {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial entrance stagger
+      // Entrance stagger
       gsap.from(".work-item", {
-        y: 50,
+        y: 60,
         opacity: 0,
-        duration: 0.9,
-        stagger: 0.12,
+        duration: 0.95,
+        stagger: 0.15,
         ease: "power3.out",
         scrollTrigger: {
           trigger: section,
@@ -182,7 +172,7 @@ const Work = () => {
       className="bg-paper py-[clamp(56px,8vw,140px)] px-5 sm:px-8 md:px-11 font-body overflow-hidden"
     >
       {/* ── header row ── */}
-      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-6 md:mb-8">
+      <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-6 md:mb-10">
         <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
           § SELECTED WORK / ARCHIVE 2024
         </span>
@@ -191,25 +181,24 @@ const Work = () => {
         </span>
       </div>
 
-      {/* ── 4-card editorial bento grid ── */}
-      <div className="grid grid-cols-12 gap-6 lg:gap-8 items-stretch pb-10 md:pb-16">
+      {/* ── 3-column editorial staggered project grid ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-11 items-start pb-12 md:pb-20">
         {PROJECTS.map((p, idx) => (
           <div
             key={p.id}
             ref={(el) => (cardRefs.current[idx] = el)}
-            className={`work-item ${p.gridClass}`}
+            className={`work-item ${p.offsetClass}`}
           >
-            <BentoProjectCard project={p} />
+            <ProjectCard project={p} />
           </div>
         ))}
       </div>
 
       {/* ── bottom archive link row ── */}
-      <div className="pt-6 -pb-30 flex flex-col sm:flex-row justify-end items-end gap-4">
-        
+      <div className="pt-6 flex justify-end items-center">
         <Link
           to="/works"
-          className="inline-flex items-center gap-2 text-ink hover:text-signal-red font-display text-xs font-bold uppercase tracking-wider no-underline transition-colors"
+          className="inline-flex items-center gap-2 text-ink hover:text-signal-red font-display text-xs font-bold uppercase tracking-wider no-underline transition-colors border-b border-ink/30 pb-0.5 hover:border-signal-red"
         >
           <span>View all work & archive</span>
           <span>↗</span>
