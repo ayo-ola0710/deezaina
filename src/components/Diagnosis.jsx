@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCurrency } from "../context/CurrencyContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,14 +42,16 @@ const RECOMMENDATIONS = {
   strategy: {
     key: "Brand Strategy",
     name: "Brand Strategy",
+    priceKey: "diag_strategy",
     price: "From ₦400,000",
-    why: "Your challenge points to an unclear position or message. A focused strategy sprint can help establish what the brand should say and to whom. A ₦75,000 Brand Clarity Session is a lighter first step.",
+    why: "Your challenge points to an unclear position or message. A focused strategy sprint can help establish what the brand should say and to whom. A Brand Clarity Session is a lighter first step.",
     link: "/#services",
     serviceName: "Brand Strategy",
   },
   identity: {
     key: "Brand Identity",
     name: "Brand Identity",
+    priceKey: "diag_identity",
     price: "From ₦500,000",
     why: "Your brand may have grown beyond its current visual language. Start with a defined identity scope; a larger strategic rebuild is considered when the problem reaches across the business.",
     link: "/#picker",
@@ -57,6 +60,7 @@ const RECOMMENDATIONS = {
   web: {
     key: "Web & Digital",
     name: "Web & Digital",
+    priceKey: "diag_web",
     price: "From ₦350,000",
     why: "You need a clearer customer journey and a better way for visitors to understand the offer and take action. Start by reviewing the page and the next step it asks people to take.",
     link: "/#picker",
@@ -65,6 +69,7 @@ const RECOMMENDATIONS = {
   desk: {
     key: "The Brand Desk",
     name: "The Brand Desk",
+    priceKey: "diag_retainer",
     price: "From ₦550,000/month",
     why: "Your need sounds recurring rather than one-off. An external creative/media partner can build rhythm and consistency; first establish a suitable identity foundation if it is missing.",
     link: "/#solutions",
@@ -73,6 +78,7 @@ const RECOMMENDATIONS = {
   launch: {
     key: "Start Properly / Look & Launch",
     name: "Start Properly / Look & Launch",
+    priceKey: "diag_combined",
     price: "From ₦1,250,000",
     why: "Several things need to work together from day one. A connected launch scope is more useful than buying unrelated deliverables and hoping they fit.",
     link: "/#solutions",
@@ -81,6 +87,7 @@ const RECOMMENDATIONS = {
   bespoke: {
     key: "Bespoke Engagement",
     name: "Bespoke Engagement",
+    priceKey: "diag_enterprise",
     price: "Scoped after discovery",
     why: "Your situation may require more than one fixed package. We should define the scope before recommending an investment. Major brand programmes may start around ₦20m.",
     link: "/#bespoke",
@@ -89,6 +96,7 @@ const RECOMMENDATIONS = {
   wedding: {
     key: "Wedding & Event Experience",
     name: "Wedding & Event Experience",
+    priceKey: "wedding",
     price: "₦1,000,000",
     why: "A special event can require both useful guest information and a designed story. We build bespoke digital homes with invitation suites, guest RSVPs, and permanent photo archives.",
     link: "/#bespoke",
@@ -109,8 +117,10 @@ const getRecommendation = (choices) => {
 };
 
 const Diagnosis = ({ onApplyRecommendation }) => {
+  const { getPrice } = useCurrency();
   const [step, setStep] = useState(0);
   const [choices, setChoices] = useState([null, null, null]);
+  const [isAdvancing, setIsAdvancing] = useState(false);
 
   const sectionRef = useRef(null);
   const leftColRef = useRef(null);
@@ -155,15 +165,16 @@ const Diagnosis = ({ onApplyRecommendation }) => {
   }, []);
 
   const handleSelect = (idx) => {
+    if (isAdvancing) return;
+    setIsAdvancing(true);
     const nextChoices = [...choices];
     nextChoices[step] = idx;
     setChoices(nextChoices);
-  };
-
-  const handleNext = () => {
-    if (step < 3 && choices[step] !== null) {
+    // Automatically advance to the next question or result
+    setTimeout(() => {
       setStep((s) => s + 1);
-    }
+      setIsAdvancing(false);
+    }, 180);
   };
 
   const handleBack = () => {
@@ -225,7 +236,19 @@ const Diagnosis = ({ onApplyRecommendation }) => {
               <div>
                 {/* Panel progress row */}
                 <div className="flex items-center justify-between pb-4 border-b border-white/15 mb-8 text-[11px] tracking-[0.14em] uppercase text-paper/60 font-bold">
-                  <span>YOUR BRIEF STARTS HERE</span>
+                  <div className="flex items-center gap-3">
+                    {step > 0 && !isEnd && (
+                      <button
+                        type="button"
+                        onClick={handleBack}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 -ml-1 rounded text-[11px] font-bold uppercase tracking-[0.14em] text-paper/80 bg-white/5 border border-white/20 hover:bg-white/15 hover:text-white hover:border-white/40 transition-all cursor-pointer focus-visible:ring-1 focus-visible:ring-signal-red"
+                        aria-label="Previous question"
+                      >
+                        <span aria-hidden="true">←</span> Back
+                      </button>
+                    )}
+                    <span>{isEnd ? "RECOMMENDATION READY" : "YOUR BRIEF STARTS HERE"}</span>
+                  </div>
                   <span className="text-signal-red">
                     {isEnd ? "YOUR NEXT MOVE" : `0${step + 1} / 03`}
                   </span>
@@ -279,7 +302,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                     </h4>
 
                     <div className="text-signal-red font-display text-xl md:text-2xl font-bold tracking-tight">
-                      {recommendation.price}
+                      {getPrice(recommendation.priceKey) || recommendation.price}
                     </div>
 
                     <p className="text-paper/80 text-sm md:text-base leading-relaxed max-w-130 font-normal m-0 pt-2">
@@ -323,6 +346,14 @@ const Diagnosis = ({ onApplyRecommendation }) => {
 
                       <button
                         type="button"
+                        onClick={handleBack}
+                        className="text-[11px] font-bold uppercase tracking-[0.12em] text-paper/70 hover:text-paper transition-colors cursor-pointer bg-transparent border-none p-2 focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
+                      >
+                        ← Review questions
+                      </button>
+
+                      <button
+                        type="button"
                         onClick={handleReset}
                         className="text-[11px] font-bold uppercase tracking-[0.12em] text-paper/60 hover:text-paper transition-colors cursor-pointer bg-transparent border-none p-2 focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
                       >
@@ -337,30 +368,6 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                   </div>
                 )}
               </div>
-
-              {/* Panel Bottom Navigation Actions */}
-              {!isEnd && (
-                <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/10 gap-4">
-                  <button
-                    type="button"
-                    disabled={step === 0}
-                    onClick={handleBack}
-                    className="text-[11px] font-bold uppercase tracking-[0.12em] text-paper/60 hover:text-paper disabled:opacity-20 disabled:cursor-not-allowed transition-colors cursor-pointer bg-transparent border-none p-0"
-                  >
-                    ← Back
-                  </button>
-
-                  <button
-                    type="button"
-                    disabled={choices[step] === null}
-                    onClick={handleNext}
-                    className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink disabled:opacity-35 disabled:hover:bg-signal-red disabled:hover:text-ink disabled:cursor-not-allowed transition-all duration-200 cursor-pointer shadow-sm"
-                  >
-                    <span>{step === 2 ? "See my direction" : "Next"}</span>
-                    <span>↗</span>
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>

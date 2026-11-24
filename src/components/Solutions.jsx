@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCurrency } from "../context/CurrencyContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,6 +10,7 @@ const PATHWAYS = [
     num: "01 / A SINGLE CHALLENGE",
     title: ["One project.", "Clear scope."],
     desc: "Brand identity, a strategy sprint, a campaign or a website. See what fits before committing to more.",
+    footKey: "identity_starting",
     footLeft: "Identity from ₦500k",
     footRight: "Explore ↗",
     href: "#picker",
@@ -17,6 +19,7 @@ const PATHWAYS = [
     num: "02 / PIECES THAT WORK TOGETHER",
     title: ["A launch.", "A rebuild.", "One direction."],
     desc: "Strategy, identity, digital and media delivered together as a coordinated project.",
+    footKey: "packages_starting",
     footLeft: "Packages from ₦1.25m",
     footRight: "Explore ↗",
     href: "#bespoke",
@@ -25,6 +28,7 @@ const PATHWAYS = [
     num: "03 / AN ONGOING PARTNER",
     title: ["Make us", "your brand desk."],
     desc: "A defined external team shaping content, campaigns and day-to-day creative consistency.",
+    footKey: "desk_starting",
     footLeft: "From ₦550k/month",
     footRight: "Discuss ↗",
     href: "/contact",
@@ -32,6 +36,7 @@ const PATHWAYS = [
 ];
 
 const Solutions = () => {
+  const { getPrice } = useCurrency();
   const sectionRef = useRef(null);
   const headRef = useRef(null);
   const pathwaysRef = useRef(null);
@@ -155,7 +160,7 @@ const Solutions = () => {
               </p>
             </div>
             <div className="mt-8 pt-5 border-t border-line flex items-center justify-between text-xs font-bold text-ink tracking-wide">
-              <span>{p.footLeft}</span>
+              <span>{getPrice(p.footKey) || p.footLeft}</span>
               <span className="group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
                 {p.footRight}
               </span>
@@ -187,7 +192,7 @@ const Solutions = () => {
               established organisations.
             </p>
             <div className="label text-paper/60 text-[11px] tracking-wider mb-8">
-              THE COMPLETE BRAND PARTNERSHIP · FROM ₦20,000,000
+              THE COMPLETE BRAND PARTNERSHIP · {getPrice("partnership")}
             </div>
           </div>
           <a
@@ -214,7 +219,7 @@ const Solutions = () => {
               Beyond commercial enterprise branding, we take on a limited number of private commissions: dedicated digital homes for milestone celebrations, invitations, RSVP journeys, and enduring photo archives.
             </p>
             <div className="label text-ink/75 text-[11px] tracking-wider mb-8">
-              THE WEDDING EXPERIENCE · ₦1,000,000
+              THE WEDDING EXPERIENCE · {getPrice("wedding")}
             </div>
           </div>
           <a

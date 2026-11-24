@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
 import Diagnosis from "../components/Diagnosis";
+import { useCurrency, BUDGET_TIERS, getAlignedBudget } from "../context/CurrencyContext";
 import {
   RiMailLine,
   RiTimeLine,
@@ -31,88 +32,7 @@ const TIMELINES = [
   "Flexible / Exploring",
 ];
 
-const BUDGET_TIERS = [
-  {
-    id: 0,
-    ngn: "₦75,000 - ₦500,000",
-    usd: "$50 - $350",
-    subNgn: "≈ $50 - $350 (Advisory & Campaign Creative)",
-    subUsd: "≈ ₦75k - ₦500k (Advisory & Campaign Creative)",
-  },
-  {
-    id: 1,
-    ngn: "₦500,000 - ₦1,000,000",
-    usd: "$350 - $700",
-    subNgn: "≈ $350 - $700 (Identity Essentials & Websites)",
-    subUsd: "≈ ₦500k - ₦1m (Identity Essentials & Websites)",
-  },
-  {
-    id: 2,
-    ngn: "₦1,000,000 - ₦3,500,000",
-    usd: "$700 - $2,500",
-    subNgn: "≈ $700 - $2,500 (Full Systems & Digital)",
-    subUsd: "≈ ₦1m - ₦3.5m (Full Systems & Digital)",
-  },
-  {
-    id: 3,
-    ngn: "₦3,500,000 - ₦8,000,000",
-    usd: "$2,500 - $5,500",
-    subNgn: "≈ $2,500 - $5,500 (Multi-Touchpoint Platforms)",
-    subUsd: "≈ ₦3.5m - ₦8m (Multi-Touchpoint Platforms)",
-  },
-  {
-    id: 4,
-    ngn: "₦8,000,000 - ₦20,000,000+",
-    usd: "$5,500 - $14,000+",
-    subNgn: "≈ $5,500 - $14,000+ (Flagship Brand Programmes)",
-    subUsd: "≈ ₦8m - ₦20m+ (Flagship Brand Programmes)",
-  },
-  {
-    id: 5,
-    ngn: "Monthly Brand Desk (₦550k+/mo)",
-    usd: "Monthly Brand Desk ($400+/mo)",
-    subNgn: "≈ $400+/mo (Ongoing Dedicated Retainer)",
-    subUsd: "≈ ₦550k+/mo (Ongoing Dedicated Retainer)",
-  },
-];
-
-const BUDGETS = BUDGET_TIERS.map((t) => t.ngn);
-
-const getAlignedBudget = (serviceName, curr = "NGN") => {
-  if (!serviceName) return "";
-  const s = serviceName.toLowerCase();
-  let tierIdx = 2; // default: ₦1m - ₦3.5m
-  if (
-    s.includes("clarity") ||
-    s.includes("campaign creative") ||
-    s.includes("75,000") ||
-    s.includes("300,000") ||
-    s.includes("350,000") ||
-    s.includes("landing page")
-  ) {
-    tierIdx = 0; // ₦75k - ₦500k
-  } else if (
-    s.includes("essentials") ||
-    s.includes("business website") ||
-    s.includes("500,000") ||
-    s.includes("750,000")
-  ) {
-    tierIdx = 1; // ₦500k - ₦1m
-  } else if (
-    s.includes("system") ||
-    s.includes("sprint") ||
-    s.includes("wedding") ||
-    s.includes("celebration") ||
-    s.includes("event")
-  ) {
-    tierIdx = 2; // ₦1m - ₦3.5m
-  } else if (s.includes("desk") || s.includes("partner") || s.includes("month")) {
-    tierIdx = 5; // Monthly Brand Desk
-  } else if (s.includes("flagship") || s.includes("20,000,000") || s.includes("complete")) {
-    tierIdx = 4; // ₦8m - ₦20m+
-  }
-  return curr === "USD" ? BUDGET_TIERS[tierIdx].usd : BUDGET_TIERS[tierIdx].ngn;
-};
+const BUDGETS = BUDGET_TIERS.map((t) => t.NGN);
 
 /* Corner registration crosshair mark */
 const LetterCropMark = ({ className = "" }) => (
@@ -298,22 +218,23 @@ const Contact = () => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [timelineOpen, setTimelineOpen] = useState(false);
   const [budgetOpen, setBudgetOpen] = useState(false);
-  const [currency, setCurrency] = useState("NGN"); // "NGN" | "USD"
+  const { currency, setCurrency, currencies } = useCurrency();
 
   const handleCurrencyChange = (newCurr) => {
     if (newCurr === currency) return;
     setCurrency(newCurr);
     setForm((prev) => {
       const tierIndex = BUDGET_TIERS.findIndex(
-        (t) => t.ngn === prev.budget || t.usd === prev.budget
+        (t) =>
+          t.NGN === prev.budget ||
+          t.USD === prev.budget ||
+          t.GBP === prev.budget ||
+          t.EUR === prev.budget
       );
       if (tierIndex !== -1) {
         return {
           ...prev,
-          budget:
-            newCurr === "USD"
-              ? BUDGET_TIERS[tierIndex].usd
-              : BUDGET_TIERS[tierIndex].ngn,
+          budget: BUDGET_TIERS[tierIndex][newCurr] || BUDGET_TIERS[tierIndex].NGN,
         };
       }
       return prev;
@@ -321,8 +242,8 @@ const Contact = () => {
   };
 
   const budgetOptions = BUDGET_TIERS.map((t) => ({
-    label: currency === "USD" ? t.usd : t.ngn,
-    sub: currency === "USD" ? t.subUsd : t.subNgn,
+    label: t[currency] || t.NGN,
+    sub: t.sub[currency] || t.sub.NGN,
   }));
 
   // Nigeria WAT local time live ticker
@@ -839,64 +760,44 @@ const Contact = () => {
                             Currency
                           </span>
                           <div className="inline-flex items-center p-0.5 rounded-full border border-line bg-white shadow-2xs">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCurrencyChange("NGN");
-                              }}
-                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider transition-all cursor-pointer ${
-                                currency === "NGN"
-                                  ? "bg-ink text-paper shadow-2xs"
-                                  : "text-ink/60 hover:text-ink"
-                              }`}
-                            >
-                              ₦ NGN
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCurrencyChange("USD");
-                              }}
-                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider transition-all cursor-pointer ${
-                                currency === "USD"
-                                  ? "bg-ink text-paper shadow-2xs"
-                                  : "text-ink/60 hover:text-ink"
-                              }`}
-                            >
-                              $ USD
-                            </button>
+                            {currencies.map((c) => (
+                              <button
+                                key={c.code}
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleCurrencyChange(c.code);
+                                }}
+                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider transition-all cursor-pointer ${
+                                  currency === c.code
+                                    ? "bg-ink text-paper shadow-2xs"
+                                    : "text-ink/60 hover:text-ink"
+                                }`}
+                              >
+                                {c.symbol} {c.code}
+                              </button>
+                            ))}
                           </div>
                         </div>
                       }
                     />
                     {/* Inline Currency Switcher Toggle */}
                     <span className="inline-flex items-center p-0.5 bg-paper border border-ink/40 rounded-full align-baseline mx-1 shadow-2xs select-none">
-                      <button
-                        type="button"
-                        onClick={() => handleCurrencyChange("NGN")}
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
-                          currency === "NGN"
-                            ? "bg-ink text-paper shadow-2xs"
-                            : "text-ink/60 hover:text-ink"
-                        }`}
-                        title="Display budget in Nigerian Naira (₦)"
-                      >
-                        ₦ NGN
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleCurrencyChange("USD")}
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
-                          currency === "USD"
-                            ? "bg-ink text-paper shadow-2xs"
-                            : "text-ink/60 hover:text-ink"
-                        }`}
-                        title="Display budget in US Dollars ($)"
-                      >
-                        $ USD
-                      </button>
+                      {currencies.map((c) => (
+                        <button
+                          key={c.code}
+                          type="button"
+                          onClick={() => handleCurrencyChange(c.code)}
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                            currency === c.code
+                              ? "bg-ink text-paper shadow-2xs"
+                              : "text-ink/60 hover:text-ink"
+                          }`}
+                          title={`Display budget in ${c.fullName}`}
+                        >
+                          {c.symbol} {c.code}
+                        </button>
+                      ))}
                     </span>
                     <span>.</span>
 

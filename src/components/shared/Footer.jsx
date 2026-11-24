@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCurrency } from "../../context/CurrencyContext";
 import {
   RiInstagramLine,
   RiTwitterXLine,
   RiLinkedinBoxLine,
   RiFacebookBoxLine,
+  RiCheckLine,
 } from "react-icons/ri";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -51,9 +53,34 @@ const SOCIAL_ICONS = [
 ];
 
 const Footer = () => {
+  const { currency, setCurrency, currencies, currentMeta } = useCurrency();
+  const [currencyOpen, setCurrencyOpen] = useState(false);
+  const currencyDropdownRef = useRef(null);
   const footerRef = useRef(null);
   const wordmarkRef = useRef(null);
   const ctaBtnRef = useRef(null);
+
+  // Close currency dropdown on outside click or ESC key
+  useEffect(() => {
+    if (!currencyOpen) return;
+    const handleClickOutside = (e) => {
+      if (
+        currencyDropdownRef.current &&
+        !currencyDropdownRef.current.contains(e.target)
+      ) {
+        setCurrencyOpen(false);
+      }
+    };
+    const handleKey = (e) => {
+      if (e.key === "Escape") setCurrencyOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [currencyOpen]);
 
   /* GSAP scroll-triggered animations and interactive physics */
   useEffect(() => {
@@ -283,14 +310,15 @@ const Footer = () => {
       </div>
 
       {/* ══════════════════════════════════════
-          BOTTOM BAR: Legal 
+          BOTTOM BAR: Legal & Global Currency
       ══════════════════════════════════════ */}
       <div className="h-px bg-white/12 mt-6" />
-      <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-6 md:px-11 gap-3">
-        <span className="label text-[10px] text-white/30 tracking-widest">
+      <div className="flex flex-col lg:flex-row items-center justify-between py-5 px-6 md:px-11 gap-4">
+        <span className="label text-[10px] text-white/30 tracking-widest text-center lg:text-left">
           © <span>2026</span> DEEZAINA STUDIOS. ALL RIGHTS RESERVED.
         </span>
 
+        
         {/* Registration Mark + Studio Location */}
         <div className="flex items-center gap-5">
           <span className="label text-[10px] text-white/40 tracking-widest">
@@ -302,6 +330,92 @@ const Footer = () => {
           >
             ⊕
           </span>
+          {/* Global Currency Dropdown matching user's spec */}
+        <div ref={currencyDropdownRef} className="relative">
+          <button
+            type="button"
+            onClick={() => setCurrencyOpen((prev) => !prev)}
+            aria-expanded={currencyOpen}
+            aria-haspopup="listbox"
+            className="h-[34px] inline-flex items-center gap-2.5 px-3.5 bg-[#2c3036] hover:bg-[#353a42] border border-white/5 rounded-[8px] text-white text-[13px] font-medium tracking-normal transition-colors cursor-pointer shadow-sm select-none"
+          >
+            {/* Outline wireframe globe matching user screenshot */}
+            <svg
+              className="w-4 h-4 text-white/95 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            <span className="text-white text-[13px] font-medium">
+              {currentMeta.code} ({currentMeta.symbol})
+            </span>
+            {/* Solid downward triangle matching user screenshot */}
+            <svg
+              className={`w-2.5 h-2 text-white/80 shrink-0 transition-transform duration-200 ${
+                currencyOpen ? "rotate-180" : ""
+              }`}
+              viewBox="0 0 10 6"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <polygon points="0,0 10,0 5,6" />
+            </svg>
+          </button>
+
+          {currencyOpen && (
+            <div
+              role="listbox"
+              aria-label="Select currency"
+              className="absolute bottom-full mb-2.5 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:right-0 w-56 bg-[#22262c] border border-white/15 rounded-[10px] shadow-2xl overflow-hidden z-50 py-1.5 backdrop-blur-md"
+            >
+              <div className="px-3.5 py-1.5 text-[9px] font-bold uppercase tracking-widest text-white/40 border-b border-white/10">
+                Display Currency
+              </div>
+              {currencies.map((c) => {
+                const isSelected = c.code === currency;
+                return (
+                  <button
+                    key={c.code}
+                    type="button"
+                    role="option"
+                    aria-selected={isSelected}
+                    onClick={() => {
+                      setCurrency(c.code);
+                      setCurrencyOpen(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2.5 text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer ${
+                      isSelected
+                        ? "bg-[#2c3036] text-white font-bold"
+                        : "text-white/80 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-bold text-xs text-signal-red w-4 text-center">
+                        {c.symbol}
+                      </span>
+                      <span className="font-medium text-white">{c.code}</span>
+                      <span className="text-[10px] text-white/45 font-normal">
+                        · {c.fullName}
+                      </span>
+                    </div>
+                    {isSelected && (
+                      <RiCheckLine className="text-signal-red text-sm shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         </div>
       </div>
     </footer>

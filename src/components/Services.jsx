@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCurrency } from "../context/CurrencyContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,6 +163,7 @@ const SERVICES = [
 ];
 
 const Services = () => {
+  const { currency, getPrice } = useCurrency();
   const sectionRef = useRef(null);
   const rowsRef = useRef([]);
   const [activeTab, setActiveTab] = useState("identity");
@@ -406,7 +408,7 @@ const Services = () => {
                   {item.name}
                 </h4>
                 <div className="font-display font-extrabold text-ink text-[clamp(22px,2.4vw,34px)] leading-tight tracking-tight mb-3">
-                  {item.price}
+                  {getPrice(item.name) || item.price}
                 </div>
                 <p className="text-slate text-xs md:text-[13px] leading-relaxed m-0 min-h-14 font-normal">
                   {item.description}
@@ -436,7 +438,7 @@ const Services = () => {
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-signal-red animate-pulse" />
               <span>
-                SELECTED: <strong>{selectedItem.name.toUpperCase()}</strong> ({selectedItem.price})
+                SELECTED: <strong>{selectedItem.name.toUpperCase()}</strong> ({getPrice(selectedItem.name) || selectedItem.price})
               </span>
             </div>
             <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
