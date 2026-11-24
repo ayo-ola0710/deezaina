@@ -81,28 +81,39 @@ const CTA = () => {
         The first step should leave you clearer than when you arrived.
       </p>
 
-      {/* ── CTA row ── */}
+      {/* ── CTA row: Clearly defined distinct actions ── */}
       <div
         ref={ctaRowRef}
-        className="flex items-center gap-3 md:gap-8 flex-wrap"
+        className="flex items-center gap-3 md:gap-5 flex-wrap"
       >
-        {/* primary button: Ink fill, Paper text */}
+        {/* Primary action: Send a project brief */}
         <Link
-          to="/contact#diagnosis"
-          className="inline-flex items-center gap-2.5 bg-ink text-paper px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-white hover:text-ink transition-opacity"
+          to="/contact#story-builder"
+          className="inline-flex items-center gap-2.5 bg-ink text-paper px-7 md:px-9 py-4 text-xs md:text-sm font-bold tracking-[0.08em] no-underline uppercase font-body hover:bg-white hover:text-ink transition-all shadow-sm"
         >
-          Find my starting point
+          <span>Send a project brief</span>
           <span className="text-base">↗</span>
         </Link>
 
-        {/* secondary: brief intake link */}
+        {/* Secondary action: 3-question diagnosis */}
         <Link
-          to="/contact#story-builder"
-          className="inline-flex items-center gap-2.5 bg-white text-ink px-9 py-4 text-sm font-semibold tracking-[0.06em] no-underline uppercase font-body hover:bg-ink hover:text-white transition-opacity"
+          to="/contact#diagnosis"
+          className="inline-flex items-center gap-2.5 bg-white text-ink px-7 md:px-9 py-4 text-xs md:text-sm font-bold tracking-[0.08em] no-underline uppercase font-body hover:bg-ink hover:text-white transition-all shadow-sm"
         >
-          Book a Discovery Call
-          <span className="text-base">↗</span>
+          <span>Take the 3-question diagnosis</span>
+          <span className="text-base">↓</span>
         </Link>
+
+        {/* Tertiary action: Discovery call on Calendly */}
+        <a
+          href="https://calendly.com/deezainaa/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2.5 bg-transparent border border-ink text-ink px-6 md:px-8 py-4 text-xs md:text-sm font-bold tracking-[0.08em] no-underline uppercase font-body hover:bg-ink hover:text-white transition-all"
+        >
+          <span>Book a discovery call</span>
+          <span className="text-base">↗</span>
+        </a>
       </div>
 
       {/* ── ghost large type watermark ── */}

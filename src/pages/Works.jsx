@@ -18,12 +18,13 @@ const ALL_PROJECTS = [
     year: "2024",
     tags: ["Technology", "Identity System", "Merchandise"],
     summary:
-      "A distinctive tech identity engineered for seamless recognition across corporate stationery, apparel, hard-hats and digital touchpoints.",
+      "A distinctive tech identity engineered for seamless recognition across corporate stationery, apparel, hard-hats and field equipment.",
     deliverables: [
       "Wordmark & Symbol",
       "Color Architecture",
       "Corporate Stationery",
-      "Merchandise & Apparel System",
+      "Executive Business Cards",
+      "Apparel & Hardhat Application",
     ],
     heroImage: "/projects/iconfig/hero.webp",
     altImage: "/projects/iconfig/cards.webp",
@@ -38,14 +39,14 @@ const ALL_PROJECTS = [
     category: "Fintech",
     service: "Fintech App & Visual System",
     year: "2024",
-    tags: ["Fintech", "Product UI", "Cards"],
+    tags: ["Fintech", "Product UI", "Avatar System"],
     summary:
-      "A compact, flexible symbol & visual language designed for small-scale app icons, debit cards and physical brand assets.",
+      "A compact, flexible symbol & visual language designed for small-scale app icons, digital avatars and identity systems.",
     deliverables: [
       "Standalone V Symbol",
-      "App Icon Design",
-      "Debit Card Graphics",
-      "Physical Touchpoints",
+      "Mobile App Icon Design",
+      "Digital Profile Avatars",
+      "Identity System Board",
     ],
     heroImage: "/projects/velcro/hero.webp",
     altImage: "/projects/velcro/dp.jpg",
@@ -60,14 +61,14 @@ const ALL_PROJECTS = [
     category: "Digital Product",
     service: "Multi-Touchpoint Identity",
     year: "2024",
-    tags: ["Agrotech", "Digital Product", "Campaign"],
+    tags: ["Agrotech", "Digital Product", "Retail Signage"],
     summary:
-      "A comprehensive graphic system translating fluidly from digital app interfaces to retail banners, exterior signage and campaigns.",
+      "A comprehensive graphic system translating fluidly from digital app interfaces to exterior retail signage.",
     deliverables: [
-      "Mobile App Icon",
-      "Campaign Flyer System",
-      "Retail & Exterior Signage",
-      "Branded Merchandise",
+      "Mobile App Interface System",
+      "App Icon & Glyph Design",
+      "Exterior Architectural Signage",
+      "Retail Display Banners",
     ],
     heroImage: "/projects/margin-plus/hero.webp",
     altImage: "/projects/margin-plus/alt.webp",
@@ -82,14 +83,14 @@ const ALL_PROJECTS = [
     category: "Entertainment",
     service: "Ticketing & Event Identity",
     year: "2024",
-    tags: ["Entertainment", "Ticketing", "Events"],
+    tags: ["Entertainment", "Ticketing", "Event Collateral"],
     summary:
-      "High-contrast black, gold and white visual identity designed for modern ticketing interfaces, wristbands and live event collateral.",
+      "High-contrast black, gold and white visual identity designed for modern ticketing interfaces, VIP cards and event wristbands.",
     deliverables: [
-      "Interlocking Emblem",
-      "Ticketing Platform UI",
-      "VIP & Event Cards",
-      "Stage & Backdrop Collateral",
+      "Interlocking Flowing Emblem",
+      "Ticketing Platform Mobile UI",
+      "VIP Access Cards & Pass System",
+      "Event Access Wristbands",
     ],
     heroImage: "/projects/shuga/hero.webp",
     altImage: "/projects/shuga/card.jpg",
@@ -104,14 +105,14 @@ const ALL_PROJECTS = [
     category: "Packaging",
     service: "FMCG Brand & Packaging Range",
     year: "2024",
-    tags: ["FMCG", "Packaging", "Brand System"],
+    tags: ["FMCG", "Packaging", "Character Mark"],
     summary:
-      "A bright packaged-peanuts identity that brings the Nourish Bites name into a repeatable, shelf-ready consumer product presentation.",
+      "A bright packaged-peanuts identity that brings the Nourish Bites character into a repeatable, shelf-ready pouch presentation.",
     deliverables: [
-      "Brand Mascot & Logo Mark",
-      "Packaging Pouch System",
+      "Brand Mascot & Character Mark",
+      "Peanut Snack Pouch System",
       "Retail Label Hierarchy",
-      "Color Spectrum Architecture",
+      "Flavor Color Blocking",
     ],
     heroImage: "/projects/nourish-bites/hero.webp",
     altImage: "/projects/nourish-bites/alt.webp",
@@ -126,14 +127,15 @@ const ALL_PROJECTS = [
     category: "Retail",
     service: "Online Phone Store Identity",
     year: "2024",
-    tags: ["E-Commerce", "Retail", "Icon Design"],
+    tags: ["E-Commerce", "Retail", "Mobile Store"],
     summary:
-      "A high-contrast identity for an online phone store, pairing a compact symbol with vivid green retail promotional graphics.",
+      "A high-contrast identity for an online phone store, pairing a responsive symbol with vivid green promotional graphics and digital store UI.",
     deliverables: [
-      "Responsive Icon System",
+      "Responsive Icon & Glyph System",
+      "E-Commerce Trust Badges",
       "Social Promo Framework",
-      "E-Commerce Badges",
       "Retail Flyer Formats",
+      "Mobile Store Touchpoints",
     ],
     heroImage: "/projects/smg-plug/hero.jpg",
     altImage: "/projects/smg-plug/alt.jpg",
@@ -148,19 +150,19 @@ const ALL_PROJECTS = [
     category: "Packaging",
     service: "Food Packaging & Multi-SKU Range",
     year: "2024",
-    tags: ["Food Packaging", "Consumer Brand", "Multi-SKU"],
+    tags: ["Food Packaging", "Nutritional", "Multi-SKU"],
     summary:
-      "A vibrant food packaging system designed to make Daily Tummies' nutritional product family immediately recognisable across multi-SKU retail shelf displays.",
+      "A vibrant food packaging system designed to make Daily Tummies' nutritional product family immediately recognisable across retail shelf displays.",
     deliverables: [
-      "Beans & Veggies 500g Pouch",
-      "Fruity Oats & Nutmix Packs",
+      "500g Stand-Up Pouch Architecture",
+      "Multi-SKU Product Range System",
       "Nutritional Read Hierarchy",
-      "Ingredient Typography System",
+      "Ingredient Color Blocking",
     ],
     heroImage: "/projects/daily-tummies/hero.jpg",
     altImage: "/projects/daily-tummies/alt.jpg",
     caseUrl: "https://drive.google.com/drive/folders/12uOigPHYskI2VnILJE3DW4cwLIEqi51v",
-    caseLabel: "Curated Studio Review Set",
+    caseLabel: "Curated Studio Review Set (Google Drive)",
     colorAccent: "#1B432A",
   },
   {
@@ -172,17 +174,17 @@ const ALL_PROJECTS = [
     year: "2024",
     tags: ["Consumer Goods", "Packaging", "Brand Identity"],
     summary:
-      "A warm, high-visibility food brand identity developed across product labels, stand-up pouches, packaging stickers, cards and digital touchpoints.",
+      "A warm, high-visibility food brand identity developed across product labels, stand-up pouches, packaging stickers, and promotional cards.",
     deliverables: [
-      "Stand-Up Pouch Design",
-      "Bottle Label Architecture",
-      "Packaging Stickers & Cards",
-      "Brand Collateral & Web Assets",
+      "Brand Mark & Script Emblem",
+      "Stand-Up Groundnut Pouch",
+      "Transparent Jar Label System",
+      "Security Stickers & Loyalty Cards",
     ],
     heroImage: "/projects/suzyque/hero.jpg",
     altImage: "/projects/suzyque/alt.jpg",
     caseUrl: "https://drive.google.com/drive/folders/1EfAlof4nkqK35cBq8_RTjCSu5BvrBdzh",
-    caseLabel: "Curated Studio Review Set",
+    caseLabel: "Curated Studio Review Set (Google Drive)",
     colorAccent: "#C85215",
   },
 ];
@@ -268,7 +270,7 @@ const Works = () => {
               <span>§ SELECTED WORK / EDITORIAL ARCHIVE</span>
             </span>
             <span className="text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-slate select-none">
-              8 OF 8 VERIFIED CASES · MMXXIV
+              8 DOCUMENTED COMMISSIONS · STUDIO & BEHANCE ARCHIVE
             </span>
           </div>
 
@@ -288,28 +290,32 @@ const Works = () => {
             </div>
           </div>
 
-          {/* Filter Bar */}
-          <div className="works-header-reveal flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-4 border-t border-line/60">
-            <div className="flex items-center gap-1.5 text-xs text-slate font-bold tracking-wider mr-2 uppercase shrink-0">
-              <RiFilter3Line className="text-signal-red text-sm" />
-              <span>Filter:</span>
+          {/* Filter Bar with Mobile Scroll Hint */}
+          <div className="relative">
+            <div className="works-header-reveal flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-4 border-t border-line/60 pr-8">
+              <div className="flex items-center gap-1.5 text-xs text-slate font-bold tracking-wider mr-2 uppercase shrink-0">
+                <RiFilter3Line className="text-signal-red text-sm" />
+                <span>Filter:</span>
+              </div>
+              {CATEGORIES.map((cat) => {
+                const active = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-3.5 py-1.5 rounded-xs text-[11px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
+                      active
+                        ? "bg-ink text-paper shadow-sm"
+                        : "bg-ink/5 text-ink/70 hover:bg-ink/10 hover:text-ink"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
-            {CATEGORIES.map((cat) => {
-              const active = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-xs text-[11px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                    active
-                      ? "bg-ink text-paper shadow-sm"
-                      : "bg-ink/5 text-ink/70 hover:bg-ink/10 hover:text-ink"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+            {/* Right scroll hint fade for narrow viewports */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-paper to-transparent md:hidden" />
           </div>
         </div>
       </section>
@@ -456,22 +462,29 @@ const Works = () => {
           </p>
 
           <div className="flex items-center gap-4 flex-wrap justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-ink text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-colors duration-200 no-underline shadow-md"
+            >
+              <span>Send a project brief</span>
+              <RiArrowRightUpLine className="text-base" />
+            </Link>
+            <Link
+              to="/contact#diagnosis"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline shadow-sm"
+            >
+              <span>Take the 3-question diagnosis</span>
+              <span className="text-base">↓</span>
+            </Link>
             <a
               href="https://calendly.com/deezainaa/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white transition-colors duration-200 no-underline shadow-md"
             >
-              <span>Book a 30-min discovery call</span>
-              <span className="text-base">↗</span>
+              <span>Book a discovery call</span>
+              <RiArrowRightUpLine className="text-base" />
             </a>
-            <Link
-              to="/contact#diagnosis"
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline shadow-sm"
-            >
-              <span>Take the 3-question diagnosis</span>
-              <span className="text-base">↗</span>
-            </Link>
           </div>
         </div>
       </section>

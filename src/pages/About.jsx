@@ -6,6 +6,7 @@ import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
 import {
   RiCompass3Line,
+  RiShapesLine,
   RiVideoLine,
   RiGlobalLine,
   RiArrowRightUpLine,
@@ -19,42 +20,56 @@ const PILLARS = [
     num: "01",
     tag: "STRATEGY",
     icon: RiCompass3Line,
-    title: "Building the blueprint for digital success.",
+    title: "Diagnosing commercial gaps before moving pixels.",
     description:
-      "From comprehensive campaign planning to streamlined operational workflows, we ensure every creative decision is driven by purpose and positioned for impact.",
+      "We interrogate the core business problem, competitive landscape, and audience perception so every subsequent creative decision is anchored in commercial purpose.",
     capabilities: [
-      "Comprehensive Campaign Planning",
-      "Brand Positioning & Narrative",
-      "Operational Creative Workflows",
+      "Brand Positioning & Narrative Architecture",
+      "Commercial Diagnostic Sprints",
+      "Competitor Audits & Differentiation",
       "Audience Journey Mapping",
     ],
   },
   {
     num: "02",
-    tag: "MEDIA",
-    icon: RiVideoLine,
-    title: "Crafting scroll-stopping visual narratives.",
+    tag: "BRAND IDENTITY",
+    icon: RiShapesLine,
+    title: "Crafting distinctive identities built to endure.",
     description:
-      "We manage end-to-end production and structured post-production pipelines, delivering cinematic content that captures attention and elevates your brand.",
+      "From bespoke symbols and typographic systems to FMCG packaging and merchandise, we engineer cohesive visual languages that command immediate recognition.",
     capabilities: [
-      "End-to-End Video Production",
-      "Cinematic Brand Storytelling",
-      "Structured Post-Production Pipelines",
-      "Multi-Format Content Campaigns",
+      "Bespoke Wordmarks & Icon Geometry",
+      "Comprehensive Design Systems & Tokens",
+      "FMCG Packaging & Shelf Architecture",
+      "Brand Usage Guidelines & Collateral Suites",
     ],
   },
   {
     num: "03",
-    tag: "WEB",
+    tag: "WEB & DIGITAL",
     icon: RiGlobalLine,
-    title: "Developing digital platforms that perform.",
+    title: "Engineering digital platforms that perform.",
     description:
-      "We build functional, seamless web experiences that bridge the gap between your visual identity and your audience's digital journey.",
+      "We design and build fast, responsive, editorial web platforms that bridge the gap between strategic brand perception and measurable user conversion.",
     capabilities: [
-      "High-Performance Web Design",
-      "Interactive Digital Experiences",
-      "Design Systems & Brand Platforms",
-      "Conversion & Engagement Paths",
+      "High-Performance Editorial Web Design",
+      "Conversion Journeys & Lead Pathways",
+      "Interactive Digital Brand Experiences",
+      "Technical Web Standards & Accessibility",
+    ],
+  },
+  {
+    num: "04",
+    tag: "CREATIVE MEDIA",
+    icon: RiVideoLine,
+    title: "Delivering scroll-stopping brand campaigns.",
+    description:
+      "We shape multi-format creative campaigns, social promotional frameworks, and art direction that cut through digital noise and elevate brand presence.",
+    capabilities: [
+      "Multi-Format Campaign Creative",
+      "Editorial Art Direction & Visual Styling",
+      "Social Media Frameworks & Brand Badges",
+      "Launch Promotion & Campaign Collateral",
     ],
   },
 ];
@@ -170,30 +185,37 @@ const About = () => {
 
           <h1 className="font-display font-extrabold text-ink text-[clamp(44px,7.2vw,104px)] leading-[0.92] tracking-tight uppercase m-0 max-w-280">
             Where Strategy Meets{" "}
-            <span className="text-signal-red">Storytelling</span>
+            <span className="text-signal-red">Execution</span>
             <span className="text-signal-red">.</span>
           </h1>
 
           <p className="text-slate text-lg md:text-2xl leading-relaxed max-w-230 mt-8 font-normal">
-            We are Deezaina Studios, a digital and creative solutions agency
-            building brands, executing campaigns, and producing media that
-            leaves a lasting impact.
+            Deezaina Studios is an independent, strategy-led branding and design studio founded by Divine Owoyemi. We help ambitious founders and businesses diagnose commercial bottlenecks before designing visual identities and digital platforms that command market attention.
           </p>
 
           <div className="flex items-center gap-4 pt-10 flex-wrap">
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="inline-flex items-center justify-between gap-6 px-7 py-4 bg-ink text-paper text-xs font-bold tracking-[0.08em] uppercase hover:bg-signal-red hover:text-ink transition-colors no-underline shadow-sm"
             >
-              <span>Start a project with us</span>
+              <span>Send a project brief</span>
               <RiArrowRightUpLine className="text-base" />
-            </a>
+            </Link>
             <a
               href="#pillars"
               className="inline-flex items-center justify-between gap-4 px-7 py-4 bg-transparent border border-ink text-ink text-xs font-bold tracking-[0.08em] uppercase hover:bg-ink hover:text-paper transition-colors no-underline"
             >
-              <span>Explore what we do</span>
+              <span>Explore capabilities</span>
               <span>↓</span>
+            </a>
+            <a
+              href="https://calendly.com/deezainaa/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between gap-4 px-7 py-4 bg-transparent border border-line text-slate hover:text-ink hover:border-ink text-xs font-bold tracking-[0.08em] uppercase transition-colors no-underline"
+            >
+              <span>Book a discovery call</span>
+              <RiArrowRightUpLine className="text-base" />
             </a>
           </div>
         </section>
@@ -217,22 +239,17 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-6">
               <h2 className="font-display font-extrabold text-ink text-[clamp(32px,4.5vw,64px)] leading-[0.98] tracking-tight uppercase m-0">
-                At Deezaina, we don't just create content; we build{" "}
-                <span className="text-signal-red">comprehensive digital experiences.</span>
+                Diagnose before design. <br />
+                <span className="text-signal-red">Joined-up execution.</span>
               </h2>
             </div>
 
             <div className="lg:col-span-6 space-y-6 pt-2">
               <p className="text-slate text-base md:text-xl leading-relaxed font-normal m-0">
-                We are a dynamic team of strategists, designers, and video
-                specialists dedicated to bridging the gap between imagination
-                and execution.
+                We are an independent creative practice dedicated to closing the gap between strategic brand positioning and tangible visual execution.
               </p>
               <p className="text-slate text-base md:text-xl leading-relaxed font-normal m-0">
-                Whether you are a startup looking for a striking brand identity
-                or an established organization launching a large-scale media
-                campaign, we bring your vision to life with precision and
-                flair.
+                Whether you are launching a new consumer venture needing high-impact packaging or expanding an established company with multi-touchpoint brand collateral, we design systems that make your business easy to choose.
               </p>
             </div>
           </div>
@@ -318,7 +335,7 @@ const About = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             {PILLARS.map(({ num, tag, icon: Icon, title, description, capabilities }) => (
               <article
                 key={num}
@@ -379,18 +396,27 @@ const About = () => {
             <div className="flex items-center gap-4 shrink-0 flex-wrap">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-ink text-paper text-xs font-bold tracking-[0.1em] uppercase hover:bg-white hover:text-ink transition-colors no-underline shadow-sm"
+                className="inline-flex items-center gap-3 px-7 py-4 bg-ink text-paper text-xs font-bold tracking-[0.08em] uppercase hover:bg-white hover:text-ink transition-colors no-underline shadow-sm"
               >
-                <span>Dispatch your brief</span>
+                <span>Send a project brief</span>
                 <span>↗</span>
               </Link>
               <Link
                 to="/contact#diagnosis"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-transparent border border-ink text-ink text-xs font-bold tracking-[0.1em] uppercase hover:bg-ink hover:text-paper transition-colors no-underline"
+                className="inline-flex items-center gap-3 px-7 py-4 bg-transparent border border-ink text-ink text-xs font-bold tracking-[0.08em] uppercase hover:bg-ink hover:text-paper transition-colors no-underline"
               >
-                <span>Take the diagnosis</span>
+                <span>Take the 3-question diagnosis</span>
                 <span>↓</span>
               </Link>
+              <a
+                href="https://calendly.com/deezainaa/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-7 py-4 bg-transparent border border-ink text-ink text-xs font-bold tracking-[0.08em] uppercase hover:bg-ink hover:text-paper transition-colors no-underline"
+              >
+                <span>Book a discovery call</span>
+                <RiArrowRightUpLine className="text-base" />
+              </a>
             </div>
           </div>
         </section>

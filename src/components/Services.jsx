@@ -97,7 +97,7 @@ const OFFERINGS = {
 const SERVICES = [
   {
     num: "01",
-    total: "03",
+    total: "04",
     tagline: "FOUNDATION & POSITIONING",
     name: "BRAND STRATEGY",
     quote: "“Know what you stand for. Know who it matters to.”",
@@ -113,7 +113,7 @@ const SERVICES = [
   },
   {
     num: "02",
-    total: "03",
+    total: "04",
     tagline: "VISUAL SYSTEMS & CRAFT",
     name: "BRAND IDENTITY",
     quote: "“Look like yourself. Only sharper.”",
@@ -129,7 +129,7 @@ const SERVICES = [
   },
   {
     num: "03",
-    total: "03",
+    total: "04",
     tagline: "DIGITAL EXPERIENCES & WEB",
     name: "WEB DESIGN",
     quote: "“Built to perform. Designed to endure.”",
@@ -141,6 +141,22 @@ const SERVICES = [
       "FULL-STACK ARCHITECTURE",
       "HEADLESS CMS INTEGRATION",
       "PERFORMANCE & ACCESSIBILITY",
+    ],
+  },
+  {
+    num: "04",
+    total: "04",
+    tagline: "CAMPAIGNS & ART DIRECTION",
+    name: "CREATIVE MEDIA",
+    quote: "“Cut through noise. Command sustained attention.”",
+    desc: "Multi-format creative campaigns, editorial art direction, and social promotion frameworks designed to amplify brand recognition and drive engagement across critical touchpoints.",
+    badges: [
+      "CAMPAIGN CONCEPT CREATIVE",
+      "ART DIRECTION & VISUAL STYLING",
+      "SOCIAL MEDIA FRAMEWORKS",
+      "LAUNCH PROMOTION ASSETS",
+      "BRAND CONTENT DESIGN",
+      "MULTI-FORMAT COLLATERAL",
     ],
   },
 ];
@@ -244,7 +260,7 @@ const Services = () => {
       {/* ── Section header ── */}
       <div className="flex justify-between items-center gap-5 pt-3 pb-2 border-t border-ink mb-4 md:mb-6">
         <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
-          § WHAT WE DO / THREE CONNECTED DISCIPLINES
+          § WHAT WE DO / FOUR CONNECTED DISCIPLINES
         </span>
         <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none">
           03 / 07
@@ -337,7 +353,7 @@ const Services = () => {
         className="mt-16 md:mt-24 p-6 md:p-11 bg-paper border border-line"
       >
         <span className="label text-slate text-[11px] tracking-[0.14em] block">
-          EXPLORE A SERVICE / EXAMPLE PRICING INTERACTION
+          § SERVICE SCOPES / INVESTMENT BENCHMARKS
         </span>
         <h3 className="font-display font-bold text-ink text-[clamp(26px,3vw,44px)] leading-tight tracking-tight mt-4 mb-0">
           Know what you need? See your options.

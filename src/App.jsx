@@ -6,7 +6,9 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Works from "./pages/Works";
 import CaseStudy from "./pages/CaseStudy";
-import Feed from "./pages/Feed";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import NotFound from "./pages/NotFound";
 import { CursorProvider } from "./context/CursorContext";
 import Cursor from "./components/shared/Cursor";
 import { Routes, Route } from "react-router-dom";
@@ -17,7 +19,7 @@ const App = () => {
   /* After all sections mount, recalculate scroll positions on Home.
      Required when a pinned section (Process) sits above others. */
   useEffect(() => {
-    if (window.location.pathname !== "/") return;
+    if (typeof window === "undefined" || window.location.pathname !== "/") return;
     const id = window.setTimeout(() => {
       ScrollTrigger.refresh();
     }, 350);
@@ -33,7 +35,9 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/works" element={<Works />} />
         <Route path="/works/:slug" element={<CaseStudy />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </CursorProvider>
   );

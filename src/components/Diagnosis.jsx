@@ -52,7 +52,7 @@ const RECOMMENDATIONS = {
     price: "From ₦500,000",
     why: "Your brand may have grown beyond its current visual language. Start with a defined identity scope; a larger strategic rebuild is considered when the problem reaches across the business.",
     link: "/#picker",
-    serviceName: "Visual Identity",
+    serviceName: "Brand Identity",
   },
   web: {
     key: "Web & Digital",
@@ -60,7 +60,7 @@ const RECOMMENDATIONS = {
     price: "From ₦350,000",
     why: "You need a clearer customer journey and a better way for visitors to understand the offer and take action. Start by reviewing the page and the next step it asks people to take.",
     link: "/#picker",
-    serviceName: "Web & Interaction Design",
+    serviceName: "Web & Digital",
   },
   desk: {
     key: "The Brand Desk",
@@ -68,7 +68,7 @@ const RECOMMENDATIONS = {
     price: "From ₦550,000/month",
     why: "Your need sounds recurring rather than one-off. An external creative/media partner can build rhythm and consistency; first establish a suitable identity foundation if it is missing.",
     link: "/#solutions",
-    serviceName: "Complete Brand Platform",
+    serviceName: "The Brand Desk (Ongoing Partner)",
   },
   launch: {
     key: "Start Properly / Look & Launch",
@@ -76,7 +76,7 @@ const RECOMMENDATIONS = {
     price: "From ₦1,250,000",
     why: "Several things need to work together from day one. A connected launch scope is more useful than buying unrelated deliverables and hoping they fit.",
     link: "/#solutions",
-    serviceName: "Design Systems",
+    serviceName: "Connected Launch Package",
   },
   bespoke: {
     key: "Bespoke Engagement",
@@ -84,15 +84,15 @@ const RECOMMENDATIONS = {
     price: "Scoped after discovery",
     why: "Your situation may require more than one fixed package. We should define the scope before recommending an investment. Major brand programmes may start around ₦20m.",
     link: "/#bespoke",
-    serviceName: "Complete Brand Platform",
+    serviceName: "Flagship Brand Partnership",
   },
   wedding: {
     key: "Wedding & Event Experience",
     name: "Wedding & Event Experience",
-    price: "From ₦95,000; bespoke wedding ₦1m",
-    why: "A special event can require both useful guest information and a designed story. The right tier depends on whether you need a themed page or a complete invitation and guest-management experience.",
+    price: "₦1,000,000",
+    why: "A special event can require both useful guest information and a designed story. We build bespoke digital homes with invitation suites, guest RSVPs, and permanent photo archives.",
     link: "/#bespoke",
-    serviceName: "Web & Interaction Design",
+    serviceName: "Wedding & Event Digital",
   },
 };
 
@@ -246,7 +246,7 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                             key={idx}
                             type="button"
                             onClick={() => handleSelect(idx)}
-                            className={`w-full text-left p-4 md:p-4.5 border text-xs md:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer ${
+                            className={`w-full text-left p-4 md:p-4.5 border text-xs md:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none ${
                               isSelected
                                 ? "bg-[#301f1e] border-signal-red text-paper shadow-xs"
                                 : "bg-transparent border-white/15 text-paper/85 hover:border-white/40 hover:bg-white/5"
@@ -291,36 +291,40 @@ const Diagnosis = ({ onApplyRecommendation }) => {
                         <button
                           type="button"
                           onClick={() => onApplyRecommendation(recommendation)}
-                          className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-all duration-200 cursor-pointer shadow-sm"
+                          className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-all duration-200 cursor-pointer shadow-sm focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
                         >
                           <span>Apply this direction to brief</span>
                           <span>↑</span>
                         </button>
                       ) : (
                         <a
-                          href={recommendation.link}
-                          className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-all duration-200 no-underline shadow-sm"
+                          href={`/contact?service=${encodeURIComponent(
+                            recommendation.serviceName,
+                          )}&diagnosis=${encodeURIComponent(
+                            recommendation.name,
+                          )}#story-builder`}
+                          className="inline-flex items-center justify-between gap-4 px-6 py-3.5 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-all duration-200 no-underline shadow-sm focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
                         >
-                          <span>Explore this direction</span>
+                          <span>Apply this direction to brief</span>
                           <span>↗</span>
                         </a>
                       )}
 
-                      {/* Book a Call Action */}
+                      {/* Book a Discovery Call Action */}
                       <a
                         href="https://calendly.com/deezainaa/30min"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-between gap-3 px-6 py-3.5 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline cursor-pointer shadow-sm"
+                        className="inline-flex items-center justify-between gap-3 px-6 py-3.5 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline cursor-pointer shadow-sm focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
                       >
-                        <span>Book a call</span>
+                        <span>Book a discovery call</span>
                         <span>↗</span>
                       </a>
 
                       <button
                         type="button"
                         onClick={handleReset}
-                        className="text-[11px] font-bold uppercase tracking-[0.12em] text-paper/60 hover:text-paper transition-colors cursor-pointer bg-transparent border-none p-2"
+                        className="text-[11px] font-bold uppercase tracking-[0.12em] text-paper/60 hover:text-paper transition-colors cursor-pointer bg-transparent border-none p-2 focus-visible:ring-2 focus-visible:ring-signal-red focus-visible:outline-none"
                       >
                         Start again ↺
                       </button>

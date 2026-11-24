@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -11,20 +12,17 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 /* ─── Navigation links ─── */
-
 const NAV_LINKS = [
   { name: "ABOUT", href: "/about" },
   { name: "WORKS", href: "/works" },
-  // { name: "FEEDS", href: "/feed " },
   { name: "CONTACT", href: "/contact" },
 ];
 
 /* ─── Legal & Privacy links ─── */
 const LEGAL_LINKS = [
-  { label: "Terms of Service", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Pricing options", href: "#" },
-  { label: "Cookie Preferences", href: "#" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Pricing Options", href: "/#picker" },
 ];
 
 /* ─── Social icons configuration ─── */
@@ -192,9 +190,9 @@ const Footer = () => {
           </span>
           <ul className="list-none m-0 p-0 flex flex-col gap-3.5">
             {NAV_LINKS.map((l) => (
-              <li key={l}>
-                <a
-                  href={`${l.href}`}
+              <li key={l.name}>
+                <Link
+                  to={l.href}
                   onMouseEnter={(e) => {
                     gsap.to(e.currentTarget, { x: 4, duration: 0.2 });
                   }}
@@ -204,7 +202,7 @@ const Footer = () => {
                   className="inline-block text-white/70 no-underline text-sm font-normal hover:text-white transition-colors"
                 >
                   {l.name}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -219,8 +217,8 @@ const Footer = () => {
             <ul className="list-none m-0 p-0 flex flex-col gap-3.5 uppercase">
               {LEGAL_LINKS.map(({ label, href }) => (
                 <li key={label}>
-                  <a
-                    href={href}
+                  <Link
+                    to={href}
                     onMouseEnter={(e) => {
                       gsap.to(e.currentTarget, { x: 4, duration: 0.2 });
                     }}
@@ -230,16 +228,16 @@ const Footer = () => {
                     className="inline-block text-white/70 no-underline text-sm font-normal hover:text-white transition-colors"
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Start a project: interactive pill button with GSAP physics */}
-          <a
+          <Link
             ref={ctaBtnRef}
-            href="/contact"
+            to="/contact"
             onMouseEnter={(e) => {
               gsap.to(e.currentTarget, {
                 scale: 1.05,
@@ -260,9 +258,9 @@ const Footer = () => {
             }}
             className="inline-flex items-center justify-center gap-2.5 mt-10 px-7 py-3.5 bg-paper text-ink text-[13px] font-semibold tracking-[0.06em] no-underline uppercase  self-start hover:bg-signal-red hover:text-ink transition-colors shadow-sm"
           >
-            <span>Start a project</span>
+            <span>Send a project brief</span>
             <span className="footer-btn-arrow text-sm inline-block">↗</span>
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -292,10 +290,10 @@ const Footer = () => {
           © <span>2026</span> DEEZAINA STUDIOS. ALL RIGHTS RESERVED.
         </span>
 
-        {/* Registration Mark + Studio Credit */}
+        {/* Registration Mark + Studio Location */}
         <div className="flex items-center gap-5">
-          <span className="label text-[10px] text-white/30 tracking-widest">
-            <span>INTERACTIVE DESIGN CONCEPT</span>
+          <span className="label text-[10px] text-white/40 tracking-widest">
+            <span>NIGERIA · WORKING WORLDWIDE</span>
           </span>
           <span
             aria-hidden="true"

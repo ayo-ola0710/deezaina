@@ -10,11 +10,11 @@ export const CASE_STUDIES = {
     heroImage: "/projects/iconfig/hero.webp",
     headline: "Engineered for clarity. Built for physical & digital recognition.",
     summary:
-      "A distinctive technology identity built for consistent recognition across corporate stationery, apparel and everyday branded objects.",
+      "A distinctive technology identity built for consistent recognition across corporate stationery, apparel and field applications.",
     overview:
-      "iConfig Technology approached Deezaina to build an authoritative yet approachable visual identity for their expanding technology practice. The objective was to create a modern graphic language that performs with razor-sharp precision across digital touchpoints while scaling gracefully into corporate stationery, physical merchandise, and industrial field equipment.",
+      "iConfig Technology engaged Deezaina to build an authoritative, precise visual identity for their expanding technology practice. The objective was to create a modern graphic language that performs with razor-sharp precision across digital touchpoints while scaling gracefully into corporate stationery, physical merchandise, and industrial equipment.",
     approach:
-      "We began by questioning typical cold tech aesthetics. Deezaina engineered a custom wordmark featuring subtly softened geometric corners and precise letterform curves that humanize the brand while retaining absolute clarity. A disciplined two-color contrast of deep navy and electric signal green creates an instant signature that cuts through visual clutter.",
+      "Deezaina engineered a custom wordmark featuring subtly softened geometric corners and precise letterform curves that humanize the brand while retaining absolute clarity. A disciplined two-color contrast of deep navy and electric signal green creates an instant signature that cuts through visual clutter.",
     palette: [
       { name: "Deep Navy", hex: "#0B1528", class: "bg-[#0B1528]", text: "text-white" },
       { name: "Electric Green", hex: "#10B981", class: "bg-[#10B981]", text: "text-ink" },
@@ -27,7 +27,7 @@ export const CASE_STUDIES = {
       "Corporate Stationery & Letterhead System",
       "Dual-Sided Business Card Suite",
       "Staff Apparel & Merchandise Program",
-      "Industrial Field Safety Applications",
+      "Industrial Field Safety Hardhat Application",
     ],
     gallery: [
       {
@@ -50,7 +50,7 @@ export const CASE_STUDIES = {
       },
       {
         url: "/projects/iconfig/cup.jpg",
-        caption: "Everyday brand touchpoint: ceramic drinkware application.",
+        caption: "Ceramic drinkware application and brand mark stamp.",
         span: "col-span-12 sm:col-span-6 lg:col-span-4",
         aspect: "aspect-square",
       },
@@ -68,6 +68,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/207306215/Brand-Identity-Design-for-Tech-Brand",
+    sourceLabel: "Behance Presentation",
     nextSlug: "velcro-finance",
     nextClient: "Velcro Finance",
     prevSlug: "suzyque",
@@ -85,11 +86,11 @@ export const CASE_STUDIES = {
     heroImage: "/projects/velcro/hero.webp",
     headline: "A compact visual symbol designed for the palm of your hand.",
     summary:
-      "A compact, flexible symbol & visual language designed for small-scale app icons, debit cards and physical brand assets.",
+      "A compact, flexible symbol & visual language designed for mobile app icons, digital avatars and brand assets.",
     overview:
-      "Velcro Finance needed an iconic visual anchor that functions effortlessly across 16×16 pixel app icons, smartphone home screens, debit card plastics, and lifestyle merchandise without losing recognizability.",
+      "Velcro Finance needed an iconic visual anchor that functions effortlessly across small-scale app icons, smartphone home screens, and digital touchpoints without losing recognizability.",
     approach:
-      "We sculpted a geometric 'V' chevron with balanced diagonal tensions, engineered to be legible at millimeter scale while acting as a bold graphic pattern when enlarged across physical collateral and social avatars.",
+      "We sculpted a geometric 'V' chevron with balanced diagonal tensions, engineered to be legible at millimeter scale while acting as a bold graphic pattern when enlarged across digital avatars and brand boards.",
     palette: [
       { name: "Obsidian Ink", hex: "#141414", class: "bg-[#141414]", text: "text-white" },
       { name: "Signal Red", hex: "#FF3B4F", class: "bg-[#FF3B4F]", text: "text-white" },
@@ -99,9 +100,9 @@ export const CASE_STUDIES = {
     deliverables: [
       "Standalone V Symbol & Monogram",
       "Mobile App Icon Architecture",
-      "Executive Debit Card Layouts",
-      "Branded Merchandise & Wristbands",
-      "Digital Social Avatar System",
+      "Digital Profile Avatar System",
+      "Visual Identity Board & Proportions",
+      "Contrast Ground Color System",
     ],
     gallery: [
       {
@@ -124,6 +125,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/207317309/Visual-Identity-for-Velcro-Finance-App",
+    sourceLabel: "Behance Presentation",
     nextSlug: "margin-plus",
     nextClient: "Margin Plus",
     prevSlug: "iconfig-technology",
@@ -139,13 +141,13 @@ export const CASE_STUDIES = {
     year: "2024",
     clientSector: "Agrotech & Digital Platforms",
     heroImage: "/projects/margin-plus/hero.webp",
-    headline: "Translating digital precision into high-impact retail campaigns.",
+    headline: "Translating digital precision into high-impact retail signage.",
     summary:
-      "A comprehensive graphic system translating fluidly from digital app interfaces to retail banners, exterior signage and campaigns.",
+      "A comprehensive graphic system translating fluidly from digital app interfaces to exterior retail signage.",
     overview:
-      "The challenge for Margin Plus was bridging modern digital mobile technology with outdoor agricultural retail, field signage, and multi-channel promotional collateral without diluting brand recognition.",
+      "The challenge for Margin Plus was bridging modern digital mobile technology with outdoor agricultural retail and field signage without diluting brand recognition.",
     approach:
-      "Deezaina developed a vibrant green and dark forest architecture, paired with modular signage layouts and punchy promotional flyer typography built for instant visibility in both physical marketplaces and mobile screens.",
+      "Deezaina developed a vibrant green and dark forest architecture, paired with clean typography built for instant visibility across exterior banners and mobile screens.",
     palette: [
       { name: "Forest Dark", hex: "#0C1F16", class: "bg-[#0C1F16]", text: "text-white" },
       { name: "Growth Green", hex: "#22C55E", class: "bg-[#22C55E]", text: "text-ink" },
@@ -153,11 +155,11 @@ export const CASE_STUDIES = {
       { name: "Field Lime", hex: "#84CC16", class: "bg-[#84CC16]", text: "text-ink" },
     ],
     deliverables: [
-      "Mobile App Icon Design",
-      "Campaign Flyer Architecture",
+      "Mobile App Interface System",
+      "App Icon & Visual Geometry",
       "Exterior Architectural Signage",
-      "Branded Merchandise & Wristbands",
-      "Digital Product Display Banners",
+      "Retail Display Banner Architecture",
+      "High-Contrast Agrotech Color Palette",
     ],
     gallery: [
       {
@@ -180,6 +182,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/207305111/Agrotech-(Margin-Plus)-Brand-Identity",
+    sourceLabel: "Behance Presentation",
     nextSlug: "shuga-entertainment",
     nextClient: "Shuga Entertainment",
     prevSlug: "velcro-finance",
@@ -197,11 +200,11 @@ export const CASE_STUDIES = {
     heroImage: "/projects/shuga/hero.webp",
     headline: "High-contrast luxury for modern ticketing and nightlife.",
     summary:
-      "High-contrast black, gold and white visual identity designed for modern ticketing interfaces, wristbands and live event collateral.",
+      "High-contrast black, gold and white visual identity designed for modern ticketing interfaces, access cards and event wristbands.",
     overview:
-      "Shuga Entertainment needed a visual identity that radiates prestige and excitement across ticketing platforms, backstage passes, VIP membership collateral, and large-scale stage backdrops.",
+      "Shuga Entertainment needed a visual identity that radiates prestige and excitement across ticketing platforms, VIP membership cards, and event access collateral.",
     approach:
-      "Deezaina designed an interlocking flowing emblem paired with a clean lowercase wordmark. Black, white, and warm metallic gold create a confident, high-contrast palette with sweeping curved details suited for live entertainment.",
+      "Deezaina designed an interlocking flowing emblem paired with a clean lowercase wordmark. Black, white, and warm metallic gold create a confident, high-contrast palette suited for ticketing and live entertainment.",
     palette: [
       { name: "Pitch Black", hex: "#121212", class: "bg-[#121212]", text: "text-white" },
       { name: "Warm Gold", hex: "#D4AF37", class: "bg-[#D4AF37]", text: "text-ink" },
@@ -210,10 +213,10 @@ export const CASE_STUDIES = {
     ],
     deliverables: [
       "Flowing Interlocking Emblem & Wordmark",
-      "Digital Ticketing Platform UI Framework",
+      "Digital Ticketing Mobile Interface UI",
       "VIP Access Cards & Membership Stationery",
-      "Event Wristbands & Backstage Passes",
-      "Stage Backdrop & Signage Graphics",
+      "Event Wristbands & Access Ephemera",
+      "High-Contrast Nightlife Color System",
     ],
     gallery: [
       {
@@ -236,6 +239,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/241822031/Ticketing-Platform-Brand-Identity-Design",
+    sourceLabel: "Behance Presentation",
     nextSlug: "nourish-bites",
     nextClient: "Nourish Bites",
     prevSlug: "margin-plus",
@@ -253,9 +257,9 @@ export const CASE_STUDIES = {
     heroImage: "/projects/nourish-bites/hero.webp",
     headline: "Bringing snack packaging into an unforgettable shelf presence.",
     summary:
-      "A bright packaged-peanuts identity that brings the Nourish Bites name into a repeatable, shelf-ready consumer product presentation.",
+      "A bright packaged-peanuts identity that brings the Nourish Bites character into a repeatable, shelf-ready pouch presentation.",
     overview:
-      "Nourish Bites approached Deezaina to transition from a generic snack pack to a proprietary, shelf-commanding FMCG brand that communicates premium freshness, energy, and memorable character.",
+      "Nourish Bites approached Deezaina to transition to a proprietary, shelf-commanding peanut snack brand with high shelf contrast and clear flavor recognition.",
     approach:
       "We developed an expressive brand character mark supported by a modular packaging grid. The layout prioritizes bold flavor color blocking, clear ingredient storytelling, and high shelf contrast.",
     palette: [
@@ -265,11 +269,11 @@ export const CASE_STUDIES = {
       { name: "Deep Cocoa", hex: "#1C1009", class: "bg-[#1C1009]", text: "text-white" },
     ],
     deliverables: [
-      "Proprietary Brand Mascot & Wordmark",
-      "Multi-Size Snack Pouch Packaging System",
+      "Proprietary Brand Mascot & Character Mark",
+      "Peanut Snack Pouch Packaging System",
       "Shelf-Ready Retail Label Hierarchy",
-      "Flavor Color Spectrum Architecture",
-      "Merchandising Display Guidelines",
+      "Flavor Color Blocking Architecture",
+      "Nutritional Read Alignment",
     ],
     gallery: [
       {
@@ -292,6 +296,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/241822281/Packaged-Peanuts-Branding",
+    sourceLabel: "Behance Presentation",
     nextSlug: "smg-plug",
     nextClient: "SMG Plug",
     prevSlug: "shuga-entertainment",
@@ -309,11 +314,11 @@ export const CASE_STUDIES = {
     heroImage: "/projects/smg-plug/hero.jpg",
     headline: "Electric retail branding for digital phone commerce.",
     summary:
-      "A high-contrast identity for an online phone store, pairing a compact symbol with vivid green retail promotional graphics.",
+      "A high-contrast identity for an online phone store, pairing a responsive symbol with vivid green retail promotional graphics and mobile store UI.",
     overview:
-      "SMG Plug needed an aggressive, high-energy retail identity tailored for Instagram, digital marketplaces, and unboxing packaging that immediately signifies authenticity, trust, and speed.",
+      "SMG Plug needed an aggressive, high-energy retail identity tailored for Instagram and digital store commerce that immediately signifies authenticity and trust.",
     approach:
-      "Deezaina created an electric neon green and deep black visual language. A responsive plug-and-signal glyph pairs with bold typography and digital promotional badge templates.",
+      "Deezaina created an electric neon green and deep black visual language. A responsive plug-and-signal glyph pairs with bold typography and digital promotional templates.",
     palette: [
       { name: "Neon Pulse Green", hex: "#00E676", class: "bg-[#00E676]", text: "text-ink" },
       { name: "Midnight Core", hex: "#0B2612", class: "bg-[#0B2612]", text: "text-white" },
@@ -324,8 +329,8 @@ export const CASE_STUDIES = {
       "Responsive Icon & Glyph System",
       "E-Commerce Trust Badges & Watermarks",
       "Social Media Promotional Framework",
-      "Retail Delivery Packaging & Tape",
       "Promotional Campaign Flyer System",
+      "Digital Store Interface Touchpoints",
     ],
     gallery: [
       {
@@ -348,6 +353,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://www.behance.net/gallery/241825091/Online-Phone-Store-Branding-Icon-Design",
+    sourceLabel: "Behance Presentation",
     nextSlug: "daily-tummies",
     nextClient: "Daily Tummies",
     prevSlug: "nourish-bites",
@@ -361,15 +367,15 @@ export const CASE_STUDIES = {
     category: "Packaging",
     service: "Food Packaging & Multi-SKU Range",
     year: "2024",
-    clientSector: "Nutritional Baby Food & Organic Cereals",
+    clientSector: "Nutritional Food & Organic Cereals",
     heroImage: "/projects/daily-tummies/hero.jpg",
     headline: "Wholesome nutrition made instantly recognizable on the shelf.",
     summary:
-      "A vibrant food packaging system designed to make Daily Tummies' nutritional product family immediately recognisable across multi-SKU retail shelf displays.",
+      "A vibrant food packaging system designed to make Daily Tummies' nutritional product family immediately recognisable across retail shelf displays.",
     overview:
-      "Daily Tummies required a unified packaging overhaul across 5 distinct food categories: Beans & Veggies, Fruity Oats, Nutmix Cereal, Potato Pap, and Sweet Rice. The goal was instant parent trust and intuitive flavor navigation.",
+      "Daily Tummies required a unified packaging overhaul across multiple food categories: Beans & Veggies, Fruity Oats, and Nutmix Cereal. The goal was instant parent trust and intuitive flavor navigation.",
     approach:
-      "We established a lush green botanical base, friendly rounded headline typography, and a clear nutritional hierarchy that highlights wholesome ingredients and natural certifications.",
+      "We established a lush botanical green foundation, friendly rounded headline typography, and a clear ingredient hierarchy that highlights whole grain contents and nutritional callouts.",
     palette: [
       { name: "Botanical Green", hex: "#1B432A", class: "bg-[#1B432A]", text: "text-white" },
       { name: "Meadow Yellow", hex: "#FBBF24", class: "bg-[#FBBF24]", text: "text-ink" },
@@ -378,10 +384,10 @@ export const CASE_STUDIES = {
     ],
     deliverables: [
       "500g Stand-Up Pouch Packaging Architecture",
-      "Multi-SKU Product Range System (5 Flavors)",
-      "Nutritional Value Hierarchy & Typography",
-      "Ingredient Photography Direction & Badges",
-      "Retail Carton & Delivery Box Branding",
+      "Multi-SKU Product Range System",
+      "Nutritional Read Hierarchy & Typography",
+      "Ingredient Color Blocking & Product Badges",
+      "Flavor Range Navigation Grid",
     ],
     gallery: [
       {
@@ -404,6 +410,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://drive.google.com/drive/folders/12uOigPHYskI2VnILJE3DW4cwLIEqi51v",
+    sourceLabel: "Curated Studio Review Set (Google Drive)",
     nextSlug: "suzyque",
     nextClient: "Suzyque",
     prevSlug: "smg-plug",
@@ -419,13 +426,13 @@ export const CASE_STUDIES = {
     year: "2024",
     clientSector: "Packaged Agro-Foods & Snacking",
     heroImage: "/projects/suzyque/hero.jpg",
-    headline: "Warm, trustworthy branding extending across shelf and screen.",
+    headline: "Warm, trustworthy branding extending across shelf and retail.",
     summary:
-      "A warm, high-visibility food brand identity developed across product labels, stand-up pouches, packaging stickers, cards and digital touchpoints.",
+      "A warm, high-visibility food brand identity developed across product labels, stand-up pouches, packaging stickers, and promotional cards.",
     overview:
-      "Suzyque needed a holistic brand system that bridges traditional packaged foodstuffs (roasted groundnuts, cereals, and rice) with modern retail packaging and digital e-commerce presence.",
+      "Suzyque needed a holistic brand system that bridges traditional packaged foodstuffs (roasted groundnuts, cereals, and rice) with modern retail packaging and brand collateral.",
     approach:
-      "Deezaina built the identity on a radiant, sun-ripened orange foundation. We contrasted hand-crafted display script with structured packaging grids, custom bottle seals, and merchandise apparel.",
+      "Deezaina built the identity on a radiant, sun-ripened orange foundation. We contrasted hand-crafted display script with structured packaging grids, custom bottle seals, and collateral.",
     palette: [
       { name: "Harvest Orange", hex: "#C85215", class: "bg-[#C85215]", text: "text-white" },
       { name: "Golden Amber", hex: "#F59E0B", class: "bg-[#F59E0B]", text: "text-ink" },
@@ -435,10 +442,9 @@ export const CASE_STUDIES = {
     deliverables: [
       "Brand Mark, Script Emblem & Oval Seal",
       "Stand-Up Groundnut Pouch Packaging",
-      "Transparent Bottle Label Architecture",
+      "Transparent Jar Label Architecture",
       "Branded Security Stickers & Jar Seals",
-      "Customer Loyalty Cards & Delivery Flyers",
-      "Digital E-Commerce Banners & Web Assets",
+      "Customer Loyalty Cards & Inserts",
     ],
     gallery: [
       {
@@ -461,6 +467,7 @@ export const CASE_STUDIES = {
       },
     ],
     behanceUrl: "https://drive.google.com/drive/folders/1EfAlof4nkqK35cBq8_RTjCSu5BvrBdzh",
+    sourceLabel: "Curated Studio Review Set (Google Drive)",
     nextSlug: "iconfig-technology",
     nextClient: "iConfig Technology",
     prevSlug: "daily-tummies",

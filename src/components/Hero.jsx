@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeroWatermark from "./shared/HeroWatermark";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,13 +54,11 @@ const CropMark = ({ style }) => (
 const Hero = () => {
   /* animation targets */
   const heroRef = useRef(null);
-  const kickerRef = useRef(null);
   const line0 = useRef(null);
   const line1 = useRef(null);
   const dotRef = useRef(null);
   const line2 = useRef(null);
   const line3 = useRef(null);
-  const dot2Ref = useRef(null);
   const sublineRef = useRef(null);
   const bottomDeckRef = useRef(null);
   const monogramRef = useRef(null);
@@ -70,42 +70,55 @@ const Hero = () => {
       line1.current,
       line2.current,
       line3.current,
-    ];
+    ].filter(Boolean);
 
-    gsap.set(revealEls, { y: 88, opacity: 0 });
-    gsap.set([kickerRef.current, sublineRef.current, bottomDeckRef.current], {
-      y: 28,
-      opacity: 0,
-    });
-    if (dotRef.current)
-      gsap.set([dotRef.current, dot2Ref.current], { scale: 0, opacity: 0 });
+    const secondaryEls = [
+      sublineRef.current,
+      bottomDeckRef.current,
+    ].filter(Boolean);
+
+    if (revealEls.length) {
+      gsap.set(revealEls, { y: 88, opacity: 0 });
+    }
+    if (secondaryEls.length) {
+      gsap.set(secondaryEls, { y: 28, opacity: 0 });
+    }
+    if (dotRef.current) {
+      gsap.set(dotRef.current, { scale: 0, opacity: 0 });
+    }
 
     const tl = gsap.timeline({ delay: 0.1 });
 
-    tl.to(
-      revealEls,
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.1,
-        stagger: 0.08,
-        ease: "power4.out",
-      },
-      0.05,
-    )
-      .to(
-        [dotRef.current, dot2Ref.current],
+    if (revealEls.length) {
+      tl.to(
+        revealEls,
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.1,
+          stagger: 0.08,
+          ease: "power4.out",
+        },
+        0.05,
+      );
+    }
+
+    if (dotRef.current) {
+      tl.to(
+        dotRef.current,
         {
           scale: 1,
           opacity: 1,
           duration: 0.45,
-          stagger: 0.08,
           ease: "back.out(2)",
         },
         "-=0.5",
-      )
-      .to(
-        [kickerRef.current, sublineRef.current, bottomDeckRef.current],
+      );
+    }
+
+    if (secondaryEls.length) {
+      tl.to(
+        secondaryEls,
         {
           y: 0,
           opacity: 1,
@@ -115,6 +128,7 @@ const Hero = () => {
         },
         "-=0.6",
       );
+    }
   }, []);
 
   /* ── Interactive Cursor Parallax (rAF-throttled) ── */
@@ -135,7 +149,7 @@ const Hero = () => {
         });
       }
       if (dotRef.current) {
-        gsap.to([dotRef.current, dot2Ref.current], {
+        gsap.to(dotRef.current, {
           x: pendingCx * 22,
           y: pendingCy * 14,
           duration: 1.0,
@@ -170,54 +184,29 @@ const Hero = () => {
       <CropMark style={{ bottom: 18, right: 24 }} />
 
       {/* ══════════════════════════════════════════════════════
-          COLOSSAL "D." MONOGRAM WATERMARK
-          Desktop: original right 2%, top 22%, 44vw
-          Mobile: right -4%, top 28%, 58vw
+          COLOSSAL STUDIO EMBLEM WATERMARK (extracted from back2.jpeg)
+          Desktop: right 1% to 3%, top 44%, ~42vw
+          Mobile: right -4%, top 34%, ~54vw
       ══════════════════════════════════════════════════════ */}
       <div
         ref={monogramRef}
         aria-hidden="true"
-        className="absolute right-[-4%] md:right-[2%] top-[30%] md:top-[42%] -translate-y-1/2 z-0 md:z-1 pointer-events-none select-none flex items-baseline font-display font-extrabold text-[clamp(300px,58vw,680px)] md:text-[clamp(800px,44vw,680px)] leading-[0.8] tracking-[-0.04em] text-[#ed3f380e] md:text-[#ed3f380e]"
+        className="absolute right-[-4%] sm:right-[-2%] md:right-[1%] lg:right-[3%] top-[34%] md:top-[44%] -translate-y-1/2 z-0 md:z-1 pointer-events-none select-none text-[#ed3f380e] md:text-[#ed3f3814] w-[clamp(280px,54vw,560px)] md:w-[clamp(480px,42vw,720px)] max-w-none flex items-center justify-center"
       >
-        <span>D</span>
-        <span
-          style={{
-            display: "inline-block",
-            fontSize: "0.24em",
-            marginLeft: "0.03em",
-            lineHeight: 1,
-            color: "#ed3f380e",
-          }}
-        >
-          ●
-        </span>
+        <HeroWatermark className="w-full h-auto" />
       </div>
 
       {/* ══════════════════════════════════════════════════════
           MAIN CONTENT ZONE
       ══════════════════════════════════════════════════════ */}
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-11 lg:px-14 pt-2 md:pt-4 pb-5 md:pb-8 flex-1 flex flex-col justify-between">
-        {/* Top Kicker
-            Mobile: 2-line wrapped text with prominent red dot matching mock
-            Desktop: exact original single line with 2.25px dot
-        */}
-        <div
-          ref={kickerRef}
-          className="flex items-start md:items-center gap-2.5 mb-6 md:mb-10 text-[10px] md:text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink select-none"
-        >
-          <span className="w-2.5 h-2.5 md:w-2.25 md:h-2.25 rounded-full bg-signal-red inline-block flex-none mt-1 md:mt-0" />
-          <span className="leading-tight md:leading-normal max-w-67.5 md:max-w-none">
-            INDEPENDENT CREATIVE STUDIO / STRATEGY BEFORE DESIGN
-          </span>
-        </div>
-
         {/* ── Headline Block ── */}
         <div className="relative">
           {/* Line 0: BE HARD TO (mobile) / BE HARD (desktop/tablet) */}
           <div className="clip-reveal">
             <h1
               ref={line0}
-              className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,142px)] leading-[0.88] md:leading-[0.9] m-0"
+              className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(68px,9.8vw,162px)] leading-[0.88] md:leading-[0.9] m-0"
             >
               BE HARD <span className="md:hidden">TO</span>
             </h1>
@@ -234,9 +223,12 @@ const Hero = () => {
             <div className="clip-reveal" style={{ flex: "0 0 auto" }}>
               <h1
                 ref={line1}
-                className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,142px)] leading-[0.88] md:leading-[0.9] m-0"
+                className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,162px)] leading-[0.88] md:leading-[0.9] m-0"
               >
-                <span className="hidden md:inline">TO </span>IGNORE
+                <span className="hidden md:inline">TO </span>
+                <span className="text-signal-red">
+                  IGNORE
+                </span>
               </h1>
             </div>
 
@@ -259,7 +251,7 @@ const Hero = () => {
             <div className="clip-reveal">
               <h1
                 ref={line2}
-                className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,142px)] leading-[0.88] md:leading-[0.9] m-0"
+                className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,162px)] leading-[0.88] md:leading-[0.9] m-0"
               >
                 EASY TO
               </h1>
@@ -279,7 +271,7 @@ const Hero = () => {
               <div className="clip-reveal" style={{ flex: "0 0 auto" }}>
                 <h1
                   ref={line3}
-                  className="display text-ink text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,142px)] leading-[0.88] md:leading-[0.9] m-0"
+                  className="display text-signal-red text-[clamp(60px,12.8vw,64px)] md:text-[clamp(64px,9.8vw,162px)] leading-[0.88] md:leading-[0.9] m-0"
                 >
                   CHOOSE<span className="hidden md:inline">.</span>
                 </h1>
@@ -303,20 +295,20 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2.5 md:gap-3 w-full md:w-auto shrink-0 mt-4 md:mt-0">
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
               className="inline-flex items-center justify-between gap-6 px-6 md:px-7 py-3.5 md:py-4 bg-ink text-paper border border-ink text-[11px] font-extrabold uppercase tracking-[0.08em] hover:bg-signal-red hover:border-signal-red hover:text-ink transition-all duration-200 no-underline shadow-sm w-full md:w-auto text-left"
             >
-              <span>FIND YOUR NEXT MOVE</span>
+              <span>SEND A PROJECT BRIEF</span>
               <span className="text-xs">↗</span>
-            </a>
+            </Link>
 
             <a
               href="#work"
               className="inline-flex items-center justify-between gap-6 px-6 md:px-7 py-3.5 md:py-4 bg-transparent text-ink border border-ink text-[11px] font-extrabold uppercase tracking-[0.08em] hover:bg-ink hover:text-paper transition-all duration-200 no-underline w-full md:w-auto text-left"
             >
-              <span>EXPLORE THE WORK</span>
-              <span className="text-xs">↗</span>
+              <span>EXPLORE SELECTED WORK</span>
+              <span className="text-xs">↓</span>
             </a>
           </div>
         </div>
@@ -329,12 +321,14 @@ const Hero = () => {
           ref={bottomDeckRef}
           className="flex items-center justify-between w-full pt-2 md:pt-16 pb-2 md:text-[11px] font-extrabold md:font-bold tracking-widest md:tracking-[0.14em] text-ink md:text-ink/70 select-none"
         >
-          <span className="label hidden  md:flex items-center gap-1.5 md:gap-2 shrink-0 ">
+          <span className="label hidden md:flex items-center gap-1.5 md:gap-2 shrink-0">
             <span>STRATEGY</span>
             <span className="text-ink/40 md:inline">&nbsp;/&nbsp;</span>
-            <span>IDENTITY & MEDIA</span>
+            <span>BRAND IDENTITY</span>
             <span className="text-ink/40 md:inline">&nbsp;/&nbsp;</span>
-            <span>WEB</span>
+            <span>DIGITAL & WEB</span>
+            <span className="text-ink/40 md:inline">&nbsp;/&nbsp;</span>
+            <span>CREATIVE MEDIA</span>
           </span>
 
           <a

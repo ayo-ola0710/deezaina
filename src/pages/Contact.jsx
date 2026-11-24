@@ -34,42 +34,85 @@ const TIMELINES = [
 const BUDGET_TIERS = [
   {
     id: 0,
-    ngn: "₦500,000 - ₦1,000,000",
-    usd: "$350 - $700",
-    subNgn: "≈ $350 - $700",
-    subUsd: "≈ ₦500k - ₦1m",
+    ngn: "₦75,000 - ₦500,000",
+    usd: "$50 - $350",
+    subNgn: "≈ $50 - $350 (Advisory & Campaign Creative)",
+    subUsd: "≈ ₦75k - ₦500k (Advisory & Campaign Creative)",
   },
   {
     id: 1,
-    ngn: "₦1,000,000 - ₦3,500,000",
-    usd: "$700 - $2,500",
-    subNgn: "≈ $700 - $2,500",
-    subUsd: "≈ ₦1m - ₦3.5m",
+    ngn: "₦500,000 - ₦1,000,000",
+    usd: "$350 - $700",
+    subNgn: "≈ $350 - $700 (Identity Essentials & Websites)",
+    subUsd: "≈ ₦500k - ₦1m (Identity Essentials & Websites)",
   },
   {
     id: 2,
-    ngn: "₦3,500,000 - ₦8,000,000",
-    usd: "$2,500 - $5,500",
-    subNgn: "≈ $2,500 - $5,500",
-    subUsd: "≈ ₦3.5m - ₦8m",
+    ngn: "₦1,000,000 - ₦3,500,000",
+    usd: "$700 - $2,500",
+    subNgn: "≈ $700 - $2,500 (Full Systems & Digital)",
+    subUsd: "≈ ₦1m - ₦3.5m (Full Systems & Digital)",
   },
   {
     id: 3,
-    ngn: "₦8,000,000 - ₦20,000,000+",
-    usd: "$5,500 - $14,000+",
-    subNgn: "≈ $5,500 - $14,000+",
-    subUsd: "≈ ₦8m - ₦20m+",
+    ngn: "₦3,500,000 - ₦8,000,000",
+    usd: "$2,500 - $5,500",
+    subNgn: "≈ $2,500 - $5,500 (Multi-Touchpoint Platforms)",
+    subUsd: "≈ ₦3.5m - ₦8m (Multi-Touchpoint Platforms)",
   },
   {
     id: 4,
+    ngn: "₦8,000,000 - ₦20,000,000+",
+    usd: "$5,500 - $14,000+",
+    subNgn: "≈ $5,500 - $14,000+ (Flagship Brand Programmes)",
+    subUsd: "≈ ₦8m - ₦20m+ (Flagship Brand Programmes)",
+  },
+  {
+    id: 5,
     ngn: "Monthly Brand Desk (₦550k+/mo)",
     usd: "Monthly Brand Desk ($400+/mo)",
-    subNgn: "≈ $400+/mo",
-    subUsd: "≈ ₦550k+/mo",
+    subNgn: "≈ $400+/mo (Ongoing Dedicated Retainer)",
+    subUsd: "≈ ₦550k+/mo (Ongoing Dedicated Retainer)",
   },
 ];
 
 const BUDGETS = BUDGET_TIERS.map((t) => t.ngn);
+
+const getAlignedBudget = (serviceName, curr = "NGN") => {
+  if (!serviceName) return "";
+  const s = serviceName.toLowerCase();
+  let tierIdx = 2; // default: ₦1m - ₦3.5m
+  if (
+    s.includes("clarity") ||
+    s.includes("campaign creative") ||
+    s.includes("75,000") ||
+    s.includes("300,000") ||
+    s.includes("350,000") ||
+    s.includes("landing page")
+  ) {
+    tierIdx = 0; // ₦75k - ₦500k
+  } else if (
+    s.includes("essentials") ||
+    s.includes("business website") ||
+    s.includes("500,000") ||
+    s.includes("750,000")
+  ) {
+    tierIdx = 1; // ₦500k - ₦1m
+  } else if (
+    s.includes("system") ||
+    s.includes("sprint") ||
+    s.includes("wedding") ||
+    s.includes("celebration") ||
+    s.includes("event")
+  ) {
+    tierIdx = 2; // ₦1m - ₦3.5m
+  } else if (s.includes("desk") || s.includes("partner") || s.includes("month")) {
+    tierIdx = 5; // Monthly Brand Desk
+  } else if (s.includes("flagship") || s.includes("20,000,000") || s.includes("complete")) {
+    tierIdx = 4; // ₦8m - ₦20m+
+  }
+  return curr === "USD" ? BUDGET_TIERS[tierIdx].usd : BUDGET_TIERS[tierIdx].ngn;
+};
 
 /* Corner registration crosshair mark */
 const LetterCropMark = ({ className = "" }) => (
@@ -85,6 +128,7 @@ const LetterCropMark = ({ className = "" }) => (
 /* Custom Popover Dropdown Pill */
 const CustomPillSelect = ({
   value,
+  placeholder = "Select",
   onChange,
   options,
   isOpen,
@@ -93,6 +137,7 @@ const CustomPillSelect = ({
   label,
   header,
 }) => {
+  const isFilled = Boolean(value);
   return (
     <span className="relative inline-block align-baseline mx-1 my-0.5">
       <button
@@ -101,7 +146,9 @@ const CustomPillSelect = ({
         aria-label={label}
         className="inline-flex items-center gap-1.5 px-3 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
       >
-        <span>{value}</span>
+        <span className={isFilled ? "" : "text-slate/60 font-medium italic lowercase"}>
+          {value || `[ ${placeholder} ]`}
+        </span>
         <span className="text-[20px] text-signal-red font-bold">▾</span>
       </button>
 
@@ -165,12 +212,13 @@ const ServicesCheckboxDropdown = ({
   onToggleOpen,
   onClose,
 }) => {
-  let displayLabel = "Select Services";
-  if (selected.length === 1) {
+  const hasSelected = selected && selected.length > 0;
+  let displayLabel = "[ select service(s) ]";
+  if (selected && selected.length === 1) {
     displayLabel = selected[0];
-  } else if (selected.length === 2) {
+  } else if (selected && selected.length === 2) {
     displayLabel = `${selected[0]}, ${selected[1]}`;
-  } else if (selected.length > 2) {
+  } else if (selected && selected.length > 2) {
     displayLabel = `${selected.length} Services Selected`;
   }
 
@@ -182,7 +230,9 @@ const ServicesCheckboxDropdown = ({
         aria-label="Select partnership services"
         className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-paper hover:bg-ink hover:text-paper border border-ink/40 hover:border-ink rounded-full text-xs font-body font-bold uppercase tracking-wider text-ink transition-all cursor-pointer shadow-2xs select-none"
       >
-        <span className="truncate max-w-56 sm:max-w-80">{displayLabel}</span>
+        <span className={`truncate max-w-56 sm:max-w-80 ${hasSelected ? "" : "text-slate/60 font-medium italic lowercase"}`}>
+          {displayLabel}
+        </span>
         <span className="text-[20px] text-signal-red font-bold">▾</span>
       </button>
 
@@ -294,13 +344,18 @@ const Contact = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Form state initialized with optional query params (?service=...)
+  // Form state initialized with optional query params (?service=... and ?diagnosis=...)
   const [form, setForm] = useState(() => {
-    let initialServices = ["Brand Strategy", "Brand Identity"];
+    let initialServices = [];
     let initialStory = "";
+    let initialTimeline = "";
+    let initialBudget = "";
+
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const serviceParam = params.get("service");
+      const diagnosisParam = params.get("diagnosis");
+
       if (serviceParam) {
         const matched =
           LANDING_SERVICES.find(
@@ -310,7 +365,14 @@ const Contact = () => {
               serviceParam.toLowerCase().includes(s.label.toLowerCase()),
           )?.label || serviceParam;
         initialServices = [matched];
-        initialStory = `[Selected Service Inquiry: ${serviceParam}]. `;
+        initialBudget = getAlignedBudget(serviceParam, "NGN");
+        initialStory = `[Inquiry regarding ${serviceParam}]. `;
+      }
+
+      if (diagnosisParam) {
+        initialStory = initialStory
+          ? `${initialStory}[Diagnosed Starting Point: ${diagnosisParam}]. `
+          : `[Diagnosed Starting Point: ${diagnosisParam}]. `;
       }
     }
     return {
@@ -318,8 +380,8 @@ const Contact = () => {
       company: "",
       email: "",
       services: initialServices,
-      timeline: "In 2 to 4 Weeks",
-      budget: "₦1,000,000 - ₦3,500,000",
+      timeline: initialTimeline,
+      budget: initialBudget,
       story: initialStory,
     };
   });
@@ -333,7 +395,10 @@ const Contact = () => {
       if (exists) {
         return { ...prev, services: prev.services.filter((s) => s !== svc) };
       } else {
-        return { ...prev, services: [...prev.services, svc] };
+        const nextServices = [...prev.services, svc];
+        // If no budget selected yet, offer an aligned suggestion based on newly picked service
+        const nextBudget = prev.budget || getAlignedBudget(svc, currency);
+        return { ...prev, services: nextServices, budget: nextBudget };
       }
     });
   };
@@ -351,10 +416,25 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.email.trim()) {
-      setErrorMsg(
-        "Please provide at least your name and email so we can reply.",
-      );
+    if (!form.name.trim()) {
+      setErrorMsg("Please provide your name.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim() || !emailRegex.test(form.email.trim())) {
+      setErrorMsg("Please provide a valid electronic mail address.");
+      return;
+    }
+    if (form.services.length === 0) {
+      setErrorMsg("Please select at least one discipline or service of interest.");
+      return;
+    }
+    if (!form.timeline) {
+      setErrorMsg("Please choose your intended kickoff timeline.");
+      return;
+    }
+    if (!form.budget) {
+      setErrorMsg("Please select an investment budget range.");
       return;
     }
     setErrorMsg("");
@@ -368,9 +448,11 @@ const Contact = () => {
         const nextServices = prev.services.includes(rec.serviceName)
           ? prev.services
           : [...prev.services, rec.serviceName];
+        const alignedBudget = getAlignedBudget(rec.serviceName, currency);
         return {
           ...prev,
           services: nextServices,
+          budget: prev.budget || alignedBudget,
           story: prev.story
             ? prev.story
             : `[Diagnosed Starting Point: ${rec.name}]. `,
@@ -445,7 +527,13 @@ const Contact = () => {
     return () => ctx.revert();
   }, []);
 
-  const isReady = Boolean(form.name.trim() && form.email.trim());
+  const isReady = Boolean(
+    form.name.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+    form.services.length > 0 &&
+    form.timeline &&
+    form.budget
+  );
 
   return (
     <div
@@ -641,7 +729,7 @@ const Contact = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-line">
                     <div className="flex items-center gap-2">
                       <span className="label text-slate text-[10px] tracking-[0.14em]">
-                        SPEC: DZ-BRIEF-2026 // MMXXV
+                        SPEC: DZ-BRIEF-2026 // MMXXVI
                       </span>
                     </div>
 
@@ -719,6 +807,7 @@ const Contact = () => {
                     <span>, aiming to kick off </span>
                     <CustomPillSelect
                       value={form.timeline}
+                      placeholder="select timeline"
                       onChange={(val) => setForm({ ...form, timeline: val })}
                       options={TIMELINES}
                       isOpen={timelineOpen}
@@ -733,6 +822,7 @@ const Contact = () => {
                     <span> with an investment of </span>
                     <CustomPillSelect
                       value={form.budget}
+                      placeholder="select budget"
                       onChange={(val) => setForm({ ...form, budget: val })}
                       options={budgetOptions}
                       isOpen={budgetOpen}
@@ -848,6 +938,13 @@ const Contact = () => {
                       <span>DISPATCH STRATEGIC BRIEF</span>
                       <RiArrowRightLine className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                     </button>
+                    <p className="text-slate text-[11px] leading-relaxed max-w-xs m-0">
+                      By dispatching this brief, you acknowledge our{" "}
+                      <a href="/privacy" className="text-ink underline hover:text-signal-red">
+                        Privacy Policy
+                      </a>
+                      . Strategic notes and commercial details remain confidential.
+                    </p>
                   </div>
                 </form>
               )}

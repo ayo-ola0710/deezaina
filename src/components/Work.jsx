@@ -177,6 +177,7 @@ const Work = () => {
 
   return (
     <section
+      id="work"
       ref={sectionRef}
       className="bg-paper py-[clamp(56px,8vw,140px)] px-5 sm:px-8 md:px-11 font-body overflow-hidden"
     >

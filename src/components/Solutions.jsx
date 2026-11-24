@@ -174,7 +174,7 @@ const Solutions = () => {
         <article className="bespoke-card bg-ink text-paper p-8 md:p-12 lg:p-14 min-h-95 flex flex-col justify-between">
           <div>
             <span className="label text-paper/50 text-[10px] md:text-[11px] tracking-[0.14em] block mb-4">
-              BESPOKE / FLAGSHIP ENGAGEMENT
+              BESPOKE / ENTERPRISE PROGRAMME
             </span>
             <h3 className="display text-paper text-[clamp(32px,3.6vw,54px)] leading-[0.98] tracking-tight my-4">
               The whole
@@ -191,7 +191,7 @@ const Solutions = () => {
             </div>
           </div>
           <a
-            href="/contact"
+            href="/contact?service=Flagship%20Brand%20Partnership"
             className="inline-flex items-center justify-between gap-5 px-6 py-3.5 border border-paper text-paper text-xs font-extrabold uppercase tracking-wider hover:bg-paper hover:text-ink transition-colors no-underline self-start cursor-pointer"
           >
             <span>Discuss a private proposal</span>
@@ -203,26 +203,25 @@ const Solutions = () => {
         <article className="bespoke-card bg-signal-red text-ink p-8 md:p-12 lg:p-14 min-h-95 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-ink">
           <div>
             <span className="label text-ink/65 text-[10px] md:text-[11px] tracking-[0.14em] block mb-4">
-              BESPOKE / DIGITAL CELEBRATION
+              PRIVATE COMMISSION / CELEBRATION DIGITAL
             </span>
             <h3 className="display text-ink text-[clamp(32px,3.6vw,54px)] leading-[0.98] tracking-tight my-4">
-              Not just a
+              Bespoke digital
               <br />
-              wedding link.
+              celebrations.
             </h3>
             <p className="text-ink/85 text-sm md:text-base leading-relaxed max-w-115 font-normal m-0 mb-6">
-              A bespoke digital home for the couple, invitations, RSVP journeys,
-              guest-safe sharing and memories that live beyond the day.
+              Beyond commercial enterprise branding, we take on a limited number of private commissions: dedicated digital homes for milestone celebrations, invitations, RSVP journeys, and enduring photo archives.
             </p>
             <div className="label text-ink/75 text-[11px] tracking-wider mb-8">
               THE WEDDING EXPERIENCE · ₦1,000,000
             </div>
           </div>
           <a
-            href="/contact"
+            href="/contact?service=Wedding%20%26%20Event%20Digital"
             className="inline-flex items-center justify-between gap-5 px-6 py-3.5 border border-ink text-ink text-xs font-extrabold uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors no-underline self-start cursor-pointer"
           >
-            <span>Explore the experience</span>
+            <span>Inquire for private celebration</span>
             <span>↗</span>
           </a>
         </article>

@@ -161,7 +161,7 @@ const CaseStudy = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-signal-red hover:underline"
             >
-              <span>Behance Presentation</span>
+              <span>{project.sourceLabel || "Behance Presentation"}</span>
               <RiArrowRightUpLine className="text-sm" />
             </a>
           </div>
@@ -270,7 +270,7 @@ const CaseStudy = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-between w-full px-5 py-3.5 bg-ink text-paper text-xs font-bold uppercase tracking-wider hover:bg-signal-red hover:text-white transition-colors duration-200 no-underline shadow-sm"
               >
-                <span>Book a 30-min discovery call</span>
+                <span>Book a discovery call</span>
                 <RiArrowRightUpLine className="text-base" />
               </a>
             </div>
@@ -372,22 +372,29 @@ const CaseStudy = () => {
           </p>
 
           <div className="flex items-center gap-4 flex-wrap justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-ink text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink transition-colors duration-200 no-underline shadow-md"
+            >
+              <span>Send a project brief</span>
+              <RiArrowRightUpLine className="text-base" />
+            </Link>
+            <Link
+              to="/contact#diagnosis"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline shadow-sm"
+            >
+              <span>Take the 3-question diagnosis</span>
+              <RiArrowRightUpLine className="text-base" />
+            </Link>
             <a
               href="https://calendly.com/deezainaa/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-signal-red text-ink font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white transition-colors duration-200 no-underline shadow-md"
             >
-              <span>Book a 30-min discovery call</span>
+              <span>Book a discovery call</span>
               <RiArrowRightUpLine className="text-base" />
             </a>
-            <Link
-              to="/contact#diagnosis"
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-transparent border border-white/30 text-paper font-display text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-ink hover:border-white transition-all duration-200 no-underline shadow-sm"
-            >
-              <span>Take the studio diagnosis</span>
-              <RiArrowRightUpLine className="text-base" />
-            </Link>
           </div>
         </div>
       </section>

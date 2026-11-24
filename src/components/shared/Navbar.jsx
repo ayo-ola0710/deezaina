@@ -403,26 +403,6 @@ const Navbar = () => {
         <Link
           ref={brandRef}
           to="/"
-          onMouseEnter={() => {
-            if (brandIconRef.current) {
-              gsap.to(brandIconRef.current, {
-                rotation: 12,
-                scale: 1.15,
-                duration: 0.3,
-                ease: "back.out(2)",
-              });
-            }
-          }}
-          onMouseLeave={() => {
-            if (brandIconRef.current) {
-              gsap.to(brandIconRef.current, {
-                rotation: 0,
-                scale: 1,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            }
-          }}
           className="nav-brand-enter flex items-center gap-2 cursor-pointer select-none no-underline"
         >
           <span

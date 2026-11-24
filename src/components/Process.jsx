@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  EMBLEM_CENTERED_PATH,
+  EMBLEM_BASE_WIDTH,
+  EMBLEM_BASE_HEIGHT,
+} from "./shared/emblemPath";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,12 +37,16 @@ const STEPS = [
 ];
 
 /* ───────────────────────────────────────────────
-   High-Performance 3D Canvas Renderer for Sculpted "D"
+   High-Performance 3D Canvas Renderer for Sculpted Studio Emblem
    Desktop only: 16 slices, capped DPR, IntersectionObserver (pauses off-screen)
 ─────────────────────────────────────────────── */
 const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
   const canvasRef = useRef(null);
   const [inView, setInView] = useState(false);
+
+  // Pre-compiled Path2D for 3D extrusion slices
+  const emblemPath =
+    typeof Path2D !== "undefined" ? new Path2D(EMBLEM_CENTERED_PATH) : null;
 
   // Pause rendering when scrolled out of view to save 100% GPU/CPU
   useEffect(() => {
@@ -73,40 +82,6 @@ const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Draw the 2D cross-section path of letter "D" centered at (0, 0)
-    const traceLetterD = (c, w, h, thickness) => {
-      c.beginPath();
-      const r = h / 2;
-      const left = -w / 2;
-      const top = -h / 2;
-
-      // Outer D path
-      c.moveTo(left, top);
-      c.lineTo(left + w - r, top);
-      c.arc(left + w - r, 0, r, -Math.PI / 2, Math.PI / 2, false);
-      c.lineTo(left, top + h);
-      c.closePath();
-
-      // Inner counter cutout
-      const innerW = w - thickness * 2;
-      const innerH = h - thickness * 2;
-      const innerR = innerH / 2;
-      const innerLeft = left + thickness;
-
-      c.moveTo(innerLeft, -innerH / 2);
-      c.lineTo(innerLeft, innerH / 2);
-      c.lineTo(innerLeft + innerW - innerR, innerH / 2);
-      c.arc(
-        innerLeft + innerW - innerR,
-        0,
-        innerR,
-        Math.PI / 2,
-        -Math.PI / 2,
-        true
-      );
-      c.closePath();
-    };
-
     let time = 0;
     const currentMouse = { x: 0, y: 0 };
 
@@ -139,13 +114,13 @@ const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
 
       // Drop shadow on the floor
       const shadowScale = 1 - Math.sin(time * 1.5) * 0.05;
-      const dWidth = Math.min(renderW * 0.54, 245);
-      const dHeight = dWidth * 1.25;
-      const thickness = dWidth * 0.28;
-      const depth = 52;
+      const emblemWidth = Math.min(renderW * 0.56, 260);
+      const emblemHeight = emblemWidth * (EMBLEM_BASE_HEIGHT / EMBLEM_BASE_WIDTH);
+      const scaleMult = emblemWidth / EMBLEM_BASE_WIDTH;
+      const depth = 50;
 
-      const shadowY = centerY + dHeight * 0.62;
-      const shadowRadius = dWidth * 0.85 * shadowScale;
+      const shadowY = centerY + emblemHeight * 0.65;
+      const shadowRadius = emblemWidth * 0.75 * shadowScale;
       const shadowGrad = ctx.createRadialGradient(
         centerX,
         shadowY,
@@ -198,7 +173,7 @@ const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
 
         const offsetX = z * sinY * 0.9;
         const offsetY = -z * sinX * cosY * 0.9;
-        const scale = 1 + z * cosY * 0.0018;
+        const scale = (1 + z * cosY * 0.0018) * scaleMult;
 
         ctx.translate(offsetX, offsetY);
         ctx.scale(scale * cosY, scale * cosX);
@@ -224,19 +199,20 @@ const Canvas3DLetter = ({ rotationRef, targetMouse }) => {
           ctx.lineWidth = 0.9;
         }
 
-        traceLetterD(ctx, dWidth, dHeight, thickness);
-        ctx.fill();
-        ctx.stroke();
+        if (emblemPath) {
+          ctx.fill(emblemPath);
+          ctx.stroke(emblemPath);
+        }
 
         ctx.restore();
       });
 
-      // ── Floating 3D Signal Red Dot orbiting the "D" ──
+      // ── Floating 3D Signal Red Dot orbiting the emblem ──
       const dotOrbitAngle = rotY + 0.6;
-      const dotDist = dWidth * 0.72;
+      const dotDist = emblemWidth * 0.72;
       const dotX = centerX + Math.cos(dotOrbitAngle) * dotDist;
       const dotY =
-        centerY + floatOffsetY + Math.sin(rotX) * 20 + dHeight * 0.32;
+        centerY + floatOffsetY + Math.sin(rotX) * 20 + emblemHeight * 0.25;
       const dotScale = 1 + Math.sin(dotOrbitAngle) * 0.25;
 
       ctx.save();
@@ -382,10 +358,10 @@ const Process = () => {
         </h2>
 
         {/* ══════════════════════════════════════════════════════
-            DESKTOP ARENA (>= 1024px): 3D "D" in Center with 4 Quadrant Blocks
+            DESKTOP ARENA (>= 1024px): 3D Studio Emblem in Center with 4 Quadrant Blocks
         ══════════════════════════════════════════════════════ */}
         <div className="hidden lg:flex relative flex-1 w-full my-auto items-center justify-center">
-          {/* CENTERPIECE: 3D "D" CANVAS */}
+          {/* CENTERPIECE: 3D STUDIO EMBLEM CANVAS */}
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
             <div className="w-70 h-70 sm:w-85 sm:h-85 md:w-105 md:h-105 lg:w-120 lg:h-120">
               <Canvas3DLetter rotationRef={rotationRef} targetMouse={targetMouse} />
